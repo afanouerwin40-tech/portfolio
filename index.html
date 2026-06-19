@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Erwin.dev – Portfolio</title>
+
+    <!-- ===== STYLES EXTERNES ===== -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- ===== FONT AWESOME & DEVIcons ===== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+    <!-- ===== VIDÉO DE FOND (optionnelle) ===== -->
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="galaxy.mp4" type="video/mp4" />
+        </video>
+    </div>
+
+    <!-- ===== HEADER (Erwin.dev) ===== -->
+    <header class="navbar">
+        <div class="container">
+            <div class="logo">
+                <span class="code-symbol">&lt;</span>/<span class="code-symbol">&gt;</span>
+                <span class="name">Erwin</span>
+                <span class="dev">.dev</span>
+            </div>
+
+            <button class="menu-toggle" aria-label="Menu" aria-expanded="false">
+                <span class="hamburger"></span>
+            </button>
+
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="#accueil" class="nav-link active">Accueil</a></li>
+                    <li><a href="#profil" class="nav-link">Profil</a></li>
+                    <li><a href="#projets" class="nav-link">Projets</a></li>
+                    <li><a href="#competences" class="nav-link">Compétences</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- ===== SECTION HERO ===== -->
+        <section id="accueil" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <!-- Texte à gauche -->
+                    <div class="hero-text">
+                        <h1 class="hero-title">
+                            <span class="highlight">Développeur</span> Full-Stack <span class="highlight">&</span>
+                            Createur <span class="highlight">Tech</span>
+                        </h1>
+
+                        <p class="hero-description">
+                            Je transforme vos idées en réalité digitale.
+                        </p>
+
+                        <div class="hero-cta">
+                            <a href="#projets" class="btn btn-secondary">
+                                <i class="fas fa-briefcase"></i> Voir mes projets
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Image à droite -->
+                    <div class="hero-image">
+                        <div class="image-frame">
+                            <img
+                                src="https://via.placeholder.com/400/0b0d15/00d4ff?text=Erwin"
+                                alt="Erwin"
+                                width="400"
+                                height="400"
+                                loading="eager"
+                            />
+                            <div class="image-glow"></div>
+                        </div>
+                        <div class="image-badge">
+                            <span class="badge-text">En ligne</span> 
+                            <div class="pulse"></div>
+                            <span class="badge-text">En prod</span> 
+                            <div class="pulse-1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SECTION CONTACT ===== -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Contact</h2>
+                    <p class="section-subtitle">Parlons de votre projet</p>
+                    <div class="title-decoration"></div>
+                </div>
+
+                <div class="contact-wrapper">
+                    <!-- Informations (gauche) -->
+                    <div class="contact-info">
+                        <h3>Travaillons ensemble</h3>
+                        <p class="contact-description">
+                            Vous avez un projet en tête ? Discutons-en ! Je suis ouvert aux opportunités
+                            de collaboration, qu'il s'agisse de développement web, d'applications mobiles
+                            ou de conseil technique.
+                        </p>
+
+                        <div class="contact-methods">
+                            <div class="contact-method">
+                                <div class="method-icon"><i class="fas fa-envelope"></i></div>
+                                <div class="method-details">
+                                    <h4>Email</h4>
+                                    <a href="mailto:afanouerwin40@gmail.com">afanouerwin40@gmail.com</a>
+                                </div>
+                            </div>
+                            <div class="contact-method">
+                                <div class="method-icon"><i class="fas fa-phone"></i></div>
+                                <div class="method-details">
+                                    <h4>Téléphone</h4>
+                                    <a href="tel:+22896053347">+228 96053347</a>
+                                    <a>/</a>
+                                    <a href="tel:+22893562178">+228 93562178</a>
+                                </div>
+                            </div>
+                            <div class="contact-method">
+                                <div class="method-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                <div class="method-details">
+                                    <h4>Localisation</h4>
+                                    <span>Lomé, Togo</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="contact-social">
+                            <p>Retrouvez-moi aussi sur :</p>
+                            <div class="social-icons">
+                                <a href="#" target="_blank" class="social-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                                <a href="#" target="_blank" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" target="_blank" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formulaire (droite) -->
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nom complet</label>
+                            <input type="text" id="name" name="name" required placeholder="Votre nom" />
+                            <div class="form-error" id="nameError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Adresse email</label>
+                            <input type="email" id="email" name="email" required placeholder="votre@email.com" />
+                            <div class="form-error" id="emailError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Sujet</label>
+                            <input type="text" id="subject" name="subject" required placeholder="Objet de votre message" />
+                            <div class="form-error" id="subjectError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required placeholder="Décrivez votre projet..."></textarea>
+                            <div class="form-error" id="messageError"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-submit">
+                            <i class="fas fa-paper-plane"></i> Envoyer le message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===== FOOTER (style Victorien) ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3 class="footer-logo"><span class="dot">&lt;</span>/<span class="dot">&gt;</span> Erwin<span class="dot">.dev</span></h3>
+                    <p class="footer-tagline">
+                        Développeur passionné par l'innovation et la création de solutions digitales.
+                    </p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Navigation rapide</h4>
+                    <ul>
+                        <li><a href="#accueil">Accueil</a></li>
+                        <li><a href="#profil">Profil</a></li>
+                        <li><a href="#projets">Projets</a></li>
+                        <li><a href="#competences">Compétences</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-newsletter">
+                    <h4>Restons connectés</h4>
+                    <p>Abonnez-vous pour recevoir mes dernières actualités.</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Votre email" required />
+                        <button type="submit" class="btn-icon" aria-label="S'abonner">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; <span id="currentYear"></span> Erwin.dev – Tous droits réservés.
+                </div>
+            </div>
+        </div>
+
+        <!-- Bouton retour en haut -->
+        <div class="back-to-top">
+            <a href="#accueil" class="back-top-btn" aria-label="Retour en haut">
+                <i class="fas fa-arrow-up"></i>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
