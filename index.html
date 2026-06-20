@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,7 +12,8 @@
     <!-- ===== FONT AWESOME & DEVIcons ===== -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
 </head>
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -77,25 +79,758 @@
                     <!-- Image à droite -->
                     <div class="hero-image">
                         <div class="image-frame">
-                            <img
-                                src="photo.jpeg"
-                                alt="Erwin"
-                                width="400"
-                                height="400"
-                                loading="eager"
-                            />
+                            <img src="photo.jpeg" alt="Erwin" width="400" height="400" loading="eager" />
                             <div class="image-glow"></div>
                         </div>
                         <div class="image-badge">
-                            <span class="badge-text">En ligne</span> 
+                            <span class="badge-text">En ligne</span>
                             <div class="pulse"></div>
-                            <span class="badge-text">En prod</span> 
+                            <span class="badge-text">En prod</span>
                             <div class="pulse-1"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
+
+        <!-- =============================================
+     SECTION PROFIL
+     Layout : image rectangulaire à gauche + texte à droite
+     ============================================= -->
+        <section id="profil" class="profil">
+            <!-- Conteneur centré -->
+            <div class="container">
+
+                <!-- En-tête de section : titre + sous-titre + décoration -->
+                <div class="section-header">
+                    <h2 class="section-title">Profil</h2>
+                    <p class="section-subtitle">Découvrez mon parcours</p>
+                    <!-- Ligne décorative sous le titre -->
+                    <div class="title-decoration"></div>
+                </div>
+
+                <!-- Wrapper principal : flexbox pour aligner image (gauche) + texte (droite) -->
+                <div class="profil-wrapper">
+
+                    <!-- ===== COLONNE GAUCHE : Image rectangulaire ===== -->
+                    <div class="profil-image-col">
+                        <!-- Cadre de l'image avec effet de bordure lumineuse -->
+                        <div class="profil-image-frame">
+                            <!-- Photo de profil en rectangle -->
+                            <img src="photo.jpeg" alt="Photo de profil d'Erwin" class="profil-img" loading="lazy" />
+                            <!-- Halo lumineux animé derrière l'image -->
+                            <div class="profil-image-glow"></div>
+
+                            <!-- Badge d'expérience flottant en bas à droite de l'image -->
+                            <div class="profil-badge">
+                                <span class="profil-badge-number">3+</span>
+                                <span class="profil-badge-label">ans d'expérience</span>
+                            </div>
+                        </div>
+
+                        <!-- Statistiques rapides en dessous de l'image -->
+                        <div class="profil-stats">
+                            <!-- Stat 1 : Projets -->
+                            <div class="profil-stat">
+                                <span class="profil-stat-number" data-count="5">0</span>
+                                <span class="profil-stat-label">Projets</span>
+                            </div>
+                            <!-- Séparateur vertical -->
+                            <div class="profil-stat-divider"></div>
+                            <!-- Stat 2 : Clients satisfaits -->
+                            <div class="profil-stat">
+                                <span class="profil-stat-number" data-count="10">0</span>
+                                <span class="profil-stat-label">Clients</span>
+                            </div>
+                            <!-- Séparateur vertical -->
+                            <div class="profil-stat-divider"></div>
+                            <!-- Stat 3 : Technologies maîtrisées -->
+                            <div class="profil-stat">
+                                <span class="profil-stat-number" data-count="8">0</span>
+                                <span class="profil-stat-label">Technologies</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== COLONNE DROITE : Texte de profil ===== -->
+                    <div class="profil-content">
+                        <!-- Accroche avec mise en avant du prénom -->
+                        <h3 class="profil-greeting">
+                            Bonjour, je suis <span class="highlight">Erwin Afanou</span>
+                        </h3>
+
+                        <!-- Titre / Rôle professionnel -->
+                        <p class="profil-role">
+                            <i class="fas fa-code"></i>
+                            Développeur Full-Stack & Créateur Tech
+                        </p>
+
+                        <!-- Paragraphe de description principale -->
+                        <p class="profil-bio">
+                            Passionné par la technologie et l'innovation, je suis étudiant en
+                            <strong>Informatique</strong> avec une expertise en développement web
+                            et infrastructure réseau. Je conçois des solutions digitales complètes,
+                            du frontend attractif au backend robuste.
+                        </p>
+
+                        <!-- Deuxième paragraphe : vision et valeurs -->
+                        <p class="profil-bio">
+                            Mon approche combine <strong>créativité</strong> et <strong>rigueur technique</strong>
+                            pour livrer des applications performantes, intuitives et adaptées aux besoins réels.
+                            Chaque projet est une opportunité de repousser les limites du possible.
+                        </p>
+
+                        <!-- Liste des informations personnelles clés -->
+                        <ul class="profil-details">
+                            <!-- Détail 1 : Localisation -->
+                            <li class="profil-detail-item">
+                                <span class="detail-icon"><i class="fas fa-map-marker-alt"></i></span>
+                                <span class="detail-label">Localisation :</span>
+                                <span class="detail-value">Lomé, Togo</span>
+                            </li>
+                            <!-- Détail 2 : Formation -->
+                            <li class="profil-detail-item">
+                                <span class="detail-icon"><i class="fas fa-graduation-cap"></i></span>
+                                <span class="detail-label">Formation :</span>
+                                <span class="detail-value">Licence en Informatique</span>
+                            </li>
+                            <!-- Détail 3 : Disponibilité -->
+                            <li class="profil-detail-item">
+                                <span class="detail-icon"><i class="fas fa-briefcase"></i></span>
+                                <span class="detail-label">Disponible :</span>
+                                <span class="detail-value highlight">Freelance & Collaboration</span>
+                            </li>
+                            <!-- Détail 4 : Langues -->
+                            <li class="profil-detail-item">
+                                <span class="detail-icon"><i class="fas fa-language"></i></span>
+                                <span class="detail-label">Langues :</span>
+                                <span class="detail-value">Français, Anglais (technique)</span>
+                            </li>
+                        </ul>
+
+                        <!-- Boutons d'action : télécharger CV + aller au contact -->
+                        <div class="profil-actions">
+                            <!-- Bouton primaire : télécharger le CV -->
+                            <a href="cv.pdf" download class="btn btn-primary">
+                                <i class="fas fa-download"></i> Télécharger mon CV
+                            </a>
+                            <!-- Bouton secondaire : aller à la section contact -->
+                            <a href="#contact" class="btn btn-secondary">
+                                <i class="fas fa-paper-plane"></i> Me contacter
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- =============================================
+     SECTION PROJETS
+     Grille de cartes projets avec image, description,
+     technologies utilisées et liens
+     ============================================= -->
+        <section id="projets" class="projets">
+            <div class="container">
+
+                <!-- En-tête de section -->
+                <div class="section-header">
+                    <h2 class="section-title">Projets</h2>
+                    <p class="section-subtitle">Mes réalisations récentes</p>
+                    <div class="title-decoration"></div>
+                </div>
+
+                <!-- Filtres de catégorie pour trier les projets par type -->
+                <div class="projets-filters">
+                    <!-- Bouton "Tous" actif par défaut -->
+                    <button class="filter-btn active" data-filter="all">Tous</button>
+                    <button class="filter-btn" data-filter="web">Web</button>
+                    <button class="filter-btn" data-filter="mobile">Mobile</button>
+                    <button class="filter-btn" data-filter="reseau">Réseau</button>
+                </div>
+
+                <!-- Grille des cartes projets -->
+                <div class="projets-grid">
+
+                    <!-- ===== CARTE PROJET 1 ===== -->
+                    <!-- data-category : utilisé par le filtre JavaScript pour afficher/cacher les projets -->
+                    <div class="projet-card" data-category="web">
+
+                        <!-- Image de preview du projet -->
+                        <div class="projet-image">
+                            <!-- Remplacer "projet1.png" par la vraie image du projet -->
+                            <img src="projet1.png" alt="Capture d'écran du projet BiblioExcellence" loading="lazy" />
+                            <!-- Overlay sombre qui apparaît au survol avec les liens -->
+                            <div class="projet-overlay">
+                                <!-- Lien vers le dépôt GitHub du projet -->
+                                <a href="https://github.com/erwin/biblioexcellence" target="_blank"
+                                    rel="noopener noreferrer" class="projet-overlay-btn"
+                                    aria-label="Voir le code source sur GitHub">
+                                    <i class="fab fa-github"></i> Code source
+                                </a>
+                                <!-- Lien vers la démo en ligne du projet -->
+                                <a href="https://biblioexcellence.vercel.app" target="_blank" rel="noopener noreferrer"
+                                    class="projet-overlay-btn projet-overlay-btn--primary"
+                                    aria-label="Voir la démo en ligne">
+                                    <i class="fas fa-external-link-alt"></i> Voir en ligne
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Corps de la carte : informations textuelles -->
+                        <div class="projet-body">
+                            <!-- Badge de catégorie (Web, Mobile, etc.) -->
+                            <span class="projet-category-badge">Application Web</span>
+
+                            <!-- Nom du projet -->
+                            <h3 class="projet-name">BiblioExcellence</h3>
+
+                            <!-- Description courte du projet  -->
+                            <p class="projet-description">
+                                Système de gestion de bibliothèque universitaire permettant
+                                la gestion des emprunts, retours, et du catalogue d'ouvrages
+                                pour étudiants, enseignants et administrateurs.
+                            </p>
+
+                            <!-- Liste des technologies et outils utilisés -->
+                            <div class="projet-techs">
+                                <!-- Chaque tag représente une technologie -->
+                                <!-- Utilisation de Devicons pour les icônes -->
+                                <span class="tech-tag">
+                                    <i class="devicon-html5-plain"></i> HTML
+                                </span>
+                                <span class="tech-tag">
+                                    <i class="devicon-css3-plain"></i> CSS
+                                </span>
+                                <span class="tech-tag">
+                                    <i class="devicon-javascript-plain"></i> JavaScript
+                                </span>
+                                <span class="tech-tag">
+                                    <i class="devicon-php-plain"></i> PHP
+                                </span>
+                                <span class="tech-tag">
+                                    <i class="devicon-mysql-plain"></i> MySQL
+                                </span>
+                            </div>
+
+                            <!-- Ligne de séparation avant les boutons d'action -->
+                            <div class="projet-divider"></div>
+
+                            <!-- Boutons d'action permanents en bas de la carte -->
+                            <div class="projet-actions">
+                                <!-- Bouton GitHub : ouvre le dépôt dans un nouvel onglet -->
+                                <a href="https://github.com/erwin/biblioexcellence" target="_blank"
+                                    rel="noopener noreferrer" class="projet-btn projet-btn--github">
+                                    <i class="fab fa-github"></i>
+                                    <span>GitHub</span>
+                                </a>
+                                <!-- Bouton Live : ouvre la version hébergée dans un nouvel onglet -->
+                                <a href="https://biblioexcellence.vercel.app" target="_blank" rel="noopener noreferrer"
+                                    class="projet-btn projet-btn--live">
+                                    <i class="fas fa-rocket"></i>
+                                    <span>Voir en ligne</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FIN CARTE PROJET 1 -->
+
+
+                    <!-- ===== CARTE PROJET 2 ===== -->
+                    <div class="projet-card" data-category="web">
+                        <div class="projet-image">
+                            <img src="projet2.png" alt="Capture du projet Cotisation App" loading="lazy" />
+                            <div class="projet-overlay">
+                                <a href="https://github.com/erwin/cotisation-app" target="_blank"
+                                    rel="noopener noreferrer" class="projet-overlay-btn">
+                                    <i class="fab fa-github"></i> Code source
+                                </a>
+                                <a href="https://cotisation.vercel.app" target="_blank" rel="noopener noreferrer"
+                                    class="projet-overlay-btn projet-overlay-btn--primary">
+                                    <i class="fas fa-external-link-alt"></i> Voir en ligne
+                                </a>
+                            </div>
+                        </div>
+                        <div class="projet-body">
+                            <span class="projet-category-badge">Application Web</span>
+                            <h3 class="projet-name">Cotisation Manager</h3>
+                            <p class="projet-description">
+                                Application de gestion des cotisations de groupe avec logique
+                                d'exemption intelligente basée sur les anniversaires et
+                                un tableau de bord de suivi des paiements en temps réel.
+                            </p>
+                            <div class="projet-techs">
+                                <span class="tech-tag"><i class="devicon-php-plain"></i> PHP</span>
+                                <span class="tech-tag"><i class="devicon-javascript-plain"></i> JavaScript</span>
+                                <span class="tech-tag"><i class="devicon-html5-plain"></i> HTML</span>
+                                <span class="tech-tag"><i class="devicon-css3-plain"></i> CSS</span>
+                                <span class="tech-tag"><i class="devicon-mysql-plain"></i> MySQL</span>
+                            </div>
+                            <div class="projet-divider"></div>
+                            <div class="projet-actions">
+                                <a href="https://github.com/erwin/cotisation-app" target="_blank"
+                                    rel="noopener noreferrer" class="projet-btn projet-btn--github">
+                                    <i class="fab fa-github"></i><span>GitHub</span>
+                                </a>
+                                <a href="https://cotisation.vercel.app" target="_blank" rel="noopener noreferrer"
+                                    class="projet-btn projet-btn--live">
+                                    <i class="fas fa-rocket"></i><span>Voir en ligne</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FIN CARTE PROJET 2 -->
+
+
+                    <!-- ===== CARTE PROJET 3 ===== -->
+                    <div class="projet-card" data-category="web">
+                        <div class="projet-image">
+                            <img src="projet3.png" alt="Capture du portfolio Erwin.dev" loading="lazy" />
+                            <div class="projet-overlay">
+                                <a href="https://github.com/erwin/portfolio" target="_blank" rel="noopener noreferrer"
+                                    class="projet-overlay-btn">
+                                    <i class="fab fa-github"></i> Code source
+                                </a>
+                                <a href="https://erwin.dev" target="_blank" rel="noopener noreferrer"
+                                    class="projet-overlay-btn projet-overlay-btn--primary">
+                                    <i class="fas fa-external-link-alt"></i> Voir en ligne
+                                </a>
+                            </div>
+                        </div>
+                        <div class="projet-body">
+                            <span class="projet-category-badge">Portfolio</span>
+                            <h3 class="projet-name">Erwin.dev – Portfolio</h3>
+                            <p class="projet-description">
+                                Portfolio personnel moderne avec vidéo de fond galactique,
+                                animations fluides, formulaire de contact EmailJS et
+                                design responsive full-stack.
+                            </p>
+                            <div class="projet-techs">
+                                <span class="tech-tag"><i class="devicon-html5-plain"></i> HTML</span>
+                                <span class="tech-tag"><i class="devicon-css3-plain"></i> CSS</span>
+                                <span class="tech-tag"><i class="devicon-javascript-plain"></i> JavaScript</span>
+                                <span class="tech-tag"><i class="fas fa-envelope-open-text"></i> EmailJS</span>
+                            </div>
+                            <div class="projet-divider"></div>
+                            <div class="projet-actions">
+                                <a href="https://github.com/erwin/portfolio" target="_blank" rel="noopener noreferrer"
+                                    class="projet-btn projet-btn--github">
+                                    <i class="fab fa-github"></i><span>GitHub</span>
+                                </a>
+                                <a href="https://erwin.dev" target="_blank" rel="noopener noreferrer"
+                                    class="projet-btn projet-btn--live">
+                                    <i class="fas fa-rocket"></i><span>Voir en ligne</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FIN CARTE PROJET 3 -->
+
+
+                    <!-- ===== CARTE PROJET 4 (Réseau) ===== -->
+                    <div class="projet-card" data-category="reseau">
+                        <div class="projet-image">
+                            <img src="projet4.png" alt="Infrastructure réseau simulée" loading="lazy" />
+                            <div class="projet-overlay">
+                                <a href="https://github.com/erwin/network-infra" target="_blank"
+                                    rel="noopener noreferrer" class="projet-overlay-btn">
+                                    <i class="fab fa-github"></i> Code source
+                                </a>
+                                <a href="#" class="projet-overlay-btn projet-overlay-btn--primary">
+                                    <i class="fas fa-file-pdf"></i> Rapport PDF
+                                </a>
+                            </div>
+                        </div>
+                        <div class="projet-body">
+                            <span class="projet-category-badge">Réseau & Infra</span>
+                            <h3 class="projet-name">Infrastructure Réseau LAN</h3>
+                            <p class="projet-description">
+                                Conception et simulation d'une infrastructure réseau LAN
+                                d'entreprise avec VLAN, routage OSPF, configuration de
+                                pare-feu et documentation technique complète.
+                            </p>
+                            <div class="projet-techs">
+                                <span class="tech-tag"><i class="fas fa-network-wired"></i> Cisco IOS</span>
+                                <span class="tech-tag"><i class="fas fa-project-diagram"></i> Packet Tracer</span>
+                                <span class="tech-tag"><i class="fas fa-shield-alt"></i> Firewall</span>
+                                <span class="tech-tag"><i class="fas fa-server"></i> VLAN</span>
+                            </div>
+                            <div class="projet-divider"></div>
+                            <div class="projet-actions">
+                                <a href="https://github.com/erwin/network-infra" target="_blank"
+                                    rel="noopener noreferrer" class="projet-btn projet-btn--github">
+                                    <i class="fab fa-github"></i><span>GitHub</span>
+                                </a>
+                                <a href="#" class="projet-btn projet-btn--live">
+                                    <i class="fas fa-file-pdf"></i><span>Rapport</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FIN CARTE PROJET 4 -->
+
+                </div>
+                <!-- FIN GRILLE DES PROJETS -->
+
+            </div>
+        </section>
+
+
+        <!-- =============================================
+     SECTION COMPÉTENCES
+     Langages, frameworks, outils classés par catégorie
+     avec barres de progression animées au scroll
+     ============================================= -->
+        <section id="competences" class="competences">
+            <div class="container">
+
+                <!-- En-tête de section -->
+                <div class="section-header">
+                    <h2 class="section-title">Compétences</h2>
+                    <p class="section-subtitle">Mon niveau de maîtrise par technologie</p>
+                    <div class="title-decoration"></div>
+                </div>
+
+                <!-- Grille des catégories de compétences -->
+                <div class="competences-grid">
+
+                    <!-- ===== CATÉGORIE 1 : FRONTEND ===== -->
+                    <div class="competence-category">
+                        <!-- En-tête de la catégorie avec icône -->
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <!-- Icône représentative de la catégorie Frontend -->
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <h3 class="category-title">Frontend</h3>
+                        </div>
+
+                        <!-- Liste des compétences Frontend -->
+                        <div class="skills-list">
+
+                            <!-- ---- Compétence : HTML5 ---- -->
+                            <div class="skill-item">
+                                <!-- Ligne supérieure : nom + pourcentage -->
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <!-- Icône Devicon HTML5 -->
+                                        <i class="devicon-html5-plain colored"></i> HTML5
+                                    </span>
+                                    <!-- Le pourcentage est affiché dynamiquement par JS -->
+                                    <span class="skill-percent">90%</span>
+                                </div>
+                                <!-- Barre de progression : data-width indique le % cible pour l'animation JS -->
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="90"></div>
+                                </div>
+                            </div>
+
+                            <!-- ---- Compétence : CSS3 ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="devicon-css3-plain colored"></i> CSS3 
+                                    </span>
+                                    <span class="skill-percent">85%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="85"></div>
+                                </div>
+                            </div>
+
+                            <!-- ---- Compétence : JavaScript ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="devicon-javascript-plain colored"></i> JavaScript
+                                    </span>
+                                    <span class="skill-percent">60%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="60"></div>
+                                </div>
+                            </div>
+
+                            <!-- ---- Compétence : Bootstrap ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="devicon-bootstrap-plain colored"></i> Bootstrap
+                                    </span>
+                                    <span class="skill-percent">75%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="75"></div>
+                                </div>
+                            </div>
+
+                            <!-- ---- Compétence : React ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="devicon-react-original colored"></i> React.js
+                                    </span>
+                                    <span class="skill-percent">60%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="60"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- FIN CATÉGORIE FRONTEND -->
+
+
+                    <!-- ===== CATÉGORIE 2 : BACKEND ===== -->
+                    <div class="competence-category">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <h3 class="category-title">Backend</h3>
+                        </div>
+
+                        <div class="skills-list">
+
+                            <!-- ---- PHP ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="devicon-php-plain colored"></i> PHP
+                                    </span>
+                                    <span class="skill-percent">80%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="80"></div>
+                                </div>
+                            </div>
+
+                            <!-- ---- Python ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="devicon-python-plain colored"></i> Python
+                                    </span>
+                                    <span class="skill-percent">60%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="60"></div>
+                                </div>
+                            </div>
+
+                            <!-- ---- Node.js ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="devicon-nodejs-plain colored"></i> Node.js
+                                    </span>
+                                    <span class="skill-percent">55%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="55"></div>
+                                </div>
+                            </div>
+
+                            <!-- ---- MySQL ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="devicon-mysql-plain colored"></i> MySQL
+                                    </span>
+                                    <span class="skill-percent">85%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="85"></div>
+                                </div>
+                            </div>
+
+                            <!-- ---- Laravel ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="devicon-laravel-plain colored"></i> Laravel
+                                    </span>
+                                    <span class="skill-percent">80%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="80"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- FIN CATÉGORIE BACKEND -->
+
+
+                    <!-- ===== CATÉGORIE 3 : RÉSEAUX & INFRASTRUCTURE ===== -->
+                    <div class="competence-category">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <h3 class="category-title">Réseaux & Infra</h3>
+                        </div>
+
+                        <div class="skills-list">
+
+                            <!-- ---- Cisco IOS ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="fas fa-router"></i> Cisco IOS
+                                    </span>
+                                    <span class="skill-percent">75%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="75"></div>
+                                </div>
+                            </div>
+
+                            <!-- ---- Packet Tracer ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="fas fa-project-diagram"></i> Packet Tracer
+                                    </span>
+                                    <span class="skill-percent">80%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="80"></div>
+                                </div>
+                            </div>
+
+                            <!-- ---- Linux ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="devicon-linux-plain"></i> Linux / Bash
+                                    </span>
+                                    <span class="skill-percent">65%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="65"></div>
+                                </div>
+                            </div>
+
+                            <!-- ---- VLANs / Routage ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="fas fa-sitemap"></i> VLAN / OSPF
+                                    </span>
+                                    <span class="skill-percent">70%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="70"></div>
+                                </div>
+                            </div>
+
+                            <!-- ---- Sécurité réseau ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="fas fa-shield-alt"></i> Sécurité Réseau
+                                    </span>
+                                    <span class="skill-percent">60%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="60"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- FIN CATÉGORIE RÉSEAUX -->
+
+
+                    <!-- ===== CATÉGORIE 4 : OUTILS & ENVIRONNEMENT ===== -->
+                    <div class="competence-category">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <h3 class="category-title">Outils & Environnement</h3>
+                        </div>
+
+                        <div class="skills-list">
+
+                            <!-- ---- Git / GitHub ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="devicon-git-plain colored"></i> Git / GitHub
+                                    </span>
+                                    <span class="skill-percent">85%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="85"></div>
+                                </div>
+                            </div>
+
+                            <!-- ---- VS Code ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="devicon-vscode-plain colored"></i> VS Code
+                                    </span>
+                                    <span class="skill-percent">90%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="90"></div>
+                                </div>
+                            </div>
+
+                            <!-- ---- Figma ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="devicon-figma-plain colored"></i> Figma
+                                    </span>
+                                    <span class="skill-percent">75%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="75"></div>
+                                </div>
+                            </div>
+
+                            <!-- ---- Docker ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="devicon-docker-plain colored"></i> Docker
+                                    </span>
+                                    <span class="skill-percent">45%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="45"></div>
+                                </div>
+                            </div>
+
+                            <!-- ---- Postman ---- -->
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">
+                                        <i class="fas fa-paper-plane"></i> Postman
+                                    </span>
+                                    <span class="skill-percent">60%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-width="60"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- FIN CATÉGORIE OUTILS -->
+
+                </div>
+                <!-- FIN GRILLE DES COMPÉTENCES -->
+
+            </div>
+        </section>
+
 
         <!-- ===== SECTION CONTACT ===== -->
         <section id="contact" class="contact">
@@ -105,13 +840,12 @@
                     <p class="section-subtitle">Parlons de votre projet</p>
                     <div class="title-decoration"></div>
                 </div>
-
                 <div class="contact-wrapper">
                     <!-- Informations (gauche) -->
                     <div class="contact-info">
                         <h3>Travaillons ensemble</h3>
                         <p class="contact-description">
-                            Un projet, une idée ou un besoin numérique ? 
+                            Un projet, une idée ou un besoin numérique ?
                             Je suis à votre écoute. Que ce soit pour le développement web,
                             mobile ou le conseil technique,
                             je vous accompagne dans la conception de solutions adaptées à vos objectifs.
@@ -147,10 +881,14 @@
                         <div class="contact-social">
                             <p>Retrouvez-moi aussi sur :</p>
                             <div class="social-icons">
-                                <a href="#" target="_blank" class="social-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                                <a href="#" target="_blank" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                                <a href="#" target="_blank" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                                <a href="https://wa.me/22896173953?text=Bonjour%20Erwin,%20je%20souhaite%20discuter%20d'un%20projet." target="_blank" class="social-icon" aria-label="WhatsApp">
+                                <a href="#" target="_blank" class="social-icon" aria-label="GitHub"><i
+                                        class="fab fa-github"></i></a>
+                                <a href="#" target="_blank" class="social-icon" aria-label="LinkedIn"><i
+                                        class="fab fa-linkedin"></i></a>
+                                <a href="#" target="_blank" class="social-icon" aria-label="Twitter"><i
+                                        class="fab fa-twitter"></i></a>
+                                <a href="https://wa.me/22896173953?text=Bonjour%20Erwin,%20je%20souhaite%20discuter%20d'un%20projet."
+                                    target="_blank" class="social-icon" aria-label="WhatsApp">
                                     <i class="fab fa-whatsapp"></i>
                                 </a>
                             </div>
@@ -171,12 +909,14 @@
                         </div>
                         <div class="form-group">
                             <label for="subject">Sujet</label>
-                            <input type="text" id="subject" name="subject" required placeholder="Objet de votre message" />
+                            <input type="text" id="subject" name="subject" required
+                                placeholder="Objet de votre message" />
                             <div class="form-error" id="subjectError"></div>
                         </div>
                         <div class="form-group">
                             <label for="message">Message</label>
-                            <textarea id="message" name="message" rows="5" required placeholder="Décrivez votre projet..."></textarea>
+                            <textarea id="message" name="message" rows="5" required
+                                placeholder="Décrivez votre projet..."></textarea>
                             <div class="form-error" id="messageError"></div>
                         </div>
                         <button type="submit" class="btn btn-primary btn-submit">
@@ -194,9 +934,11 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <h3 class="footer-logo"><span class="dot">&lt;</span>/<span class="dot">&gt;</span> Erwin<span class="dot">.dev</span></h3>
+                    <h3 class="footer-logo"><span class="dot">&lt;</span>/<span class="dot">&gt;</span> Erwin<span
+                            class="dot">.dev</span></h3>
                     <p class="footer-tagline">
-                        J'imagine et développe des solutions digitales innovantes pour répondre aux besoins d'aujourd'hui et de demain.
+                        J'imagine et développe des solutions digitales innovantes pour répondre aux besoins
+                        d'aujourd'hui et de demain.
                     </p>
                 </div>
 
@@ -243,4 +985,5 @@
 
     <script src="app.js"></script>
 </body>
+
 </html>

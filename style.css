@@ -484,8 +484,8 @@ body {
     margin: 0 auto;
 }
 .title-decoration {
-    width: 60px;
-    height: 4px;
+    width: 800px;
+    height: 140px;
     background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
     margin: var(--space-md) auto;
     border-radius: 2px;
@@ -890,5 +890,1187 @@ body {
         right: var(--space-sm);
         left: var(--space-sm);
         max-width: none;
+    }
+}
+
+/* ==========================================================================
+   STYLES COMMUNS AUX SECTIONS
+   ========================================================================== */
+
+/* 
+   .section-header : conteneur du titre + sous-titre de chaque section
+   text-align center : tout est centré horizontalement
+   margin-bottom : espace entre l'en-tête et le contenu de la section
+*/
+.section-header {
+    text-align: center;
+    margin-bottom: var(--space-xxl);
+}
+
+/* 
+   .section-title : le grand titre h2 de chaque section (ex: "Profil", "Projets")
+   font-size : taille large pour bien marquer la hiérarchie visuelle
+   color : blanc pour ressortir sur fond sombre
+*/
+.section-title {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-xs);
+    letter-spacing: -0.5px; /* Légère compression des lettres pour un style moderne */
+}
+
+/* 
+   .section-subtitle : sous-titre descriptif placé sous le titre principal
+   color : couleur atténuée (gris clair) pour créer une hiérarchie visuelle
+*/
+.section-subtitle {
+    font-size: var(--font-size-base);
+    color: var(--text-muted);
+    margin-bottom: var(--space-md);
+}
+
+/* 
+   .title-decoration : ligne décorative bleue sous le sous-titre
+   width : 60px de large, centré via margin auto
+   height : fine barre de 3px
+   background : couleur primaire bleue électrique
+   border-radius : bords arrondis pour un effet "pill"
+*/
+.title-decoration {
+    width: 60px;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 999px;
+    margin: 0 auto;
+}
+
+
+/* ==========================================================================
+   SECTION PROFIL
+   ========================================================================== */
+
+/* 
+   .profil : section entière
+   padding : espace interne en haut et en bas pour respirer
+   position relative : permet aux éléments absolus enfants de se positionner par rapport à cette section
+*/
+.profil {
+    padding: var(--space-xxl) 0;
+    position: relative;
+}
+
+/* 
+   .profil-wrapper : conteneur des deux colonnes (image à gauche + texte à droite)
+   display grid : crée une grille à 2 colonnes
+   grid-template-columns : colonne gauche 420px fixe, colonne droite prend le reste disponible
+   gap : espace entre les deux colonnes
+   align-items start : aligne les colonnes en haut (pas en centre)
+*/
+.profil-wrapper {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: var(--space-xxl);
+    align-items: start;
+}
+
+/* --- COLONNE GAUCHE : IMAGE --- */
+
+/* 
+   .profil-image-col : conteneur de toute la colonne gauche
+   display flex + column : empile l'image et les stats verticalement
+   gap : espace entre l'image et les statistiques
+*/
+.profil-image-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+/* 
+   .profil-image-frame : cadre autour de l'image
+   position relative : permet de positionner le halo et le badge en absolu par-dessus
+   border-radius : coins légèrement arrondis (pas circulaire = rectangle)
+   overflow hidden : masque tout ce qui dépasse l'image (coins arrondis)
+   border : bordure lumineuse bleue translucide
+*/
+.profil-image-frame {
+    position: relative;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    border: 2px solid var(--border-color);
+    /* Ombre portée avec lueur bleue externe */
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), var(--glow);
+}
+
+/* 
+   .profil-img : l'image elle-même
+   width 100% : prend toute la largeur du cadre parent
+   height 480px : hauteur fixe pour un format portrait rectangulaire
+   object-fit cover : recadre l'image pour couvrir l'espace sans la déformer
+   display block : enlève l'espace blanc sous l'image (comportement inline par défaut)
+   transition : légère transformation au survol (zoom)
+*/
+.profil-img {
+    width: 100%;
+    height: 480px;
+    object-fit: cover;
+    object-position: center; /* Cadre sur le visage/haut du corps */
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+/* 
+   .profil-image-frame:hover .profil-img : zoom léger sur l'image au survol de la carte
+   transform scale : agrandit l'image de 3% pour un effet de zoom subtil
+*/
+.profil-image-frame:hover .profil-img {
+    transform: scale(1.03);
+}
+
+/* 
+   .profil-image-glow : halo lumineux derrière l'image
+   position absolute : se positionne par rapport au .profil-image-frame
+   inset 0 : occupe tout l'espace du cadre
+   background : dégradé radial du bleu transparent vers rien
+   pointer-events none : invisible aux clics de la souris (l'image en dessous reste cliquable)
+   opacity 0 : invisible par défaut, visible au survol
+   transition : animation douce d'apparition
+*/
+.profil-image-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 100%, rgba(0, 212, 255, 0.15) 0%, transparent 70%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+/* 
+   Fait apparaître le halo quand on survole l'image
+*/
+.profil-image-frame:hover .profil-image-glow {
+    opacity: 1;
+}
+
+/* 
+   .profil-badge : badge flottant en bas à droite de l'image (ex: "3+ ans d'expérience")
+   position absolute : flotte par-dessus l'image
+   bottom / right : positionnement en bas à droite avec un décalage de 16px
+   background : fond sombre translucide + flou pour effet verre
+   border : légère bordure bleue
+   border-radius : coins bien arrondis
+   padding : espace interne du badge
+   display flex column : empile les deux lignes de texte
+   z-index 2 : s'affiche au-dessus de l'image
+*/
+.profil-badge {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    background: rgba(10, 15, 31, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--space-sm) var(--space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+}
+
+/* 
+   .profil-badge-number : le grand chiffre dans le badge (ex: "3+")
+   font-size large, couleur primaire, gras
+*/
+.profil-badge-number {
+    font-size: var(--font-size-xl);
+    font-weight: 800;
+    color: var(--primary-color);
+    line-height: 1;
+}
+
+/* 
+   .profil-badge-label : le texte sous le chiffre (ex: "ans d'expérience")
+   petite taille, couleur grise
+*/
+.profil-badge-label {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    white-space: nowrap; /* Empêche le retour à la ligne */
+}
+
+/* 
+   .profil-stats : conteneur des 3 statistiques rapides
+   background : fond verre avec flou
+   border-radius : coins arrondis
+   padding : espace interne
+   display flex : les 3 stats côte à côte
+   justify-content space-around : répartit l'espace équitablement entre les stats
+*/
+.profil-stats {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--space-md) var(--space-lg);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+/* 
+   .profil-stat : un bloc de statistique (chiffre + libellé)
+   display flex column : empile le chiffre et le libellé verticalement
+   align-items center : centre le contenu
+*/
+.profil-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+/* 
+   .profil-stat-number : le chiffre animé de la stat
+   data-count : attribut HTML lu par JavaScript pour animer le compteur
+   font-size large, couleur primaire, gras
+*/
+.profil-stat-number {
+    font-size: var(--font-size-xl);
+    font-weight: 800;
+    color: var(--primary-color);
+    line-height: 1;
+}
+
+/* 
+   .profil-stat-label : libellé sous le chiffre (ex: "Projets")
+   petite taille, gris clair
+*/
+.profil-stat-label {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+/* 
+   .profil-stat-divider : séparateur vertical entre les stats
+   width 1px : très fine ligne
+   height 40px : hauteur fixe
+   background : couleur de bordure
+*/
+.profil-stat-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--border-color);
+}
+
+/* --- COLONNE DROITE : CONTENU TEXTE --- */
+
+/* 
+   .profil-content : conteneur de tout le texte à droite
+   padding-top : alignement vertical avec l'image
+*/
+.profil-content {
+    padding-top: var(--space-md);
+}
+
+/* 
+   .profil-greeting : "Bonjour, je suis Erwin Afanou"
+   font-size assez grand pour attirer l'attention
+   margin-bottom : espace sous le titre
+*/
+.profil-greeting {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+    line-height: 1.2;
+}
+
+/* 
+   .profil-role : ligne de rôle professionnel avec l'icône
+   display flex : aligne l'icône et le texte sur la même ligne
+   gap : espace entre l'icône et le texte
+   color : couleur primaire pour se démarquer
+   margin-bottom : espace sous le rôle
+*/
+.profil-role {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: var(--space-lg);
+    letter-spacing: 0.5px;
+}
+
+/* 
+   .profil-bio : paragraphes de description biographique
+   line-height : interligne généreux pour une meilleure lisibilité
+   color : gris clair (pas blanc pur pour réduire la fatigue oculaire)
+   margin-bottom : espace entre les paragraphes
+*/
+.profil-bio {
+    font-size: var(--font-size-base);
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-md);
+}
+
+/* 
+   strong dans les bio : mots-clés importants en blanc + gras
+*/
+.profil-bio strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* 
+   .profil-details : liste des informations personnelles
+   list-style none : supprime les puces par défaut du ul
+   display flex flex-col : empile les éléments verticalement
+   gap : espace entre chaque ligne d'info
+   margin-bottom : espace sous la liste avant les boutons
+*/
+.profil-details {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xl);
+}
+
+/* 
+   .profil-detail-item : une ligne d'information (icône + libellé + valeur)
+   display flex : aligne les 3 parties sur la même ligne
+   align-items center : centrage vertical
+   gap : espace entre chaque partie
+*/
+.profil-detail-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--font-size-sm);
+}
+
+/* 
+   .detail-icon : l'icône Font Awesome à gauche
+   width/height : taille fixe pour aligner toutes les icônes sur la même colonne
+   color : couleur primaire bleue
+   display flex + center : centrage de l'icône dans son carré
+*/
+.detail-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 212, 255, 0.1);
+    border-radius: 6px;
+    color: var(--primary-color);
+    flex-shrink: 0; /* Empêche l'icône de se rétrécir */
+    font-size: 0.875rem;
+}
+
+/* 
+   .detail-label : le libellé de l'information (ex: "Localisation :")
+   font-weight bold, couleur blanche
+   white-space nowrap : le libellé ne passe pas à la ligne suivante
+*/
+.detail-label {
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+/* 
+   .detail-value : la valeur de l'information (ex: "Lomé, Togo")
+   couleur gris clair
+*/
+.detail-value {
+    color: var(--text-muted);
+}
+
+/* 
+   .profil-actions : conteneur des 2 boutons CTA (CV + Contact)
+   display flex : côte à côte
+   gap : espace entre les boutons
+   flex-wrap wrap : passe à la ligne sur petit écran
+*/
+.profil-actions {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+
+/* ==========================================================================
+   SECTION PROJETS
+   ========================================================================== */
+
+/* 
+   .projets : section entière avec padding vertical
+*/
+.projets {
+    padding: var(--space-xxl) 0;
+}
+
+/* 
+   .projets-filters : barre des boutons de filtre de catégorie
+   display flex : boutons côte à côte
+   justify-content center : centrés horizontalement
+   gap : espace entre les boutons
+   flex-wrap wrap : passe à la ligne si l'écran est trop petit
+   margin-bottom : espace sous les filtres avant la grille
+*/
+.projets-filters {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-xxl);
+}
+
+/* 
+   .filter-btn : bouton de filtre
+   padding : espace interne
+   border : bordure bleue translucide
+   border-radius pill : bords très arrondis
+   background transparent : fond invisible par défaut
+   color : couleur grise
+   cursor pointer : curseur main au survol
+   transition : animation douce au changement d'état
+   font-weight semi-bold
+*/
+.filter-btn {
+    padding: var(--space-xs) var(--space-lg);
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    font-weight: 500;
+    font-family: var(--font-primary);
+    font-size: var(--font-size-sm);
+}
+
+/* 
+   .filter-btn:hover et .filter-btn.active : 
+   style appliqué au survol ET quand le filtre est actif
+   background : fond bleu translucide
+   color : blanc
+   border-color : bleu opaque
+*/
+.filter-btn:hover,
+.filter-btn.active {
+    background: rgba(0, 212, 255, 0.15);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* 
+   .projets-grid : grille des cartes de projets
+   display grid : grille CSS
+   grid-template-columns : 3 colonnes de largeur égale, minimum 300px chacune
+   gap : espace entre les cartes
+*/
+.projets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-xl);
+}
+
+/* 
+   .projet-card : une carte projet
+   background : fond translucide effet verre
+   border-radius : coins bien arrondis
+   border : bordure bleue translucide
+   overflow hidden : masque le contenu qui dépasse (notamment au hover de l'image)
+   transition : animation de la carte entière au survol (translateY, ombre)
+   display flex flex-col : structure verticale image + corps
+*/
+.projet-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+    display: flex;
+    flex-direction: column;
+    /* Animation de révélation initiale */
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* 
+   .projet-card.visible : état visible après l'animation au scroll
+   Classe ajoutée par JavaScript quand la carte entre dans le viewport
+*/
+.projet-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* 
+   .projet-card:hover : effet de lévitation au survol
+   translateY(-8px) : soulève la carte de 8px
+   box-shadow plus grande et plus colorée
+   border-color : bordure bleue plus prononcée
+*/
+.projet-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 212, 255, 0.15);
+    border-color: rgba(0, 212, 255, 0.5);
+}
+
+/* 
+   .projet-image : conteneur de l'image du projet
+   position relative : pour l'overlay qui se superpose à l'image
+   overflow hidden : masque l'image qui dépasse au zoom
+   height 200px : hauteur fixe pour toutes les images de cartes
+*/
+.projet-image {
+    position: relative;
+    overflow: hidden;
+    height: 200px;
+}
+
+/* 
+   .projet-image img : l'image du projet
+   width/height 100% : remplit tout le conteneur
+   object-fit cover : recadre l'image sans la déformer
+   transition transform : zoom doux au survol de la carte
+*/
+.projet-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+/* 
+   Zoom de l'image au survol de la carte parent
+*/
+.projet-card:hover .projet-image img {
+    transform: scale(1.08);
+}
+
+/* 
+   .projet-overlay : couche noire semi-transparente sur l'image avec les boutons liens
+   position absolute : se superpose à l'image
+   inset 0 : couvre toute la surface de l'image
+   background : fond très sombre translucide
+   display flex + column + center : organise les boutons en colonne centrée
+   gap : espace entre les boutons de l'overlay
+   opacity 0 : invisible par défaut
+   transition : apparition douce au survol
+*/
+.projet-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 9, 19, 0.88);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+/* 
+   Fait apparaître l'overlay au survol de la carte
+*/
+.projet-card:hover .projet-overlay {
+    opacity: 1;
+}
+
+/* 
+   .projet-overlay-btn : boutons dans l'overlay de l'image
+   display flex : icône + texte sur la même ligne
+   padding : espace interne
+   border : bordure blanche translucide
+   border-radius : coins arrondis
+   color : blanc
+   text-decoration none : supprime le soulignement des liens
+   transition : animation au survol
+   font-size : taille des boutons
+   font-weight : gras
+*/
+.projet-overlay-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-lg);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--border-radius);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all var(--transition-normal);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    min-width: 160px;
+    justify-content: center;
+}
+
+/* 
+   Survol des boutons de l'overlay : fond blanc + texte sombre
+*/
+.projet-overlay-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.6);
+    color: var(--text-primary);
+    transform: scale(1.03);
+}
+
+/* 
+   .projet-overlay-btn--primary : variante colorée (bouton "voir en ligne")
+   border-color et color en bleu primaire
+*/
+.projet-overlay-btn--primary {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.projet-overlay-btn--primary:hover {
+    background: rgba(0, 212, 255, 0.2);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+/* 
+   .projet-body : corps textuel de la carte (sous l'image)
+   padding : espace interne généreux
+   display flex flex-col : empile les éléments verticalement
+   flex 1 : prend tout l'espace disponible restant pour que les boutons soient toujours en bas
+   gap : espace entre les éléments
+*/
+.projet-body {
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: var(--space-sm);
+}
+
+/* 
+   .projet-category-badge : badge coloré indiquant la catégorie du projet
+   display inline-block : prend la taille de son contenu
+   padding : espace interne du badge
+   background : fond bleu très translucide
+   color : bleu primaire
+   border-radius pill : très arrondi
+   font-size petit
+*/
+.projet-category-badge {
+    display: inline-block;
+    padding: 4px var(--space-sm);
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--primary-color);
+    border-radius: 999px;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+/* 
+   .projet-name : titre du projet
+   font-size : assez grand pour la lisibilité
+   font-weight gras
+   color : blanc
+*/
+.projet-name {
+    font-size: var(--font-size-md);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+
+/* 
+   .projet-description : texte de description du projet
+   -webkit-line-clamp 3 : limite à 3 lignes et ajoute "..." si le texte est trop long
+   Combinaison de propriétés nécessaires pour le "line-clamp"
+*/
+.projet-description {
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+    color: var(--text-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* 
+   .projet-techs : zone des badges de technologies
+   display flex : badges sur une ligne
+   flex-wrap wrap : passe à la ligne si trop de technologies
+   gap : espace entre les badges
+*/
+.projet-techs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+/* 
+   .tech-tag : badge d'une technologie (ex: "PHP", "React")
+   display inline-flex : icône + texte sur la même ligne
+   padding : espace interne du badge
+   background : fond légèrement blanc translucide
+   border : bordure fine
+   border-radius : petits coins arrondis
+   font-size très petit
+   gap : espace entre l'icône et le nom de la techno
+*/
+.tech-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius-sm);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    transition: all var(--transition-fast);
+}
+
+/* 
+   Survol des badges techno : fond bleu translucide
+*/
+.tech-tag:hover {
+    background: rgba(0, 212, 255, 0.12);
+    border-color: rgba(0, 212, 255, 0.3);
+    color: var(--primary-light);
+}
+
+/* 
+   .projet-divider : ligne de séparation horizontale avant les boutons
+   margin-top auto : pousse le divider et les boutons tout en bas de la carte
+   height 1px : fine ligne
+   background : couleur de bordure
+*/
+.projet-divider {
+    height: 1px;
+    background: var(--border-color);
+    margin-top: auto; /* Force les boutons en bas de la carte quelle que soit la hauteur */
+}
+
+/* 
+   .projet-actions : ligne des deux boutons en bas de chaque carte
+   display flex : côte à côte
+   gap : espace entre les boutons
+   padding-top : espace au-dessus des boutons
+*/
+.projet-actions {
+    display: flex;
+    gap: var(--space-sm);
+    padding-top: var(--space-xs);
+}
+
+/* 
+   .projet-btn : bouton d'action de la carte projet (GitHub + Voir en ligne)
+   flex 1 : prend la moitié de la largeur disponible chacun
+   display flex + center : icône + texte centrés
+   gap : espace entre l'icône et le texte
+   padding : espace interne
+   border-radius : coins arrondis
+   font-size petit
+   font-weight semi-bold
+   text-decoration none : supprime le soulignement
+   transition : animation au survol
+*/
+.projet-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--transition-normal);
+    border: 1px solid transparent;
+}
+
+/* 
+   .projet-btn--github : style du bouton GitHub
+   fond sombre + bordure grise + texte gris clair
+*/
+.projet-btn--github {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: var(--text-secondary);
+}
+
+.projet-btn--github:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+/* 
+   .projet-btn--live : style du bouton "Voir en ligne"
+   fond bleu translucide + bordure bleue + texte bleu
+*/
+.projet-btn--live {
+    background: rgba(0, 212, 255, 0.1);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.projet-btn--live:hover {
+    background: var(--primary-color);
+    color: var(--bg-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+}
+
+/* 
+   .projet-card.hidden : classe ajoutée par le filtre JS pour cacher une carte
+   opacity 0 : transparent
+   pointer-events none : pas cliquable
+   position absolute : sort du flux pour ne pas prendre de place
+   La combinaison permet une transition douce en sortie
+*/
+.projet-card.hidden {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+}
+
+
+/* ==========================================================================
+   SECTION COMPÉTENCES
+   ========================================================================== */
+
+/* 
+   .competences : section entière
+*/
+.competences {
+    padding: var(--space-xxl) 0;
+}
+
+/* 
+   .competences-grid : grille des catégories de compétences
+   display grid : grille CSS
+   grid-template-columns : 2 colonnes de largeur égale
+   gap : espace entre les colonnes et les lignes
+*/
+.competences-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-xl);
+}
+
+/* 
+   .competence-category : une catégorie de compétences (Frontend, Backend, etc.)
+   background : fond verre translucide
+   border : bordure bleue translucide
+   border-radius : coins arrondis
+   padding : espace interne
+   transition : animation au survol
+*/
+.competence-category {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    padding: var(--space-xl);
+    transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
+    /* Animation de révélation initiale : invisible + décalé vers le bas */
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* 
+   .competence-category.visible : état visible après animation au scroll
+*/
+.competence-category.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s ease;
+}
+
+/* 
+   Effet de survol : lueur bleue légère sur la carte de catégorie
+*/
+.competence-category:hover {
+    border-color: rgba(0, 212, 255, 0.4);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 212, 255, 0.08);
+}
+
+/* 
+   .category-header : ligne titre de la catégorie (icône + texte)
+   display flex : côte à côte
+   align-items center : centrage vertical
+   gap : espace entre l'icône et le titre
+   margin-bottom : espace sous le titre avant les compétences
+*/
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+/* 
+   .category-icon : carré avec l'icône représentative de la catégorie
+   width/height : taille fixe du carré
+   background : fond bleu translucide
+   border-radius : légèrement arrondi
+   display flex + center : centrage de l'icône dans le carré
+   color : bleu primaire
+   font-size : taille de l'icône
+*/
+.category-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(0, 212, 255, 0.12);
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+/* 
+   .category-title : titre de la catégorie (ex: "Frontend")
+   font-size modéré, gras, blanc
+*/
+.category-title {
+    font-size: var(--font-size-md);
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* 
+   .skills-list : liste des compétences dans une catégorie
+   display flex flex-col : empilement vertical
+   gap : espace entre chaque compétence
+*/
+.skills-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+/* 
+   .skill-item : un bloc de compétence (nom + %, barre de progression)
+   display flex flex-col
+   gap : espace entre la ligne nom/% et la barre
+*/
+.skill-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 
+   .skill-header : ligne avec le nom de la compétence à gauche et le % à droite
+   display flex
+   justify-content space-between : pousse le nom à gauche et le % à droite
+   align-items center : centrage vertical
+*/
+.skill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 
+   .skill-name : nom de la compétence avec son icône Devicon
+   display flex : icône + texte côte à côte
+   gap : espace entre l'icône et le nom
+   font-size : taille lisible
+   font-weight semi-bold
+   color : gris clair
+*/
+.skill-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* 
+   Les icônes Devicon dans .skill-name
+   font-size : taille de l'icône
+*/
+.skill-name i {
+    font-size: 1.1rem;
+}
+
+/* 
+   .skill-percent : le pourcentage de maîtrise (ex: "85%")
+   affiché à droite du nom
+   font-size petit, couleur primaire, gras
+*/
+.skill-percent {
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* 
+   .skill-bar : la barre de fond grise de la progression
+   width 100% : prend toute la largeur disponible
+   height : épaisseur de la barre
+   background : fond sombre pour contraster avec la barre colorée
+   border-radius : bords arrondis (forme "pill")
+   overflow hidden : masque le débordement de la barre de remplissage
+*/
+.skill-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+/* 
+   .skill-fill : la barre de remplissage colorée (la progression réelle)
+   height 100% : remplit toute la hauteur du conteneur
+   background : dégradé du bleu clair vers le bleu foncé
+   border-radius : bords arrondis
+   width 0 : initialement à 0 (l'animation JS changera cette valeur)
+   transition : animation douce de remplissage
+   position relative : pour la brillance animée
+*/
+.skill-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    border-radius: 999px;
+    width: 0%; /* Départ à 0 pour l'animation JavaScript */
+    transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Courbe de Bézier pour animation naturelle */
+    position: relative;
+    overflow: hidden;
+}
+
+/* 
+   Effet de brillance animée qui traverse la barre de compétence
+   ::after crée un pseudo-élément brillant en blanc translucide
+   L'animation "shimmer" le fait glisser de gauche à droite en boucle
+*/
+.skill-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    animation: shimmer 2.5s infinite 1.5s; /* Commence après 1.5s pour attendre la fin de l'animation de remplissage */
+}
+
+/* 
+   @keyframes shimmer : l'animation de brillance qui traverse la barre
+   from : la brillance part de la gauche (hors de la barre)
+   to : la brillance sort par la droite (hors de la barre)
+*/
+@keyframes shimmer {
+    from { left: -100%; }
+    to { left: 150%; }
+}
+
+
+/* ==========================================================================
+   RESPONSIVE DESIGN - ADAPTATION AUX PETITS ÉCRANS
+   ========================================================================== */
+
+/* 
+   @media max-width 992px : tablette (entre 768px et 992px)
+*/
+@media (max-width: 992px) {
+
+    /* Section profil : passe à 1 seule colonne sur tablette */
+    .profil-wrapper {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+    }
+
+    /* L'image de profil : largeur maximale limitée et centrée */
+    .profil-image-col {
+        max-width: 420px;
+        margin: 0 auto;
+    }
+
+    /* La grille de compétences passe à 1 colonne */
+    .competences-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 
+   @media max-width 768px : mobile (moins de 768px)
+*/
+@media (max-width: 768px) {
+
+    /* Réduction du padding des catégories de compétences */
+    .competence-category {
+        padding: var(--space-lg);
+    }
+
+    /* La grille de projets passe à 1 colonne */
+    .projets-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Image de profil moins haute sur mobile */
+    .profil-img {
+        height: 350px;
+    }
+
+    /* Actions du profil en colonne sur mobile */
+    .profil-actions {
+        flex-direction: column;
+    }
+
+    /* Chaque bouton prend toute la largeur */
+    .profil-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Stats du profil adaptées en colonnes */
+    .profil-stats {
+        padding: var(--space-md);
+        gap: var(--space-sm);
+    }
+
+    /* Ajustement taille des numéros de stats */
+    .profil-stat-number {
+        font-size: var(--font-size-lg);
+    }
+}
+
+/* 
+   @media max-width 480px : très petit mobile
+*/
+@media (max-width: 480px) {
+
+    /* Titre de bienvenue plus petit */
+    .profil-greeting {
+        font-size: var(--font-size-lg);
+    }
+
+    /* Image encore moins haute */
+    .profil-img {
+        height: 300px;
     }
 }

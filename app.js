@@ -313,3 +313,396 @@ document.addEventListener("DOMContentLoaded", () => {
   // Permet d'appeler showToast depuis la console du navigateur
   window.showToast = showToast;
 });
+
+
+/**
+ * =============================================
+ *  JAVASCRIPT POUR LES SECTIONS PROFIL, PROJETS, COMPÉTENCES
+ *  
+ *  Ce fichier gère :
+ *  1. L'animation des barres de compétences (déclenchée au scroll)
+ *  2. L'animation des compteurs de statistiques (Profil)
+ *  3. Le filtre des projets par catégorie
+ *  4. L'animation de révélation des cartes au scroll (Intersection Observer)
+ *  5. Le bouton "Retour en haut"
+ * =============================================
+ */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /**
+     * =============================================
+     *  1. INTERSECTION OBSERVER : RÉVÉLATION AU SCROLL
+     *  
+     *  L'IntersectionObserver surveille quand un élément
+     *  entre dans la zone visible du navigateur (viewport).
+     *  Dès qu'il est visible, on ajoute la classe "visible"
+     *  qui déclenche l'animation CSS.
+     * =============================================
+     */
+
+    /**
+     * observeElements : fonction générique qui crée un observer
+     * pour un groupe d'éléments sélectionnés
+     * 
+     * @param {string} selector - Sélecteur CSS des éléments à observer
+     * @param {number} threshold - % de l'élément visible pour déclencher (0 à 1)
+     */
+    function observeElements(selector, threshold = 0.15) {
+        // Récupère tous les éléments correspondant au sélecteur CSS
+        const elements = document.querySelectorAll(selector);
+
+        // Crée l'IntersectionObserver avec une callback
+        const observer = new IntersectionObserver(
+            // Callback appelée quand l'état d'un élément change (entre/sort du viewport)
+            function (entries) {
+                entries.forEach(function (entry) {
+                    // Si l'élément est visible dans le viewport
+                    if (entry.isIntersecting) {
+                        // Ajoute la classe "visible" qui déclenche l'animation CSS (fadeInUp)
+                        entry.target.classList.add("visible");
+                        // On arrête d'observer cet élément : l'animation ne se joue qu'une fois
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                // threshold : 0.15 = l'animation se déclenche quand 15% de l'élément est visible
+                threshold: threshold,
+            }
+        );
+
+        // Lance l'observation de chaque élément trouvé
+        elements.forEach(function (el) {
+            observer.observe(el);
+        });
+    }
+
+    // --- Observe les cartes de projets ---
+    // Déclenche l'animation quand les cartes .projet-card entrent dans le viewport
+    observeElements(".projet-card", 0.1);
+
+    // --- Observe les catégories de compétences ---
+    // Déclenche l'animation sur les .competence-category (apparition en fadeInUp)
+    observeElements(".competence-category", 0.1);
+
+
+    /**
+     * =============================================
+     *  2. ANIMATION DES BARRES DE COMPÉTENCES
+     *  
+     *  Chaque barre (.skill-fill) a un attribut data-width qui
+     *  indique le pourcentage cible (ex: data-width="85").
+     *  Au moment où la catégorie parent devient visible (classe .visible),
+     *  on anime la largeur de la barre de 0% à la valeur cible.
+     * =============================================
+     */
+
+    // Crée un Observer dédié aux catégories de compétences
+    const skillObserver = new IntersectionObserver(
+        function (entries) {
+            entries.forEach(function (entry) {
+                // Vérifie si la catégorie est maintenant visible dans le viewport
+                if (entry.isIntersecting) {
+                    // Sélectionne toutes les barres de remplissage dans cette catégorie
+                    const skillFills = entry.target.querySelectorAll(".skill-fill");
+
+                    // Parcourt chaque barre de progression
+                    skillFills.forEach(function (fill, index) {
+                        // Lit la valeur cible depuis l'attribut data-width (ex: "85" pour 85%)
+                        const targetWidth = fill.getAttribute("data-width");
+
+                        // Délai progressif : chaque barre attend un peu plus que la précédente
+                        // Cela crée un effet en cascade (la 1ère s'anime en premier, puis la 2ème, etc.)
+                        // index * 150 : le 1er barre attend 0ms, la 2ème 150ms, la 3ème 300ms, etc.
+                        setTimeout(function () {
+                            // Change la largeur CSS de la barre : la transition CSS fera l'animation
+                            fill.style.width = targetWidth + "%";
+                        }, index * 150);
+                    });
+
+                    // Arrête d'observer cette catégorie : l'animation ne se joue qu'une fois
+                    skillObserver.unobserve(entry.target);
+                }
+            });
+        },
+        {
+            // threshold 0.2 : l'animation se déclenche quand 20% de la catégorie est visible
+            threshold: 0.2,
+        }
+    );
+
+    // Observe toutes les catégories de compétences pour l'animation des barres
+    document.querySelectorAll(".competence-category").forEach(function (category) {
+        skillObserver.observe(category);
+    });
+
+
+    /**
+     * =============================================
+     *  3. ANIMATION DES COMPTEURS DE STATISTIQUES (PROFIL)
+     *  
+     *  Les éléments .profil-stat-number ont un attribut data-count
+     *  (ex: data-count="20"). On anime le compteur de 0 au chiffre cible
+     *  en interpolant la valeur à chaque frame avec requestAnimationFrame.
+     * =============================================
+     */
+
+    /**
+     * animateCounter : anime un compteur de 0 à la valeur cible
+     * 
+     * @param {HTMLElement} element - L'élément DOM dont on change le textContent
+     * @param {number} target - La valeur finale à atteindre
+     * @param {number} duration - Durée de l'animation en millisecondes
+     */
+    function animateCounter(element, target, duration) {
+        // Timestamp de départ (fourni par requestAnimationFrame)
+        let startTime = null;
+
+        /**
+         * step : fonction appelée à chaque frame par requestAnimationFrame (~60fps)
+         * 
+         * @param {number} currentTime - Le timestamp actuel (fourni automatiquement)
+         */
+        function step(currentTime) {
+            // Initialise le timestamp de départ à la première frame
+            if (!startTime) startTime = currentTime;
+
+            // Calcule le temps écoulé depuis le début de l'animation
+            const elapsed = currentTime - startTime;
+
+            // Calcule la progression de 0 à 1 (clampé à 1 max)
+            // Math.min : s'assure qu'on ne dépasse pas 1 (= 100% de progression)
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Calcule la valeur actuelle du compteur selon la progression
+            // Math.floor : arrondit vers le bas pour afficher des entiers propres
+            const currentValue = Math.floor(progress * target);
+
+            // Met à jour le texte de l'élément avec la valeur actuelle
+            // Le "+" après le chiffre donne "20+", "15+", etc.
+            element.textContent = currentValue + "+";
+
+            // Si l'animation n'est pas terminée, demande une nouvelle frame
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                // Animation terminée : affiche la valeur finale exacte
+                element.textContent = target + "+";
+            }
+        }
+
+        // Lance la boucle d'animation
+        requestAnimationFrame(step);
+    }
+
+    // Crée un Observer pour déclencher les compteurs quand la section profil est visible
+    const statsObserver = new IntersectionObserver(
+        function (entries) {
+            entries.forEach(function (entry) {
+                // Vérifie si les stats sont visibles
+                if (entry.isIntersecting) {
+                    // Récupère tous les éléments de statistiques
+                    const statNumbers = entry.target.querySelectorAll(".profil-stat-number");
+
+                    // Lance l'animation de compteur pour chaque stat
+                    statNumbers.forEach(function (el) {
+                        // Lit la valeur cible depuis l'attribut data-count
+                        const target = parseInt(el.getAttribute("data-count"), 10);
+                        // Lance l'animation (durée : 1800ms = 1.8 secondes)
+                        animateCounter(el, target, 1800);
+                    });
+
+                    // N'anime qu'une seule fois
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        },
+        {
+            threshold: 0.5, // L'animation se déclenche quand 50% des stats est visible
+        }
+    );
+
+    // Observe le conteneur des statistiques de profil
+    const profilStats = document.querySelector(".profil-stats");
+    if (profilStats) {
+        statsObserver.observe(profilStats);
+    }
+
+
+    /**
+     * =============================================
+     *  4. FILTRE DES PROJETS PAR CATÉGORIE
+     *  
+     *  Les boutons .filter-btn ont un attribut data-filter 
+     *  (ex: data-filter="web" ou data-filter="all").
+     *  Au clic, on compare ce filtre avec l'attribut data-category
+     *  de chaque .projet-card et on affiche/cache les cartes.
+     * =============================================
+     */
+
+    // Sélectionne tous les boutons de filtre
+    const filterBtns = document.querySelectorAll(".filter-btn");
+    // Sélectionne toutes les cartes de projets
+    const projetCards = document.querySelectorAll(".projet-card");
+
+    // Ajoute un écouteur de clic sur chaque bouton de filtre
+    filterBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+
+            // === Gestion de l'état actif des boutons ===
+
+            // Retire la classe "active" de tous les boutons
+            filterBtns.forEach(function (b) {
+                b.classList.remove("active");
+            });
+            // Ajoute "active" uniquement au bouton cliqué
+            this.classList.add("active");
+
+            // Lit le filtre du bouton cliqué (ex: "web", "mobile", "all")
+            const filter = this.getAttribute("data-filter");
+
+            // === Filtrage des cartes ===
+
+            // Compteur pour les délais d'animation échelonnés
+            let visibleIndex = 0;
+
+            // Parcourt toutes les cartes de projets
+            projetCards.forEach(function (card) {
+                // Lit la catégorie de cette carte (ex: "web", "reseau")
+                const cardCategory = card.getAttribute("data-category");
+
+                // Détermine si cette carte doit être affichée
+                // "all" : toutes les cartes visibles
+                // sinon : seulement les cartes dont la catégorie correspond au filtre
+                const shouldShow = filter === "all" || cardCategory === filter;
+
+                if (shouldShow) {
+                    // === Affiche la carte ===
+
+                    // Retire la classe "hidden" pour la remettre dans le flux
+                    card.classList.remove("hidden");
+
+                    // Remet à 0 l'opacité et le décalage pour ré-animer l'apparition
+                    card.style.opacity = "0";
+                    card.style.transform = "translateY(20px)";
+
+                    // Délai progressif : les cartes apparaissent en cascade
+                    // visibleIndex * 80 : 0ms, 80ms, 160ms, 240ms, ...
+                    setTimeout(function () {
+                        card.style.opacity = "1";
+                        card.style.transform = "translateY(0)";
+                        card.style.transition = "opacity 0.4s ease, transform 0.4s ease";
+                    }, visibleIndex * 80);
+
+                    // Incrémente le compteur de cartes visibles
+                    visibleIndex++;
+                } else {
+                    // === Cache la carte ===
+
+                    // Transition de sortie : devient transparent puis s'enlève du flux
+                    card.style.opacity = "0";
+                    card.style.transform = "scale(0.95)";
+                    card.style.transition = "opacity 0.25s ease, transform 0.25s ease";
+
+                    // Après la transition (250ms), ajoute "hidden" pour sortir du flux
+                    setTimeout(function () {
+                        card.classList.add("hidden");
+                    }, 250);
+                }
+            });
+        });
+    });
+
+
+    /**
+     * =============================================
+     *  5. BOUTON "RETOUR EN HAUT" (BACK TO TOP)
+     *  
+     *  Le bouton .back-top-btn apparaît quand l'utilisateur 
+     *  a défilé de plus de 400px vers le bas.
+     *  Il utilise la classe "visible" définie dans le CSS existant.
+     * =============================================
+     */
+
+    // Récupère le bouton de retour en haut
+    const backTopBtn = document.querySelector(".back-top-btn");
+
+    // Si le bouton existe dans la page
+    if (backTopBtn) {
+        // Écoute l'événement scroll de la fenêtre
+        window.addEventListener("scroll", function () {
+            // Si la position verticale de scroll dépasse 400px
+            if (window.scrollY > 400) {
+                // Affiche le bouton en ajoutant la classe "visible"
+                backTopBtn.classList.add("visible");
+            } else {
+                // Cache le bouton
+                backTopBtn.classList.remove("visible");
+            }
+        });
+    }
+
+
+    /**
+     * =============================================
+     *  6. ANIMATION DE LA SECTION PROFIL AU CHARGEMENT
+     *  
+     *  Les éléments du profil apparaissent en séquence (en cascade)
+     *  quand la section entre dans le viewport.
+     * =============================================
+     */
+
+    // Sélectionne les éléments principaux du profil à animer en séquence
+    const profilElements = [
+        ".profil-image-frame",   // 1. L'image apparaît en premier
+        ".profil-stats",          // 2. Les statistiques
+        ".profil-greeting",       // 3. Le titre de bienvenue
+        ".profil-role",           // 4. Le rôle professionnel
+        ".profil-bio",            // 5. Les paragraphes de bio (tous)
+        ".profil-details",        // 6. Les informations personnelles
+        ".profil-actions",        // 7. Les boutons CTA en dernier
+    ];
+
+    // Crée un Observer pour la section profil
+    const profilObserver = new IntersectionObserver(
+        function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    // Anime chaque élément du profil avec un délai progressif
+                    profilElements.forEach(function (selector, index) {
+                        // Récupère tous les éléments correspondant au sélecteur
+                        const elements = document.querySelectorAll(selector);
+                        elements.forEach(function (el) {
+                            // Délai croissant : chaque groupe attend 100ms de plus
+                            setTimeout(function () {
+                                // Ajoute la classe d'animation CSS
+                                el.classList.add("animate-in");
+                                // Enlève l'opacité 0 initiale
+                                el.style.opacity = "";
+                            }, index * 100 + 100);
+                        });
+                    });
+
+                    // Ne s'anime qu'une seule fois
+                    profilObserver.unobserve(entry.target);
+                }
+            });
+        },
+        { threshold: 0.1 }
+    );
+
+    // Observe la section profil entière
+    const profilSection = document.querySelector(".profil");
+    if (profilSection) {
+        profilObserver.observe(profilSection);
+
+        // Initialise les éléments du profil à opacity 0 pour l'animation d'entrée
+        profilElements.forEach(function (selector) {
+            document.querySelectorAll(selector).forEach(function (el) {
+                el.style.opacity = "0";
+            });
+        });
+    }
+
+}); // Fin du DOMContentLoaded
