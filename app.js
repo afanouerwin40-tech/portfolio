@@ -1,187 +1,315 @@
+// =============================================
+// 1. INITIALISATION EMAILJS
+// =============================================
+
+// Fonction auto-exécutée qui s'exécute immédiatement
+(function () {
+  // Initialise EmailJS avec la clé publique
+  // Cette clé permet d'utiliser les services EmailJS pour envoyer des emails
+  // NPTTZpxvjTvMm7h_5 est la clé d'identification du compte
+  emailjs.init("NPTTZpxvjTvMm7h_5");
+})();
+
 /**
  * =============================================
- *  MENU BURGER 
+ *  MENU BURGER (Navigation mobile)
  * =============================================
  */
-document.addEventListener('DOMContentLoaded', () => {
-    const menuToggle = document.querySelector('.menu-toggle');
-    const mainNav = document.querySelector('.main-nav');
-    const navLinks = document.querySelectorAll('.nav-link');
 
-    if (menuToggle && mainNav) {
-        menuToggle.addEventListener('click', () => {
-            const expanded = menuToggle.getAttribute('aria-expanded') === 'true' ? false : true;
-            menuToggle.setAttribute('aria-expanded', expanded);
-            mainNav.classList.toggle('active');
-            document.body.style.overflow = expanded ? 'hidden' : '';
-        });
+// Écoute l'événement DOMContentLoaded qui se déclenche quand le DOM est chargé
+document.addEventListener("DOMContentLoaded", () => {
+  // Sélectionne le bouton du menu burger (les 3 barres)
+  const menuToggle = document.querySelector(".menu-toggle");
+  // Sélectionne la navigation principale
+  const mainNav = document.querySelector(".main-nav");
+  // Sélectionne tous les liens de navigation
+  const navLinks = document.querySelectorAll(".nav-link");
 
-        // Fermer en cliquant sur un lien
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                menuToggle.setAttribute('aria-expanded', 'false');
-                mainNav.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-        });
-
-        // Fermer en cliquant à l'extérieur
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.navbar') && mainNav.classList.contains('active')) {
-                menuToggle.setAttribute('aria-expanded', 'false');
-                mainNav.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-    }
-
-    /**
-     * =============================================
-     *  NAVIGATION ACTIVE AU SCROLL
-     * =============================================
-     */
-    const sections = document.querySelectorAll('section[id]');
-    const navLinksAll = document.querySelectorAll('.nav-link');
-
-    window.addEventListener('scroll', () => {
-        let current = '';
-        sections.forEach(section => {
-            const top = section.offsetTop - 120;
-            if (window.scrollY >= top) {
-                current = section.getAttribute('id');
-            }
-        });
-
-        navLinksAll.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === '#' + current) {
-                link.classList.add('active');
-            }
-        });
+  // Vérifie que le menuToggle et mainNav existent dans la page
+  if (menuToggle && mainNav) {
+    // Ajoute un écouteur de clic sur le bouton burger
+    menuToggle.addEventListener("click", () => {
+      // Inverse l'état du menu : s'il est ouvert on le ferme, et inversement
+      // aria-expanded est un attribut d'accessibilité
+      const expanded =
+        menuToggle.getAttribute("aria-expanded") === "true" ? false : true;
+      // Met à jour l'attribut d'accessibilité
+      menuToggle.setAttribute("aria-expanded", expanded);
+      // Active/désactive la classe 'active' qui affiche ou cache le menu
+      mainNav.classList.toggle("active");
+      // Bloque ou débloque le scroll de la page quand le menu est ouvert
+      document.body.style.overflow = expanded ? "hidden" : "";
     });
 
-    /**
-     * =============================================
-     *  BOUTON RETOUR EN HAUT
-     * =============================================
-     */
-    const backBtn = document.querySelector('.back-top-btn');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 500) {
-            backBtn?.classList.add('visible');
-        } else {
-            backBtn?.classList.remove('visible');
-        }
+    // Fermer le menu en cliquant sur un lien de navigation
+    navLinks.forEach((link) => {
+      // Pour chaque lien, ajoute un écouteur de clic
+      link.addEventListener("click", () => {
+        // Ferme le menu en passant aria-expanded à false
+        menuToggle.setAttribute("aria-expanded", "false");
+        // Enlève la classe active du menu
+        mainNav.classList.remove("active");
+        // Réactive le scroll de la page
+        document.body.style.overflow = "";
+      });
     });
 
-    /**
-     * =============================================
-     *  FORMULAIRES (contact + newsletter)
-     * =============================================
-     */
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+    // Fermer le menu en cliquant à l'extérieur du menu/navbar
+    document.addEventListener("click", (e) => {
+      // Vérifie si le clic n'est pas sur un élément de la navbar ET que le menu est ouvert
+      if (
+        !e.target.closest(".navbar") &&
+        mainNav.classList.contains("active")
+      ) {
+        // Alors on ferme le menu
+        menuToggle.setAttribute("aria-expanded", "false");
+        mainNav.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+    });
+  }
 
-            // Validation basique
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const subject = document.getElementById('subject').value.trim();
-            const message = document.getElementById('message').value.trim();
+  /**
+   * =============================================
+   *  NAVIGATION ACTIVE AU SCROLL
+   *  Met en surbrillance le lien de la section visible
+   * =============================================
+   */
 
-            let valid = true;
-            if (name.length < 2) {
-                showError('name', 'Le nom doit contenir au moins 2 caractères');
-                valid = false;
-            } else clearError('name');
+  // Récupère toutes les sections qui ont un attribut id
+  const sections = document.querySelectorAll("section[id]");
+  // Récupère tous les liens de navigation
+  const navLinksAll = document.querySelectorAll(".nav-link");
 
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                showError('email', 'Veuillez entrer un email valide');
-                valid = false;
-            } else clearError('email');
+  // Ajoute un écouteur sur l'événement scroll de la fenêtre
+  window.addEventListener("scroll", () => {
+    // Variable pour stocker l'ID de la section actuellement visible
+    let current = "";
 
-            if (subject.length < 5) {
-                showError('subject', 'Le sujet doit contenir au moins 5 caractères');
-                valid = false;
-            } else clearError('subject');
+    // Parcourt toutes les sections
+    sections.forEach((section) => {
+      // Récupère la position de la section (offsetTop) moins un décalage de 120px
+      const top = section.offsetTop - 120;
+      // Si la position de scroll dépasse la position de la section
+      if (window.scrollY >= top) {
+        // Alors on stocke l'ID de cette section
+        current = section.getAttribute("id");
+      }
+    });
 
-            if (message.length < 10) {
-                showError('message', 'Le message doit contenir au moins 10 caractères');
-                valid = false;
-            } else clearError('message');
+    // Parcourt tous les liens de navigation
+    navLinksAll.forEach((link) => {
+      // Enlève la classe 'active' de tous les liens
+      link.classList.remove("active");
+      // Si le href du lien correspond à l'ID de la section courante
+      if (link.getAttribute("href") === "#" + current) {
+        // Ajoute la classe 'active' pour le mettre en surbrillance
+        link.classList.add("active");
+      }
+    });
+  });
 
-            if (!valid) return;
+  /**
+   * =============================================
+   *  FORMULAIRES (contact + newsletter)
+   * =============================================
+   */
 
-            // Simulation d'envoi
-            const btn = contactForm.querySelector('.btn-submit');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
-            btn.disabled = true;
+  // ===== FORMULAIRE DE CONTACT =====
 
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-                contactForm.reset();
-                showToast('Message envoyé avec succès !', 'success');
-            }, 1500);
+  // Récupère le formulaire de contact par son ID
+  const contactForm = document.getElementById("contactForm");
+  // Vérifie si le formulaire existe
+  if (contactForm) {
+    // Ajoute un écouteur sur l'événement submit (envoi du formulaire)
+    contactForm.addEventListener("submit", function (e) {
+      // Empêche le rechargement de la page (comportement par défaut)
+      e.preventDefault();
+
+      // ===== VALIDATION DES CHAMPS =====
+
+      // Récupère les valeurs des champs et supprime les espaces inutiles (trim)
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const subject = document.getElementById("subject").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      // Variable pour savoir si tous les champs sont valides
+      let valid = true;
+
+      // Validation du nom : doit contenir au moins 2 caractères
+      if (name.length < 2) {
+        // Affiche un message d'erreur
+        showError("name", "Le nom doit contenir au moins 2 caractères");
+        // Marque comme invalide
+        valid = false;
+      } else {
+        // Efface le message d'erreur si le champ est valide
+        clearError("name");
+      }
+
+      // Validation de l'email avec une expression régulière
+      // Vérifie le format : texte@texte.texte
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showError("email", "Veuillez entrer un email valide");
+        valid = false;
+      } else clearError("email");
+
+      // Validation du sujet : au moins 5 caractères
+      if (subject.length < 5) {
+        showError("subject", "Le sujet doit contenir au moins 5 caractères");
+        valid = false;
+      } else clearError("subject");
+
+      // Validation du message : au moins 10 caractères
+      if (message.length < 10) {
+        showError("message", "Le message doit contenir au moins 10 caractères");
+        valid = false;
+      } else clearError("message");
+
+      // Si la validation échoue, on arrête l'exécution
+      if (!valid) return;
+
+      // ===== ENVOI VIA EMAILJS =====
+
+      // Récupère le bouton d'envoi du formulaire
+      const btn = contactForm.querySelector(".btn-submit");
+      // Sauvegarde le texte original du bouton
+      const originalText = btn.innerHTML;
+
+      // Modifie le bouton pour montrer une animation de chargement
+      btn.innerHTML =
+        '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+      // Désactive le bouton pour éviter les clics multiples
+      btn.disabled = true;
+
+      // Envoie l'email via EmailJS
+      emailjs
+        .send(
+          "service_5e4spo9", // ID du service EmailJS
+          "template_k8dg6wa", // ID du template d'email
+          {
+            from_name: name, // Nom de l'expéditeur
+            from_email: email, // Email de l'expéditeur
+            subject: subject, // Sujet
+            message: message, // Message
+          },
+        )
+        // Si l'envoi réussit
+        .then(function () {
+          // Restaure le bouton
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+
+          // Vide le formulaire
+          contactForm.reset();
+          // Affiche un message de succès
+          showToast("Message envoyé avec succès !", "success");
+        })
+        // Si l'envoi échoue
+        .catch(function (error) {
+          // Restaure le bouton
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+
+          // Affiche un message d'erreur
+          showToast("Erreur lors de l'envoi", "error");
+          // Affiche l'erreur dans la console (pour le développeur)
+          console.error("EmailJS Error:", error);
         });
-    }
+    });
+  }
 
-    // Newsletter
-    const newsletterForm = document.getElementById('newsletterForm');
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const input = this.querySelector('input');
-            if (input.value.trim()) {
-                showToast('Merci pour votre inscription !', 'info');
-                input.value = '';
-            }
-        });
-    }
+  // ===== FORMULAIRE NEWSLETTER =====
 
-    // Fonctions d'erreur
-    function showError(fieldId, message) {
-        const errorEl = document.getElementById(fieldId + 'Error');
-        if (errorEl) {
-            errorEl.textContent = message;
-            const input = document.getElementById(fieldId);
-            if (input) input.style.borderColor = '#ff6b6b';
-        }
-    }
+  // Récupère le formulaire de newsletter par son ID
+  const newsletterForm = document.getElementById("newsletterForm");
+  // Vérifie si le formulaire existe
+  if (newsletterForm) {
+    // Ajoute un écouteur sur l'événement submit
+    newsletterForm.addEventListener("submit", function (e) {
+      // Empêche le rechargement de la page
+      e.preventDefault();
+      // Récupère l'input du formulaire
+      const input = this.querySelector("input");
+      // Vérifie si l'input n'est pas vide
+      if (input.value.trim()) {
+        // Affiche un message de confirmation
+        showToast("Merci pour votre inscription !", "info");
+        // Vide le champ
+        input.value = "";
+      }
+    });
+  }
 
-    function clearError(fieldId) {
-        const errorEl = document.getElementById(fieldId + 'Error');
-        if (errorEl) {
-            errorEl.textContent = '';
-            const input = document.getElementById(fieldId);
-            if (input) input.style.borderColor = '';
-        }
-    }
+  // ===== FONCTIONS UTILITAIRES =====
 
-    // Toast
-    function showToast(message, type = 'info') {
-        const toast = document.getElementById('toast');
-        if (!toast) return;
-        const colors = {
-            success: '#4caf50',
-            error: '#f44336',
-            warning: '#ff9800',
-            info: '#00d4ff'
-        };
-        toast.textContent = message;
-        toast.style.borderColor = colors[type] || colors.info;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 5000);
+  // Fonction pour afficher un message d'erreur
+  function showError(fieldId, message) {
+    // Récupère l'élément d'erreur correspondant au champ
+    const errorEl = document.getElementById(fieldId + "Error");
+    // Si l'élément existe
+    if (errorEl) {
+      // Ajoute le message d'erreur
+      errorEl.textContent = message;
+      // Récupère l'input correspondant
+      const input = document.getElementById(fieldId);
+      // Si l'input existe, change la bordure en rouge
+      if (input) input.style.borderColor = "#ff6b6b";
     }
+  }
 
-    // Année dynamique
-    const yearSpan = document.getElementById('currentYear');
-    if (yearSpan) {
-        yearSpan.textContent = new Date().getFullYear();
+  // Fonction pour effacer un message d'erreur
+  function clearError(fieldId) {
+    // Récupère l'élément d'erreur correspondant au champ
+    const errorEl = document.getElementById(fieldId + "Error");
+    // Si l'élément existe
+    if (errorEl) {
+      // Vide le message d'erreur
+      errorEl.textContent = "";
+      // Récupère l'input correspondant
+      const input = document.getElementById(fieldId);
+      // Si l'input existe, remet la bordure par défaut
+      if (input) input.style.borderColor = "";
     }
+  }
 
-    // Exposer pour debug
-    window.showToast = showToast;
+  // Fonction pour afficher un toast (notification temporaire)
+  function showToast(message, type = "info") {
+    // Récupère l'élément toast
+    const toast = document.getElementById("toast");
+    // Si l'élément n'existe pas, on arrête
+    if (!toast) return;
+
+    // Définit les couleurs selon le type de message
+    const colors = {
+      success: "#4caf50", // Vert pour succès
+      error: "#f44336", // Rouge pour erreur
+      warning: "#ff9800", // Orange pour avertissement
+      info: "#00d4ff", // Bleu pour information
+    };
+
+    // Ajoute le message dans le toast
+    toast.textContent = message;
+    // Change la couleur de bordure selon le type
+    toast.style.borderColor = colors[type] || colors.info;
+    // Affiche le toast en ajoutant la classe 'show'
+    toast.classList.add("show");
+    // Cache le toast après 5 secondes
+    setTimeout(() => toast.classList.remove("show"), 5000);
+  }
+
+  // ===== FOOTER : ANNÉE DYNAMIQUE =====
+
+  // Récupère l'élément qui contient l'année
+  const yearSpan = document.getElementById("currentYear");
+  // Si l'élément existe
+  if (yearSpan) {
+    // Remplace le contenu par l'année en cours
+    yearSpan.textContent = new Date().getFullYear();
+  }
+
+  // Expose la fonction showToast globalement pour le débogage
+  // Permet d'appeler showToast depuis la console du navigateur
+  window.showToast = showToast;
 });
