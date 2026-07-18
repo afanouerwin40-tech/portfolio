@@ -1,46 +1,122 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Erwin.dev – Portfolio</title>
+    <title>Erwin Afanou — Développeur Full-Stack & Réseaux | Lomé, Togo</title>
+    <meta name="description"
+        content="Erwin Afanou, développeur full-stack et étudiant en infrastructure réseau à Lomé, Togo. Applications web, bases de données, VLAN, routage OSPF et sécurité réseau." />
 
-    <!-- ===== STYLES EXTERNES ===== -->
+    <!-- Open Graph -->
+    <meta property="og:title" content="Erwin Afanou — Développeur Full-Stack & Réseaux" />
+    <meta property="og:description" content="Une idée. Une architecture. Une mise en production." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="photo.jpeg" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Erwin Afanou — Développeur Full-Stack & Réseaux" />
+    <meta name="twitter:description" content="Une idée. Une architecture. Une mise en production." />
+
+    <link rel="canonical" href="https://erwin.dev/" />
+
+    <!-- ===== STYLES ===== -->
     <link rel="stylesheet" href="style.css" />
-
-    <!-- ===== FONT AWESOME & DEVIcons ===== -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-</head>
-<body>
 
-    <!-- ===== VIDÉO DE FOND (optionnelle) ===== -->
-    <div class="video-background">
-        <video autoplay muted loop playsinline>
-            <source src="galaxy.mp4" type="video/mp4" />
-        </video>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ink: {
+                            950: "#0A0D12",
+                            900: "#12161D",
+                            850: "#161B24",
+                            800: "#1B212B",
+                            700: "#262E3A",
+                        },
+                        line: "#232B36",
+                        signal: {
+                            DEFAULT: "#4FA8FF",
+                            dim: "#2E6FB0",
+                            soft: "rgba(79,168,255,0.12)",
+                        },
+                        amber: "#FFB454",
+                        paper: { DEFAULT: "#E7ECF2", dim: "#C4CCD6" },
+                        muted: { DEFAULT: "#7C8797", 2: "#5A6472" },
+                    },
+                    fontFamily: {
+                        display: ["Space Grotesk", "sans-serif"],
+                        mono: ["IBM Plex Mono", "monospace"],
+                    },
+                },
+            },
+        };
+    </script>
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Erwin Afanou",
+            "jobTitle": "Développeur Full-Stack & Infrastructure Réseau",
+            "url": "https://erwin.dev",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Lomé",
+                "addressCountry": "TG"
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <!-- ===== PRELOADER ===== -->
+    <div class="preloader" id="preloader" aria-hidden="true">
+        <div class="preloader-logo"><span>&lt;/&gt;</span> Erwin.dev</div>
+        <div class="preloader-bar">
+            <div class="preloader-bar-fill" id="preloaderBarFill"></div>
+        </div>
+        <div class="preloader-status" id="preloaderStatus">Initialisation du système...</div>
     </div>
 
-    <!-- ===== HEADER (Erwin.dev) ===== -->
-    <header class="navbar">
+    <!-- ===== BACKBONE ===== -->
+    <div class="backbone" aria-hidden="true">
+        <div class="backbone-fill" id="backboneFill"></div>
+        <span class="node-marker" style="top: 0%" data-node="accueil"></span>
+        <span class="node-marker" style="top: 20%" data-node="profil"></span>
+        <span class="node-marker" style="top: 45%" data-node="projets"></span>
+        <span class="node-marker" style="top: 70%" data-node="competences"></span>
+        <span class="node-marker" style="top: 92%" data-node="contact"></span>
+    </div>
+    <a href="#accueil"><span class="node-label" style="top: 0%" data-node="accueil">ACCUEIL</span></a>
+    <a href="#profil"><span class="node-label" style="top: 20%" data-node="profil">PROFIL</span></a>
+    <a href="#projets"><span class="node-label" style="top: 45%" data-node="projets">PROJETS</span></a>
+    <a href="#competences"><span class="node-label" style="top: 70%" data-node="competences">STACK</span></a>
+    <a href="#contact"><span class="node-label" style="top: 92%" data-node="contact">CONTACT</span></a>
+
+    <!-- ===== NAVBAR ===== -->
+    <header class="navbar" id="navbar">
         <div class="container">
             <div class="logo">
                 <span class="code-symbol">&lt;</span>/<span class="code-symbol">&gt;</span>
                 <span class="name">Erwin</span>
                 <span class="dev">.dev</span>
             </div>
-
-            <button class="menu-toggle" aria-label="Menu" aria-expanded="false">
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">
                 <span class="hamburger"></span>
             </button>
-
-            <nav class="main-nav">
+            <nav class="main-nav" id="mainNav">
                 <ul class="nav-links">
                     <li><a href="#accueil" class="nav-link active">Accueil</a></li>
                     <li><a href="#profil" class="nav-link">Profil</a></li>
                     <li><a href="#projets" class="nav-link">Projets</a></li>
-                    <li><a href="#competences" class="nav-link">Compétences</a></li>
+                    <li><a href="#competences" class="nav-link">Stack</a></li>
                     <li><a href="#contact" class="nav-link">Contact</a></li>
                 </ul>
             </nav>
@@ -48,71 +124,690 @@
     </header>
 
     <main>
-
-        <!-- ===== SECTION HERO ===== -->
+        <!-- ===== HERO ===== -->
         <section id="accueil" class="hero">
             <div class="container">
                 <div class="hero-content">
-                    <!-- Texte à gauche -->
                     <div class="hero-text">
-                        <h1 class="hero-title">
-                            <span class="highlight">Développeur</span> Full-Stack <span class="highlight">&</span>
-                            Createur <span class="highlight">Tech</span>
+                        <div class="hero-status">
+                            <span class="dot"></span>
+                            SYSTEM.STATUS → DISPONIBLE POUR MISSIONS FREELANCE
+                        </div>
+                        <h1 class="hero-title" data-reveal data-reveal-from="left">
+                            Je construis des applications web
+                            <span class="highlight">et</span>
+                            les réseaux qui les font tenir debout.
                         </h1>
-
-                        <p class="hero-description">
-                            Je transforme vos idées en réalité digitale.
+                        <p class="hero-description" data-reveal data-reveal-from="left" data-reveal-delay="1">
+                            Développeur full-stack à Lomé, formé aussi à l'infrastructure
+                            réseau — VLAN, routage, sécurité. Je ne me contente pas de
+                            livrer une interface : je pense la chaîne complète, du
+                            navigateur au câble.
                         </p>
-
-                        <div class="hero-cta">
-                            <a href="#projets" class="btn btn-secondary">
-                                <i class="fas fa-briefcase"></i> Voir mes projets
+                        <div class="hero-cta" data-reveal data-reveal-from="left" data-reveal-delay="2">
+                            <a href="#projets" class="btn btn-primary">
+                                <i class="fas fa-terminal"></i> Voir mes projets
+                            </a>
+                            <a href="#contact" class="btn btn-secondary">
+                                <i class="fas fa-paper-plane"></i> Discuter d'un projet
                             </a>
                         </div>
                     </div>
-
-                    <!-- Image à droite -->
-                    <div class="hero-image">
+                    <div class="hero-image" data-reveal data-reveal-from="right" data-reveal-delay="1">
                         <div class="image-frame">
-                            <img
-                                src="https://via.placeholder.com/400/0b0d15/00d4ff?text=Erwin"
-                                alt="Erwin"
-                                width="400"
-                                height="400"
-                                loading="eager"
-                            />
+                            <img src="photo.jpeg" alt="Erwin Afanou" width="400" height="400" loading="eager" />
                             <div class="image-glow"></div>
                         </div>
                         <div class="image-badge">
-                            <span class="badge-text">En ligne</span> 
-                            <div class="pulse"></div>
-                            <span class="badge-text">En prod</span> 
-                            <div class="pulse-1"></div>
+                            <div class="badge-row">
+                                <span>STATUT</span><strong style="color: var(--green)"><span class="pulse-dot"
+                                        style="display: inline-block; margin-right: 6px"></span>En ligne</strong>
+                            </div>
+                            <div class="badge-row">
+                                <span>BASE</span><strong>Lomé, TG</strong>
+                            </div>
+                            <div class="badge-row">
+                                <span>STACK</span><strong>Full-Stack</strong>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ===== SECTION CONTACT ===== -->
-        <section id="contact" class="contact">
+        <!-- ===== PROFIL ===== -->
+        <section id="profil" class="profil">
             <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Contact</h2>
-                    <p class="section-subtitle">Parlons de votre projet</p>
-                    <div class="title-decoration"></div>
+                <div class="section-header" data-reveal>
+                    <span class="section-eyebrow">NODE_01</span>
+                    <h2 class="section-title">Profil</h2>
+                    <p class="section-subtitle">Qui je suis et comment je travaille.</p>
+                </div>
+                <div class="profil-wrapper">
+                    <div class="profil-image-col" data-reveal data-reveal-from="left">
+                        <div class="profil-image-frame">
+                            <img src="photo.jpeg" alt="Photo de profil d'Erwin Afanou" class="profil-img"
+                                loading="lazy" />
+                            <div class="profil-image-glow"></div>
+                            <div class="profil-badge">
+                                <span class="profil-badge-number">3+</span>
+                                <span class="profil-badge-label">ans d'expérience</span>
+                            </div>
+                        </div>
+                        <div class="profil-stats">
+                            <div class="profil-stat">
+                                <span class="profil-stat-number" data-count="5">0</span>
+                                <span class="profil-stat-label">Projets</span>
+                            </div>
+                            <div class="profil-stat">
+                                <span class="profil-stat-number" data-count="10">0</span>
+                                <span class="profil-stat-label">Clients</span>
+                            </div>
+                            <div class="profil-stat">
+                                <span class="profil-stat-number" data-count="8">0</span>
+                                <span class="profil-stat-label">Technos</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profil-content" data-reveal data-reveal-from="right" data-reveal-delay="1">
+                        <h3 class="profil-greeting">
+                            Bonjour, je suis <span class="highlight">Erwin Afanou</span>
+                        </h3>
+                        <p class="profil-role">
+                            <i class="fas fa-code-branch"></i>
+                            Développeur Full-Stack & Infrastructure Réseau
+                        </p>
+                        <p class="profil-bio">
+                            Passionné par la technologie et l'innovation, je suis étudiant
+                            en <strong>Informatique</strong> avec une expertise en
+                            développement web et infrastructure réseau. Je conçois des
+                            solutions digitales complètes, du frontend attractif au backend
+                            robuste.
+                        </p>
+                        <p class="profil-bio">
+                            Mon approche combine <strong>créativité</strong> et
+                            <strong>rigueur technique</strong>
+                            pour livrer des applications performantes, intuitives et
+                            adaptées aux besoins réels. Chaque projet est une opportunité de
+                            repousser les limites du possible.
+                        </p>
+                        <ul class="profil-details">
+                            <li class="profil-detail-item">
+                                <span class="detail-icon"><i class="fas fa-map-marker-alt"></i></span>
+                                <span class="detail-label">Localisation</span>
+                                <span class="detail-value">Lomé, Togo</span>
+                            </li>
+                            <li class="profil-detail-item">
+                                <span class="detail-icon"><i class="fas fa-graduation-cap"></i></span>
+                                <span class="detail-label">Formation</span>
+                                <span class="detail-value">Licence en Informatique</span>
+                            </li>
+                            <li class="profil-detail-item">
+                                <span class="detail-icon"><i class="fas fa-briefcase"></i></span>
+                                <span class="detail-label">Disponible</span>
+                                <span class="detail-value highlight">Freelance & Collaboration</span>
+                            </li>
+                            <li class="profil-detail-item">
+                                <span class="detail-icon"><i class="fas fa-language"></i></span>
+                                <span class="detail-label">Langues</span>
+                                <span class="detail-value">Français, Anglais (technique)</span>
+                            </li>
+                        </ul>
+                        <div class="profil-actions">
+                            <a href="cv.pdf" download class="btn btn-primary">
+                                <i class="fas fa-download"></i> Télécharger mon CV
+                            </a>
+                            <a href="#contact" class="btn btn-secondary">
+                                <i class="fas fa-paper-plane"></i> Me contacter
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PROJETS ===== -->
+        <section id="projets" class="projets">
+            <div class="container">
+                <div class="section-header" data-reveal>
+                    <span class="section-eyebrow">NODE_02</span>
+                    <h2 class="section-title">Projets</h2>
+                    <p class="section-subtitle">Des systèmes que j'ai conçus, du schéma de base de données à
+                        l'interface.</p>
+                </div>
+                <div class="projets-filters" data-reveal>
+                    <button class="filter-btn active" data-filter="all">Tous</button>
+                    <button class="filter-btn" data-filter="web">Web</button>
+                    <button class="filter-btn" data-filter="mobile">Mobile</button>
+                    <button class="filter-btn" data-filter="reseau">Réseau</button>
+                </div>
+                <div class="projets-grid">
+                    <!-- Projet 1 -->
+                    <div class="projet-card" data-category="web" data-reveal>
+                        <div class="projet-image">
+                            <img src="projet1.png" alt="Capture d'écran du projet BiblioExcellence" loading="lazy" />
+                            <div class="projet-overlay">
+                                <a href="https://github.com/erwin/biblioexcellence" target="_blank"
+                                    rel="noopener noreferrer" class="projet-overlay-btn">
+                                    <i class="fab fa-github"></i> Code source
+                                </a>
+                                <a href="https://biblioexcellence.vercel.app" target="_blank" rel="noopener noreferrer"
+                                    class="projet-overlay-btn projet-overlay-btn--primary">
+                                    <i class="fas fa-external-link-alt"></i> Voir en ligne
+                                </a>
+                            </div>
+                        </div>
+                        <div class="projet-body">
+                            <span class="projet-category-badge">Application Web</span>
+                            <h3 class="projet-name">BiblioExcellence</h3>
+                            <p class="projet-description">Système de gestion de bibliothèque universitaire permettant la
+                                gestion des emprunts, retours, et du catalogue d'ouvrages.</p>
+                            <div class="projet-techs">
+                                <span class="tech-tag"><i class="devicon-html5-plain colored"></i> HTML</span>
+                                <span class="tech-tag"><i class="devicon-css3-plain colored"></i> CSS</span>
+                                <span class="tech-tag"><i class="devicon-javascript-plain colored"></i>
+                                    JavaScript</span>
+                                <span class="tech-tag"><i class="devicon-php-plain colored"></i> PHP</span>
+                                <span class="tech-tag"><i class="devicon-mysql-plain colored"></i> MySQL</span>
+                            </div>
+                            <div class="projet-divider"></div>
+                            <div class="projet-actions">
+                                <a href="https://github.com/erwin/biblioexcellence" target="_blank"
+                                    rel="noopener noreferrer" class="projet-btn projet-btn--github">
+                                    <i class="fab fa-github"></i><span>GitHub</span>
+                                </a>
+                                <a href="https://biblioexcellence.vercel.app" target="_blank" rel="noopener noreferrer"
+                                    class="projet-btn projet-btn--live">
+                                    <i class="fas fa-rocket"></i><span>Voir en ligne</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projet 2 -->
+                    <div class="projet-card" data-category="web" data-reveal data-reveal-delay="1">
+                        <div class="projet-image">
+                            <img src="projet2.png" alt="Capture du projet Cotisation App" loading="lazy" />
+                            <div class="projet-overlay">
+                                <a href="https://github.com/erwin/cotisation-app" target="_blank"
+                                    rel="noopener noreferrer" class="projet-overlay-btn">
+                                    <i class="fab fa-github"></i> Code source
+                                </a>
+                                <a href="https://cotisation.vercel.app" target="_blank" rel="noopener noreferrer"
+                                    class="projet-overlay-btn projet-overlay-btn--primary">
+                                    <i class="fas fa-external-link-alt"></i> Voir en ligne
+                                </a>
+                            </div>
+                        </div>
+                        <div class="projet-body">
+                            <span class="projet-category-badge">Application Web</span>
+                            <h3 class="projet-name">Cotisation Manager</h3>
+                            <p class="projet-description">Application de gestion des cotisations de groupe avec logique
+                                d'exemption intelligente basée sur les anniversaires.</p>
+                            <div class="projet-techs">
+                                <span class="tech-tag"><i class="devicon-php-plain colored"></i> PHP</span>
+                                <span class="tech-tag"><i class="devicon-javascript-plain colored"></i>
+                                    JavaScript</span>
+                                <span class="tech-tag"><i class="devicon-html5-plain colored"></i> HTML</span>
+                                <span class="tech-tag"><i class="devicon-css3-plain colored"></i> CSS</span>
+                                <span class="tech-tag"><i class="devicon-mysql-plain colored"></i> MySQL</span>
+                            </div>
+                            <div class="projet-divider"></div>
+                            <div class="projet-actions">
+                                <a href="https://github.com/erwin/cotisation-app" target="_blank"
+                                    rel="noopener noreferrer" class="projet-btn projet-btn--github">
+                                    <i class="fab fa-github"></i><span>GitHub</span>
+                                </a>
+                                <a href="https://cotisation.vercel.app" target="_blank" rel="noopener noreferrer"
+                                    class="projet-btn projet-btn--live">
+                                    <i class="fas fa-rocket"></i><span>Voir en ligne</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projet 3 -->
+                    <div class="projet-card" data-category="web" data-reveal data-reveal-delay="2">
+                        <div class="projet-image">
+                            <img src="projet3.png" alt="Capture du portfolio Erwin.dev" loading="lazy" />
+                            <div class="projet-overlay">
+                                <a href="https://github.com/erwin/portfolio" target="_blank" rel="noopener noreferrer"
+                                    class="projet-overlay-btn">
+                                    <i class="fab fa-github"></i> Code source
+                                </a>
+                                <a href="https://erwin.dev" target="_blank" rel="noopener noreferrer"
+                                    class="projet-overlay-btn projet-overlay-btn--primary">
+                                    <i class="fas fa-external-link-alt"></i> Voir en ligne
+                                </a>
+                            </div>
+                        </div>
+                        <div class="projet-body">
+                            <span class="projet-category-badge">Portfolio</span>
+                            <h3 class="projet-name">Erwin.dev — Portfolio</h3>
+                            <p class="projet-description">Portfolio personnel avec identité "backbone réseau",
+                                animations pilotées par le scroll et formulaire de contact EmailJS.</p>
+                            <div class="projet-techs">
+                                <span class="tech-tag"><i class="devicon-html5-plain colored"></i> HTML</span>
+                                <span class="tech-tag"><i class="devicon-css3-plain colored"></i> CSS</span>
+                                <span class="tech-tag"><i class="devicon-javascript-plain colored"></i>
+                                    JavaScript</span>
+                                <span class="tech-tag"><i class="fas fa-envelope-open-text"></i> EmailJS</span>
+                            </div>
+                            <div class="projet-divider"></div>
+                            <div class="projet-actions">
+                                <a href="https://github.com/erwin/portfolio" target="_blank" rel="noopener noreferrer"
+                                    class="projet-btn projet-btn--github">
+                                    <i class="fab fa-github"></i><span>GitHub</span>
+                                </a>
+                                <a href="https://erwin.dev" target="_blank" rel="noopener noreferrer"
+                                    class="projet-btn projet-btn--live">
+                                    <i class="fas fa-rocket"></i><span>Voir en ligne</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projet 4 -->
+                    <div class="projet-card" data-category="reseau" data-reveal data-reveal-delay="3">
+                        <div class="projet-image">
+                            <img src="projet4.png" alt="Infrastructure réseau simulée" loading="lazy" />
+                            <div class="projet-overlay">
+                                <a href="https://github.com/erwin/network-infra" target="_blank"
+                                    rel="noopener noreferrer" class="projet-overlay-btn">
+                                    <i class="fab fa-github"></i> Code source
+                                </a>
+                                <a href="#" class="projet-overlay-btn projet-overlay-btn--primary">
+                                    <i class="fas fa-file-pdf"></i> Rapport PDF
+                                </a>
+                            </div>
+                        </div>
+                        <div class="projet-body">
+                            <span class="projet-category-badge">Réseau & Infra</span>
+                            <h3 class="projet-name">Infrastructure Réseau LAN</h3>
+                            <p class="projet-description">Conception et simulation d'une infrastructure réseau LAN
+                                d'entreprise avec VLAN, routage OSPF, configuration de pare-feu.</p>
+                            <div class="projet-techs">
+                                <span class="tech-tag"><i class="fas fa-network-wired"></i> Cisco IOS</span>
+                                <span class="tech-tag"><i class="fas fa-project-diagram"></i> Packet Tracer</span>
+                                <span class="tech-tag"><i class="fas fa-shield-alt"></i> Firewall</span>
+                                <span class="tech-tag"><i class="fas fa-server"></i> VLAN</span>
+                            </div>
+                            <div class="projet-divider"></div>
+                            <div class="projet-actions">
+                                <a href="https://github.com/erwin/network-infra" target="_blank"
+                                    rel="noopener noreferrer" class="projet-btn projet-btn--github">
+                                    <i class="fab fa-github"></i><span>GitHub</span>
+                                </a>
+                                <a href="#" class="projet-btn projet-btn--live">
+                                    <i class="fas fa-file-pdf"></i><span>Rapport</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== COMPÉTENCES ===== -->
+        <section id="competences" class="competences">
+            <div class="container">
+                <div class="section-header" data-reveal>
+                    <span class="section-eyebrow">NODE_03</span>
+                    <h2 class="section-title">Stack technique</h2>
+                    <p class="section-subtitle">Les outils que j'utilise, classés par couche — du navigateur au câble
+                        réseau.</p>
                 </div>
 
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <!-- ===== FRONTEND ===== -->
+                    <div class="rounded-[10px] border border-line bg-ink-900 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-signal-dim"
+                        data-reveal>
+                        <div class="mb-5 flex items-center gap-3">
+                            <div
+                                class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-md bg-signal-soft text-signal">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <h3 class="font-display text-lg font-semibold text-paper">Frontend</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <!-- HTML5 -->
+                            <span class="skill-tag" data-name="HTML5" data-type="Langage de balisage"
+                                data-creator="WHATWG / W3C" data-year="2014" data-level="Maîtrise · 8.5/10"
+                                data-desc="Langage de balisage standard pour la structure des pages web. Sémantique HTML5, accessibilité (ARIA), SEO, formulaires avancés, et intégration multimédia.">
+                                <span class="skill-icon"><i class="devicon-html5-plain colored"></i></span>
+                                HTML5
+                                <span class="skill-dots"><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot"></span></span>
+                            </span>
+
+                            <!-- CSS3 -->
+                            <span class="skill-tag" data-name="CSS3" data-type="Langage de style" data-creator="W3C"
+                                data-year="1999" data-level="Maîtrise · 8/10"
+                                data-desc="Langage de style pour la présentation et la mise en page. Flexbox, Grid, animations CSS, transitions, responsive design, variables CSS.">
+                                <span class="skill-icon"><i class="devicon-css3-plain colored"></i></span>
+                                CSS3
+                                <span class="skill-dots"><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot"></span></span>
+                            </span>
+
+                            <!-- Bootstrap -->
+                            <span class="skill-tag" data-name="Bootstrap" data-type="Framework CSS"
+                                data-creator="Mark Otto & Jacob Thornton (Twitter)" data-year="2011"
+                                data-level="Maîtrise · 8/10"
+                                data-desc="Framework CSS open-source pour le développement de sites responsives et mobile-first. Grille flexible, composants prêts à l'emploi, et personnalisation via variables Sass.">
+                                <span class="skill-icon"><i class="devicon-bootstrap-plain colored"></i></span>
+                                Bootstrap
+                                <span class="skill-dots"><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot"></span></span>
+                            </span>
+
+                            <!-- JavaScript -->
+                            <span class="skill-tag" data-name="JavaScript" data-type="Langage de programmation"
+                                data-creator="Brendan Eich (Netscape)" data-year="1995" data-level="Maîtrise · 7.5/10"
+                                data-desc="Langage de programmation dynamique pour l'interactivité côté client. ES6+ (classes, modules, arrow functions, async/await, Promises), manipulation du DOM.">
+                                <span class="skill-icon"><i class="devicon-javascript-plain colored"></i></span>
+                                JavaScript
+                                <span class="skill-dots"><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span><span
+                                        class="dot"></span><span class="dot"></span></span>
+                            </span>
+
+                            <!-- Tailwind CSS -->
+                            <span class="skill-tag" data-name="Tailwind CSS" data-type="Framework CSS"
+                                data-creator="Adam Wathan" data-year="2017" data-level="Maîtrise · 7/10"
+                                data-desc="Framework CSS utilitaire pour un design rapide et personnalisé. Approche 'utility-first' avec personnalisation via tailwind.config.js et purge CSS.">
+                                <span class="skill-icon"><i class="devicon-tailwindcss-plain colored"></i></span>
+                                Tailwind CSS
+                                <span class="skill-dots"><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span><span
+                                        class="dot"></span><span class="dot"></span></span>
+                            </span>
+
+                            <!-- React.js -->
+                            <span class="skill-tag learning" data-name="React.js" data-type="Framework JavaScript"
+                                data-creator="Jordan Walke (Facebook)" data-year="2013" data-level="En apprentissage"
+                                data-desc="Bibliothèque JavaScript pour la construction d'interfaces utilisateur déclaratives et composables. JSX, hooks (useState, useEffect), state management (Context API, Redux), Virtual DOM.">
+                                <span class="skill-icon"><i class="devicon-react-original colored"></i></span>
+                                React.js
+                                <span class="skill-dots"><span class="dot filled amber"></span><span
+                                        class="dot filled amber"></span><span class="dot"></span><span
+                                        class="dot"></span><span class="dot"></span></span>
+                                <span class="skill-badge"> En apprentissage</span>
+                            </span>
+
+                            <!-- Next.js - avec icône personnalisée en SVG -->
+                            <span class="skill-tag learning" data-name="Next.js" data-type="Framework React"
+                                data-creator="Guillermo Rauch (Vercel)" data-year="2016" data-level="En apprentissage"
+                                data-desc="Framework React pour le rendu côté serveur (SSR) et la génération de sites statiques (SSG). App Router, Server Components, ISR, API Routes.">
+                                <span class="skill-icon nextjs-icon">
+                                    <svg viewBox="0 0 128 128" width="18" height="18" fill="none">
+                                        <circle cx="64" cy="64" r="64" fill="#000000" />
+                                        <path
+                                            d="M106.317 112.014L45.293 28.5H28.5v71h11.5V44.389l52.341 69.492A63.803 63.803 0 0 0 106.317 112.014z"
+                                            fill="url(#nextjs-gradient)" />
+                                        <path d="M86.5 28.5h11v71h-11v-71z" fill="url(#nextjs-gradient)" />
+                                        <defs>
+                                            <linearGradient id="nextjs-gradient" x1="0" y1="0" x2="1" y2="1">
+                                                <stop offset="0%" stop-color="#fff" />
+                                                <stop offset="100%" stop-color="#fff" stop-opacity="0.8" />
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </span>
+                                Next.js
+                                <span class="skill-dots"><span class="dot filled amber"></span><span
+                                        class="dot"></span><span class="dot"></span><span class="dot"></span><span
+                                        class="dot"></span></span>
+                                <span class="skill-badge"> En apprentissage</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- ===== BACKEND ===== -->
+                    <div class="rounded-[10px] border border-line bg-ink-900 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-signal-dim"
+                        data-reveal data-reveal-delay="1">
+                        <div class="mb-5 flex items-center gap-3">
+                            <div
+                                class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-md bg-signal-soft text-signal">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <h3 class="font-display text-lg font-semibold text-paper">Backend</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <!-- PHP -->
+                            <span class="skill-tag" data-name="PHP" data-type="Langage de programmation"
+                                data-creator="Rasmus Lerdorf" data-year="1995" data-level="Maîtrise · 8.5/10"
+                                data-desc="Langage de script côté serveur pour le développement web dynamique. Programmation orientée objet (POO), gestion des sessions, manipulation de bases de données (PDO, MySQLi).">
+                                <span class="skill-icon"><i class="devicon-php-plain colored"></i></span>
+                                PHP
+                                <span class="skill-dots"><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot"></span></span>
+                            </span>
+
+                            <!-- MySQL -->
+                            <span class="skill-tag" data-name="MySQL" data-type="SGBD (Base de données)"
+                                data-creator="MySQL AB (Oracle)" data-year="1995" data-level="Maîtrise · 8/10"
+                                data-desc="Système de gestion de base de données relationnelle open-source. Conception de schémas, requêtes SQL complexes (JOIN, GROUP BY), optimisation des index, transactions (ACID).">
+                                <span class="skill-icon"><i class="devicon-mysql-plain colored"></i></span>
+                                MySQL
+                                <span class="skill-dots"><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot"></span></span>
+                            </span>
+
+                            <!-- Python -->
+                            <span class="skill-tag" data-name="Python" data-type="Langage de programmation"
+                                data-creator="Guido van Rossum" data-year="1991" data-level="Maîtrise · 7.5/10"
+                                data-desc="Langage polyvalent pour le développement web, la data science et l'automatisation. Syntaxe claire et lisible, typage dynamique, bibliothèques standard étendues.">
+                                <span class="skill-icon"><i class="devicon-python-plain colored"></i></span>
+                                Python
+                                <span class="skill-dots"><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span><span
+                                        class="dot"></span><span class="dot"></span></span>
+                            </span>
+
+                            <!-- Node.js -->
+                            <span class="skill-tag" data-name="Node.js" data-type="Runtime JavaScript"
+                                data-creator="Ryan Dahl" data-year="2009" data-level="Maîtrise · 7/10"
+                                data-desc="Environnement d'exécution JavaScript côté serveur basé sur V8. Événementiel, non-bloquant et asynchrone. npm, Express.js, WebSockets (Socket.io).">
+                                <span class="skill-icon"><i class="devicon-nodejs-plain colored"></i></span>
+                                Node.js
+                                <span class="skill-dots"><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span><span
+                                        class="dot"></span><span class="dot"></span></span>
+                            </span>
+
+                            <!-- Django -->
+                            <span class="skill-tag learning" data-name="Django" data-type="Framework Python"
+                                data-creator="Adrian Holovaty & Simon Willison" data-year="2005"
+                                data-level="En apprentissage"
+                                data-desc="Framework web Python pour un développement rapide et structuré. Architecture MVT (Model-View-Template), ORM intégré, interface d'administration automatique, sécurité intégrée.">
+                                <span class="skill-icon"><i class="devicon-django-plain colored"></i></span>
+                                Django
+                                <span class="skill-dots"><span class="dot filled amber"></span><span
+                                        class="dot filled amber"></span><span class="dot"></span><span
+                                        class="dot"></span><span class="dot"></span></span>
+                                <span class="skill-badge"> En apprentissage</span>
+                            </span>
+
+                            <!-- Laravel -->
+                            <span class="skill-tag learning" data-name="Laravel" data-type="Framework PHP"
+                                data-creator="Taylor Otwell" data-year="2011" data-level="En apprentissage"
+                                data-desc="Framework PHP élégant pour le développement d'applications web robustes. Eloquent ORM, Blade templating, système de queues (Redis, database), scheduler (cron), artisan CLI.">
+                                <span class="skill-icon"><i class="devicon-laravel-plain colored"></i></span>
+                                Laravel
+                                <span class="skill-dots"><span class="dot filled amber"></span><span
+                                        class="dot filled amber"></span><span class="dot"></span><span
+                                        class="dot"></span><span class="dot"></span></span>
+                                <span class="skill-badge"> En apprentissage</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- ===== RÉSEAUX & INFRA ===== -->
+                    <div class="rounded-[10px] border border-line bg-ink-900 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-signal-dim"
+                        data-reveal data-reveal-delay="2">
+                        <div class="mb-5 flex items-center gap-3">
+                            <div
+                                class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-md bg-signal-soft text-signal">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <h3 class="font-display text-lg font-semibold text-paper">Réseaux & Infra</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <!-- Cisco IOS -->
+                            <span class="skill-tag" data-name="Cisco IOS" data-type="Système d'exploitation réseau"
+                                data-creator="Cisco Systems" data-year="1993" data-level="Maîtrise · 8.5/10"
+                                data-desc="Système d'exploitation pour routeurs et commutateurs Cisco. Configuration des interfaces, routage statique/dynamique (OSPF, EIGRP, BGP), ACL, NAT/PAT, VLAN, STP, QoS.">
+                                <span class="skill-icon"><i class="fas fa-network-wired"></i></span>
+                                Cisco IOS
+                                <span class="skill-dots"><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot"></span></span>
+                            </span>
+
+                            <!-- Packet Tracer -->
+                            <span class="skill-tag" data-name="Packet Tracer" data-type="Simulateur réseau"
+                                data-creator="Cisco Systems" data-year="2000" data-level="Maîtrise · 8/10"
+                                data-desc="Simulateur réseau pour l'apprentissage et la conception d'infrastructures. Supporte le routage, le switching, les services réseaux (DHCP, DNS, HTTP, FTP).">
+                                <span class="skill-icon"><i class="fas fa-project-diagram"></i></span>
+                                Packet Tracer
+                                <span class="skill-dots"><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot"></span></span>
+                            </span>
+
+                            <!-- Linux / Bash -->
+                            <span class="skill-tag" data-name="Linux / Bash" data-type="Système d'exploitation / Shell"
+                                data-creator="Linus Torvalds / Brian Fox" data-year="1991 / 1989"
+                                data-level="Maîtrise · 7.5/10"
+                                data-desc="Système d'exploitation open-source et interpréteur de commandes. Administration système (gestion utilisateurs, permissions, processus), scripts shell (bash).">
+                                <span class="skill-icon"><i class="devicon-linux-plain colored"></i></span>
+                                Linux / Bash
+                                <span class="skill-dots"><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span><span
+                                        class="dot"></span><span class="dot"></span></span>
+                            </span>
+
+                            <!-- VLAN / OSPF -->
+                            <span class="skill-tag" data-name="VLAN / OSPF" data-type="Protocoles réseau"
+                                data-creator="IEEE / OSPF Working Group" data-year="1990 / 1988"
+                                data-level="Maîtrise · 7.5/10"
+                                data-desc="Réseaux locaux virtuels (VLAN) pour la segmentation réseau logique. Protocole OSPF (Open Shortest Path First) pour le routage dynamique à état de liens.">
+                                <span class="skill-icon"><i class="fas fa-sitemap"></i></span>
+                                VLAN / OSPF
+                                <span class="skill-dots"><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span><span
+                                        class="dot"></span><span class="dot"></span></span>
+                            </span>
+
+                            <!-- Sécurité Réseau -->
+                            <span class="skill-tag" data-name="Sécurité Réseau" data-type="Domaine technique"
+                                data-creator="Standardisation" data-year="-" data-level="Maîtrise · 7/10"
+                                data-desc="Protection des infrastructures réseau contre les menaces. Firewalls (stateful/stateless), ACLs, VPN (IPSec, SSL), IDS/IPS, hardening des équipements, 802.1X/RADIUS.">
+                                <span class="skill-icon"><i class="fas fa-shield-alt"></i></span>
+                                Sécurité Réseau
+                                <span class="skill-dots"><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span><span
+                                        class="dot"></span><span class="dot"></span></span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- ===== OUTILS ===== -->
+                    <div class="rounded-[10px] border border-line bg-ink-900 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-signal-dim"
+                        data-reveal data-reveal-delay="3">
+                        <div class="mb-5 flex items-center gap-3">
+                            <div
+                                class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-md bg-signal-soft text-signal">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <h3 class="font-display text-lg font-semibold text-paper">Outils</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <!-- Git / GitHub -->
+                            <span class="skill-tag" data-name="Git / GitHub" data-type="Versionnement / Plateforme"
+                                data-creator="Linus Torvalds / Chris Wanstrath" data-year="2005 / 2008"
+                                data-level="Maîtrise · 8.5/10"
+                                data-desc="Système de contrôle de version distribué et plateforme de collaboration. Commandes Git (commit, push, pull, merge, rebase, branch), stratégies de branchement, GitHub Actions.">
+                                <span class="skill-icon"><i class="devicon-git-plain colored"></i></span>
+                                Git / GitHub
+                                <span class="skill-dots"><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot"></span></span>
+                            </span>
+
+                            <!-- VS Code -->
+                            <span class="skill-tag" data-name="VS Code" data-type="Éditeur de code"
+                                data-creator="Microsoft" data-year="2015" data-level="Maîtrise · 8/10"
+                                data-desc="Éditeur de code léger et extensible pour le développement moderne. IntelliSense (autocomplétion), débogueur intégré, extensions (ESLint, Prettier, Docker, GitLens).">
+                                <span class="skill-icon"><i class="devicon-vscode-plain colored"></i></span>
+                                VS Code
+                                <span class="skill-dots"><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span></span>
+                            </span>
+
+                            <!-- Figma -->
+                            <span class="skill-tag" data-name="Figma" data-type="Outil de design"
+                                data-creator="Dylan Field & Evan Wallace" data-year="2012" data-level="Maîtrise · 7/10"
+                                data-desc="Outil de design collaboratif pour les interfaces utilisateur. Prototypage interactif, design systems, composants réutilisables, auto-layout, plugins, collaboration en temps réel.">
+                                <span class="skill-icon"><i class="devicon-figma-plain colored"></i></span>
+                                Figma
+                                <span class="skill-dots"><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span><span
+                                        class="dot"></span><span class="dot"></span></span>
+                            </span>
+
+                            <!-- Docker -->
+                            <span class="skill-tag learning" data-name="Docker" data-type="Conteneurisation"
+                                data-creator="Solomon Hykes (DotCloud)" data-year="2013" data-level="En apprentissage"
+                                data-desc="Plateforme de conteneurisation pour le déploiement d'applications. Concepts : images, conteneurs, Dockerfile, Docker Compose, orchestration (Swarm, Kubernetes).">
+                                <span class="skill-icon"><i class="devicon-docker-plain colored"></i></span>
+                                Docker
+                                <span class="skill-dots"><span class="dot filled amber"></span><span
+                                        class="dot filled amber"></span><span class="dot"></span><span
+                                        class="dot"></span><span class="dot"></span></span>
+                                <span class="skill-badge"> En apprentissage</span>
+                            </span>
+
+                            <!-- Postman -->
+                            <span class="skill-tag" data-name="Postman" data-type="Outil de test API"
+                                data-creator="Abhinav Asthana" data-year="2012" data-level="Maîtrise · 7.5/10"
+                                data-desc="Outil de test d'API et de développement backend collaboratif. Collections d'API, environnements (variables), tests automatisés (Chai.js), génération de documentation.">
+                                <span class="skill-icon"><i class="fas fa-paper-plane"></i></span>
+                                Postman
+                                <span class="skill-dots"><span class="dot filled"></span><span
+                                        class="dot filled"></span><span class="dot filled"></span><span
+                                        class="dot"></span><span class="dot"></span></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CONTACT ===== -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <div class="section-header" data-reveal>
+                    <span class="section-eyebrow">NODE_04</span>
+                    <h2 class="section-title">Contact</h2>
+                    <p class="section-subtitle">Parlons de votre projet.</p>
+                </div>
                 <div class="contact-wrapper">
-                    <!-- Informations (gauche) -->
-                    <div class="contact-info">
+                    <div class="contact-info" data-reveal data-reveal-from="left">
                         <h3>Travaillons ensemble</h3>
                         <p class="contact-description">
-                            Vous avez un projet en tête ? Discutons-en ! Je suis ouvert aux opportunités
-                            de collaboration, qu'il s'agisse de développement web, d'applications mobiles
-                            ou de conseil technique.
+                            Un projet, une idée ou un besoin numérique ? Je suis à votre
+                            écoute. Que ce soit pour le développement web, mobile ou le
+                            conseil technique, je vous accompagne dans la conception de
+                            solutions adaptées à vos objectifs.
                         </p>
-
                         <div class="contact-methods">
                             <div class="contact-method">
                                 <div class="method-icon"><i class="fas fa-envelope"></i></div>
@@ -125,9 +820,8 @@
                                 <div class="method-icon"><i class="fas fa-phone"></i></div>
                                 <div class="method-details">
                                     <h4>Téléphone</h4>
-                                    <a href="tel:+22896053347">+228 96053347</a>
-                                    <a>/</a>
-                                    <a href="tel:+22893562178">+228 93562178</a>
+                                    <a href="tel:+22896173953">+228 96 17 39 53</a> /
+                                    <a href="tel:+22893562178">+228 93 56 21 78</a>
                                 </div>
                             </div>
                             <div class="contact-method">
@@ -138,19 +832,24 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="contact-social">
                             <p>Retrouvez-moi aussi sur :</p>
                             <div class="social-icons">
-                                <a href="#" target="_blank" class="social-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                                <a href="#" target="_blank" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                                <a href="#" target="_blank" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="social-icon"
+                                    aria-label="GitHub"><i class="fab fa-github"></i></a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="social-icon"
+                                    aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="social-icon"
+                                    aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="https://wa.me/22896173953?text=Bonjour%20Erwin,%20je%20souhaite%20discuter%20d'un%20projet."
+                                    target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="WhatsApp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Formulaire (droite) -->
-                    <form class="contact-form" id="contactForm">
+                    <form class="contact-form" id="contactForm" data-reveal data-reveal-from="right"
+                        data-reveal-delay="1">
                         <div class="form-group">
                             <label for="name">Nom complet</label>
                             <input type="text" id="name" name="name" required placeholder="Votre nom" />
@@ -163,12 +862,14 @@
                         </div>
                         <div class="form-group">
                             <label for="subject">Sujet</label>
-                            <input type="text" id="subject" name="subject" required placeholder="Objet de votre message" />
+                            <input type="text" id="subject" name="subject" required
+                                placeholder="Objet de votre message" />
                             <div class="form-error" id="subjectError"></div>
                         </div>
                         <div class="form-group">
                             <label for="message">Message</label>
-                            <textarea id="message" name="message" rows="5" required placeholder="Décrivez votre projet..."></textarea>
+                            <textarea id="message" name="message" rows="5" required
+                                placeholder="Décrivez votre projet..."></textarea>
                             <div class="form-error" id="messageError"></div>
                         </div>
                         <button type="submit" class="btn btn-primary btn-submit">
@@ -178,61 +879,64 @@
                 </div>
             </div>
         </section>
-
     </main>
 
-    <!-- ===== FOOTER (style Victorien) ===== -->
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <h3 class="footer-logo"><span class="dot">&lt;</span>/<span class="dot">&gt;</span> Erwin<span class="dot">.dev</span></h3>
-                    <p class="footer-tagline">
-                        Développeur passionné par l'innovation et la création de solutions digitales.
-                    </p>
+                    <h3 class="footer-logo">
+                        <span class="dot">&lt;</span>/<span class="dot">&gt;</span>
+                        Erwin<span class="dot">.dev</span>
+                    </h3>
+                    <p class="footer-tagline">J'imagine et développe des solutions digitales innovantes pour répondre
+                        aux besoins d'aujourd'hui et de demain.</p>
                 </div>
-
                 <div class="footer-links">
-                    <h4>Navigation rapide</h4>
+                    <h4>Navigation</h4>
                     <ul>
                         <li><a href="#accueil">Accueil</a></li>
                         <li><a href="#profil">Profil</a></li>
                         <li><a href="#projets">Projets</a></li>
-                        <li><a href="#competences">Compétences</a></li>
+                        <li><a href="#competences">Stack</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
-
                 <div class="footer-newsletter">
                     <h4>Restons connectés</h4>
                     <p>Abonnez-vous pour recevoir mes dernières actualités.</p>
                     <form class="newsletter-form" id="newsletterForm">
-                        <input type="email" placeholder="Votre email" required />
+                        <input type="email" placeholder="Votre email" required aria-label="Adresse email" />
                         <button type="submit" class="btn-icon" aria-label="S'abonner">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </form>
                 </div>
             </div>
-
             <div class="footer-bottom">
-                <div class="copyright">
-                    &copy; <span id="currentYear"></span> Erwin.dev – Tous droits réservés.
-                </div>
+                <div class="copyright">&copy; <span id="currentYear"></span> Erwin.dev — Tous droits réservés.</div>
             </div>
         </div>
-
-        <!-- Bouton retour en haut -->
-        <div class="back-to-top">
+        <div class="back-to-top" id="backToTop">
             <a href="#accueil" class="back-top-btn" aria-label="Retour en haut">
                 <i class="fas fa-arrow-up"></i>
             </a>
         </div>
     </footer>
 
-    <!-- Toast -->
-    <div class="toast" id="toast"></div>
+    <!-- WhatsApp flottant -->
+    <a href="https://wa.me/22896173953?text=Bonjour%20Erwin,%20je%20souhaite%20discuter%20d'un%20projet."
+        target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Discuter sur WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-tooltip">Discutons sur WhatsApp</span>
+    </a>
 
-    <script src="script.js"></script>
+    <!-- Toast -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="app.js"></script>
 </body>
+
 </html>

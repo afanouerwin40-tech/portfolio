@@ -1,187 +1,432 @@
-/**
- * =============================================
- *  MENU BURGER 
- * =============================================
- */
-document.addEventListener('DOMContentLoaded', () => {
-    const menuToggle = document.querySelector('.menu-toggle');
-    const mainNav = document.querySelector('.main-nav');
-    const navLinks = document.querySelectorAll('.nav-link');
+/* ================================================================
+   ERWIN.DEV — PORTFOLIO
+   app.js
+   ================================================================ */
 
-    if (menuToggle && mainNav) {
-        menuToggle.addEventListener('click', () => {
-            const expanded = menuToggle.getAttribute('aria-expanded') === 'true' ? false : true;
-            menuToggle.setAttribute('aria-expanded', expanded);
-            mainNav.classList.toggle('active');
-            document.body.style.overflow = expanded ? 'hidden' : '';
-        });
+(function () {
+  "use strict";
 
-        // Fermer en cliquant sur un lien
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                menuToggle.setAttribute('aria-expanded', 'false');
-                mainNav.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-        });
+  /* ==============================================================
+       ÉTAPE 0 — RÉGLAGES DE DÉPART
+       ============================================================== */
+  var reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
 
-        // Fermer en cliquant à l'extérieur
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.navbar') && mainNav.classList.contains('active')) {
-                menuToggle.setAttribute('aria-expanded', 'false');
-                mainNav.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
+  if (window.emailjs) {
+    emailjs.init("NPTTZpxvjTvMm7h_5");
+  }
+
+  /* ==============================================================
+       ÉTAPE 1 — ÉCRAN DE CHARGEMENT (PRELOADER)
+       ============================================================== */
+  var preloader = document.getElementById("preloader");
+  var preloaderBarFill = document.getElementById("preloaderBarFill");
+  var preloaderStatus = document.getElementById("preloaderStatus");
+
+  function gererPreloader() {
+    if (!preloader) return;
+
+    var messages = [
+      "Initialisation du système...",
+      "Connexion aux nœuds...",
+      "Chargement des ressources...",
+      "Presque prêt...",
+    ];
+    var progressionActuelle = 0;
+    var indexMessage = 0;
+
+    var intervalleProgression = setInterval(function () {
+      if (progressionActuelle >= 90) return;
+      progressionActuelle += Math.random() * 12;
+      progressionActuelle = Math.min(progressionActuelle, 90);
+      if (preloaderBarFill)
+        preloaderBarFill.style.width = progressionActuelle + "%";
+
+      var prochainIndex = Math.floor(
+        (progressionActuelle / 90) * (messages.length - 1),
+      );
+      if (prochainIndex !== indexMessage) {
+        indexMessage = prochainIndex;
+        if (preloaderStatus)
+          preloaderStatus.textContent = messages[indexMessage];
+      }
+    }, 180);
+
+    window.addEventListener("load", function () {
+      clearInterval(intervalleProgression);
+      if (preloaderBarFill) preloaderBarFill.style.width = "100%";
+      if (preloaderStatus) preloaderStatus.textContent = "Prêt.";
+
+      setTimeout(
+        function () {
+          preloader.classList.add("is-hidden");
+        },
+        reduceMotion ? 0 : 350,
+      );
+    });
+  }
+  gererPreloader();
+
+  /* ==============================================================
+       ÉTAPE 2 — BARRE DE NAVIGATION
+       ============================================================== */
+  var navbar = document.getElementById("navbar");
+  var navLinks = document.querySelectorAll(".nav-link");
+  var sections = document.querySelectorAll("main section[id]");
+
+  function gererApparenceNavbar() {
+    if (window.scrollY > 24) {
+      navbar.classList.add("is-scrolled");
+    } else {
+      navbar.classList.remove("is-scrolled");
     }
+  }
+  window.addEventListener("scroll", gererApparenceNavbar, { passive: true });
+  gererApparenceNavbar();
 
-    /**
-     * =============================================
-     *  NAVIGATION ACTIVE AU SCROLL
-     * =============================================
-     */
-    const sections = document.querySelectorAll('section[id]');
-    const navLinksAll = document.querySelectorAll('.nav-link');
+  /* ==============================================================
+       ÉTAPE 3 — MENU MOBILE
+       ============================================================== */
+  var menuToggle = document.getElementById("menuToggle");
+  var mainNav = document.getElementById("mainNav");
 
-    window.addEventListener('scroll', () => {
-        let current = '';
-        sections.forEach(section => {
-            const top = section.offsetTop - 120;
-            if (window.scrollY >= top) {
-                current = section.getAttribute('id');
-            }
-        });
-
-        navLinksAll.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === '#' + current) {
-                link.classList.add('active');
-            }
-        });
+  if (menuToggle && mainNav) {
+    menuToggle.addEventListener("click", function () {
+      var estOuvert = mainNav.classList.toggle("is-open");
+      menuToggle.setAttribute("aria-expanded", String(estOuvert));
     });
 
-    /**
-     * =============================================
-     *  BOUTON RETOUR EN HAUT
-     * =============================================
-     */
-    const backBtn = document.querySelector('.back-top-btn');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 500) {
-            backBtn?.classList.add('visible');
-        } else {
-            backBtn?.classList.remove('visible');
-        }
+    navLinks.forEach(function (lien) {
+      lien.addEventListener("click", function () {
+        mainNav.classList.remove("is-open");
+        menuToggle.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
+
+  /* ==============================================================
+       ÉTAPE 4 — BACKBONE
+       ============================================================== */
+  var backboneFill = document.getElementById("backboneFill");
+  var nodeMarkers = document.querySelectorAll(".node-marker");
+  var nodeLabels = document.querySelectorAll(".node-label");
+
+  function mettreAJourBackbone() {
+    var doc = document.documentElement;
+    var positionScroll = window.scrollY;
+    var hauteurScrollable = doc.scrollHeight - doc.clientHeight;
+    var progression =
+      hauteurScrollable > 0 ? (positionScroll / hauteurScrollable) * 100 : 0;
+    if (backboneFill) backboneFill.style.height = progression + "%";
+
+    var sectionCourante = sections[0] ? sections[0].id : null;
+    var pointDeRepere = positionScroll + window.innerHeight * 0.4;
+
+    sections.forEach(function (section) {
+      if (section.offsetTop <= pointDeRepere) sectionCourante = section.id;
     });
 
-    /**
-     * =============================================
-     *  FORMULAIRES (contact + newsletter)
-     * =============================================
-     */
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+    navLinks.forEach(function (lien) {
+      var cible = lien.getAttribute("href").replace("#", "");
+      lien.classList.toggle("active", cible === sectionCourante);
+    });
+    nodeMarkers.forEach(function (marqueur) {
+      marqueur.classList.toggle(
+        "is-active",
+        marqueur.dataset.node === sectionCourante,
+      );
+    });
+    nodeLabels.forEach(function (etiquette) {
+      etiquette.classList.toggle(
+        "is-active",
+        etiquette.dataset.node === sectionCourante,
+      );
+    });
+  }
+  window.addEventListener("scroll", mettreAJourBackbone, { passive: true });
+  window.addEventListener("resize", mettreAJourBackbone);
+  mettreAJourBackbone();
 
-            // Validation basique
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const subject = document.getElementById('subject').value.trim();
-            const message = document.getElementById('message').value.trim();
+  /* ==============================================================
+       ÉTAPE 5 — ANIMATIONS D'APPARITION (data-reveal)
+       ============================================================== */
+  var elementsARevele = document.querySelectorAll("[data-reveal]");
 
-            let valid = true;
-            if (name.length < 2) {
-                showError('name', 'Le nom doit contenir au moins 2 caractères');
-                valid = false;
-            } else clearError('name');
-
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                showError('email', 'Veuillez entrer un email valide');
-                valid = false;
-            } else clearError('email');
-
-            if (subject.length < 5) {
-                showError('subject', 'Le sujet doit contenir au moins 5 caractères');
-                valid = false;
-            } else clearError('subject');
-
-            if (message.length < 10) {
-                showError('message', 'Le message doit contenir au moins 10 caractères');
-                valid = false;
-            } else clearError('message');
-
-            if (!valid) return;
-
-            // Simulation d'envoi
-            const btn = contactForm.querySelector('.btn-submit');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
-            btn.disabled = true;
-
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-                contactForm.reset();
-                showToast('Message envoyé avec succès !', 'success');
-            }, 1500);
+  if ("IntersectionObserver" in window && !reduceMotion) {
+    var observateurRevele = new IntersectionObserver(
+      function (entrees) {
+        entrees.forEach(function (entree) {
+          if (entree.isIntersecting) {
+            entree.target.classList.add("is-visible");
+            observateurRevele.unobserve(entree.target);
+          }
         });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" },
+    );
+    elementsARevele.forEach(function (element) {
+      observateurRevele.observe(element);
+    });
+  } else {
+    elementsARevele.forEach(function (element) {
+      element.classList.add("is-visible");
+    });
+  }
+
+  /* ==============================================================
+       ÉTAPE 6 — COMPTEURS ANIMÉS
+       ============================================================== */
+  var compteurs = document.querySelectorAll("[data-count]");
+
+  function animerCompteur(element) {
+    var valeurCible = parseInt(element.dataset.count, 10) || 0;
+
+    if (reduceMotion) {
+      element.textContent = valeurCible;
+      return;
     }
 
-    // Newsletter
-    const newsletterForm = document.getElementById('newsletterForm');
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const input = this.querySelector('input');
-            if (input.value.trim()) {
-                showToast('Merci pour votre inscription !', 'info');
-                input.value = '';
-            }
+    var dureeMs = 1200;
+    var tempsDeDepart = null;
+
+    function etapeAnimation(horodatage) {
+      if (!tempsDeDepart) tempsDeDepart = horodatage;
+      var progression = Math.min((horodatage - tempsDeDepart) / dureeMs, 1);
+      var progressionAdoucie = 1 - Math.pow(1 - progression, 3);
+      element.textContent = Math.round(valeurCible * progressionAdoucie);
+      if (progression < 1) requestAnimationFrame(etapeAnimation);
+    }
+    requestAnimationFrame(etapeAnimation);
+  }
+
+  if ("IntersectionObserver" in window) {
+    var observateurCompteurs = new IntersectionObserver(
+      function (entrees) {
+        entrees.forEach(function (entree) {
+          if (entree.isIntersecting) {
+            animerCompteur(entree.target);
+            observateurCompteurs.unobserve(entree.target);
+          }
         });
+      },
+      { threshold: 0.6 },
+    );
+    compteurs.forEach(function (element) {
+      observateurCompteurs.observe(element);
+    });
+  }
+
+  /* ==============================================================
+       ÉTAPE 7 — FILTRES DE LA GRILLE DE PROJETS
+       ============================================================== */
+  var boutonsFiltre = document.querySelectorAll(".filter-btn");
+  var cartesProjet = document.querySelectorAll(".projet-card");
+
+  boutonsFiltre.forEach(function (bouton) {
+    bouton.addEventListener("click", function () {
+      boutonsFiltre.forEach(function (b) {
+        b.classList.remove("active");
+      });
+      bouton.classList.add("active");
+
+      var filtreChoisi = bouton.dataset.filter;
+      cartesProjet.forEach(function (carte) {
+        var correspond =
+          filtreChoisi === "all" || carte.dataset.category === filtreChoisi;
+        carte.classList.toggle("is-hidden", !correspond);
+      });
+    });
+  });
+
+  /* ==============================================================
+       ÉTAPE 8 — NOTIFICATION "TOAST"
+       ============================================================== */
+  var toast = document.getElementById("toast");
+  var minuteurToast;
+
+  function afficherToast(message, estUneErreur) {
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.toggle("is-error", !!estUneErreur);
+    toast.classList.add("is-visible");
+
+    clearTimeout(minuteurToast);
+    minuteurToast = setTimeout(function () {
+      toast.classList.remove("is-visible");
+    }, 4000);
+  }
+
+  /* ==============================================================
+       ÉTAPE 9 — FORMULAIRE DE CONTACT
+       ============================================================== */
+  var formulaireContact = document.getElementById("contactForm");
+
+  function definirErreurChamp(idChamp, message) {
+    var champ = document.getElementById(idChamp);
+    var elementErreur = document.getElementById(idChamp + "Error");
+    var groupe = champ ? champ.closest(".form-group") : null;
+    if (groupe) groupe.classList.toggle("has-error", !!message);
+    if (elementErreur) elementErreur.textContent = message || "";
+  }
+
+  function validerFormulaireContact(donnees) {
+    var estValide = true;
+
+    if (!donnees.name.trim()) {
+      definirErreurChamp("name", "Le nom est requis.");
+      estValide = false;
+    } else {
+      definirErreurChamp("name", "");
     }
 
-    // Fonctions d'erreur
-    function showError(fieldId, message) {
-        const errorEl = document.getElementById(fieldId + 'Error');
-        if (errorEl) {
-            errorEl.textContent = message;
-            const input = document.getElementById(fieldId);
-            if (input) input.style.borderColor = '#ff6b6b';
-        }
+    var motifEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!motifEmail.test(donnees.email)) {
+      definirErreurChamp("email", "Adresse email invalide.");
+      estValide = false;
+    } else {
+      definirErreurChamp("email", "");
     }
 
-    function clearError(fieldId) {
-        const errorEl = document.getElementById(fieldId + 'Error');
-        if (errorEl) {
-            errorEl.textContent = '';
-            const input = document.getElementById(fieldId);
-            if (input) input.style.borderColor = '';
-        }
+    if (!donnees.subject.trim()) {
+      definirErreurChamp("subject", "Le sujet est requis.");
+      estValide = false;
+    } else {
+      definirErreurChamp("subject", "");
     }
 
-    // Toast
-    function showToast(message, type = 'info') {
-        const toast = document.getElementById('toast');
-        if (!toast) return;
-        const colors = {
-            success: '#4caf50',
-            error: '#f44336',
-            warning: '#ff9800',
-            info: '#00d4ff'
-        };
-        toast.textContent = message;
-        toast.style.borderColor = colors[type] || colors.info;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 5000);
+    if (donnees.message.trim().length < 10) {
+      definirErreurChamp(
+        "message",
+        "Décrivez votre projet en quelques mots (10 caractères min).",
+      );
+      estValide = false;
+    } else {
+      definirErreurChamp("message", "");
     }
 
-    // Année dynamique
-    const yearSpan = document.getElementById('currentYear');
-    if (yearSpan) {
-        yearSpan.textContent = new Date().getFullYear();
-    }
+    return estValide;
+  }
 
-    // Exposer pour debug
-    window.showToast = showToast;
-});
+  if (formulaireContact) {
+    formulaireContact.addEventListener("submit", function (evenement) {
+      evenement.preventDefault();
+
+      var donnees = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        subject: document.getElementById("subject").value,
+        message: document.getElementById("message").value,
+      };
+
+      if (!validerFormulaireContact(donnees)) {
+        afficherToast("Merci de corriger les champs indiqués.", true);
+        return;
+      }
+
+      var boutonEnvoyer = formulaireContact.querySelector(".btn-submit");
+      var contenuOriginalBouton = boutonEnvoyer.innerHTML;
+      boutonEnvoyer.disabled = true;
+      boutonEnvoyer.innerHTML =
+        '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+
+      if (window.emailjs) {
+        emailjs
+          .send("service_5e4spo9", "template_k8dg6wa", donnees)
+          .then(function () {
+            afficherToast(
+              "Message envoyé avec succès. Je vous réponds rapidement.",
+            );
+            formulaireContact.reset();
+          })
+          .catch(function (erreur) {
+            console.error("Erreur EmailJS :", erreur);
+            afficherToast(
+              "Une erreur est survenue. Réessayez ou écrivez-moi directement par email.",
+              true,
+            );
+          })
+          .finally(function () {
+            boutonEnvoyer.disabled = false;
+            boutonEnvoyer.innerHTML = contenuOriginalBouton;
+          });
+      } else {
+        afficherToast(
+          "Le service d'envoi n'est pas disponible pour le moment.",
+          true,
+        );
+        boutonEnvoyer.disabled = false;
+        boutonEnvoyer.innerHTML = contenuOriginalBouton;
+      }
+    });
+  }
+
+  /* ==============================================================
+       ÉTAPE 10 — FORMULAIRE NEWSLETTER
+       ============================================================== */
+  var formulaireNewsletter = document.getElementById("newsletterForm");
+  if (formulaireNewsletter) {
+    formulaireNewsletter.addEventListener("submit", function (evenement) {
+      evenement.preventDefault();
+      afficherToast("Merci ! Vous êtes inscrit à la newsletter.");
+      formulaireNewsletter.reset();
+    });
+  }
+
+  /* ==============================================================
+       ÉTAPE 11 — BOUTON "RETOUR EN HAUT"
+       ============================================================== */
+  var boutonRetourHaut = document.getElementById("backToTop");
+
+  function gererVisibiliteRetourHaut() {
+    if (!boutonRetourHaut) return;
+    boutonRetourHaut.classList.toggle("is-visible", window.scrollY > 480);
+  }
+  window.addEventListener("scroll", gererVisibiliteRetourHaut, {
+    passive: true,
+  });
+  gererVisibiliteRetourHaut();
+
+  /* ==============================================================
+       ÉTAPE 12 — ANNÉE COURANTE DANS LE PIED DE PAGE
+       ============================================================== */
+  var elementAnnee = document.getElementById("currentYear");
+  if (elementAnnee) elementAnnee.textContent = new Date().getFullYear();
+
+  /* ==============================================================
+       ÉTAPE 13 — TOOLTIPS SUR LES COMPÉTENCES
+       ============================================================== */
+  (function initTooltips() {
+    var skillTags = document.querySelectorAll(".skill-tag");
+
+    skillTags.forEach(function (tag) {
+      var name = tag.dataset.name || "Technologie";
+      var type = tag.dataset.type || "N/A";
+      var creator = tag.dataset.creator || "Inconnu";
+      var year = tag.dataset.year || "N/A";
+      var level = tag.dataset.level || "Maîtrise";
+      var desc = tag.dataset.desc || "";
+
+      var tooltipBox = document.createElement("div");
+      tooltipBox.className = "tooltip-box";
+
+      var levelClass = level === "En apprentissage" ? "learning" : "";
+
+      tooltipBox.innerHTML = `
+                <div class="tt-title">${name}</div>
+                <div class="tt-meta">
+                    <span><span class="label">Type</span> ${type}</span>
+                    <span><span class="label">Créé par</span> ${creator}</span>
+                    <span><span class="label">Année</span> ${year}</span>
+                </div>
+                <div class="tt-desc">${desc}</div>
+                <div class="tt-footer">
+                    <span class="tt-type">${type}</span>
+                    <span class="tt-level ${levelClass}">${level}</span>
+                </div>
+            `;
+
+      tag.appendChild(tooltipBox);
+    });
+  })();
+})();
