@@ -28,6 +28,7 @@
     if (!preloader) return;
 
     var messages = [
+      
       "Initialisation du système...",
       "Connexion aux nœuds...",
       "Chargement des ressources...",
