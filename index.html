@@ -13,13 +13,13 @@
          brièvement la mauvaise couleur au chargement. Volontairement
          minuscule et sans dépendance : doit s'exécuter immédiatement. -->
     <script>
-      (function () {
-        var theme = localStorage.getItem("erwin-dev-theme");
-        if (theme !== "dark" && theme !== "light") {
-          theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-        }
-        document.documentElement.setAttribute("data-theme", theme);
-      })();
+        (function () {
+            var theme = localStorage.getItem("erwin-dev-theme");
+            if (theme !== "dark" && theme !== "light") {
+                theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+            }
+            document.documentElement.setAttribute("data-theme", theme);
+        })();
     </script>
 
     <!-- Open Graph -->
@@ -92,7 +92,8 @@
 <body>
     <!-- ===== PRELOADER ===== -->
     <div class="preloader" id="preloader" aria-hidden="true">
-        <div class="preloader-logo"><span class="code-symbol">&lt;/&gt;</span> <span class="name">Erwin</span><span class="dev">.dev</span></div>
+        <div class="preloader-logo"><span class="code-symbol">&lt;/&gt;</span> <span class="name">Erwin</span><span
+                class="dev">.dev</span></div>
         <div class="preloader-bar">
             <div class="preloader-bar-fill" id="preloaderBarFill"></div>
         </div>
@@ -273,7 +274,7 @@
                             </li>
                         </ul>
                         <div class="profil-actions">
-                            <a href="cv.pdf" download data-track="cv_download" class="btn btn-primary">
+                            <a href="AFANOU_ERWIN_CV.pdf" download data-track="cv_download" class="btn btn-primary">
                                 <i class="fas fa-download"></i> Télécharger mon CV
                             </a>
                             <a href="#contact" class="btn btn-secondary">
@@ -677,7 +678,8 @@
                                 <div class="method-icon"><i class="fas fa-envelope"></i></div>
                                 <div class="method-details">
                                     <h4>Email</h4>
-                                    <a href="mailto:afanouerwin40@gmail.com" data-track="email">afanouerwin40@gmail.com</a>
+                                    <a href="mailto:afanouerwin40@gmail.com"
+                                        data-track="email">afanouerwin40@gmail.com</a>
                                 </div>
                             </div>
                             <div class="contact-method">
@@ -699,15 +701,24 @@
                         <div class="contact-social">
                             <p>Retrouvez-moi aussi sur :</p>
                             <div class="social-icons">
-                                <a href="#" target="_blank" rel="noopener noreferrer" class="social-icon"
-                                    aria-label="GitHub"><i class="fab fa-github"></i></a>
-                                <a href="#" target="_blank" rel="noopener noreferrer" class="social-icon"
-                                    aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                                <a href="#" target="_blank" rel="noopener noreferrer" class="social-icon"
-                                    aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                                <a href="https://wa.me/22896173953?text=Bonjour%20Erwin,%20je%20souhaite%20discuter%20d'un%20projet."
+                                <a href="https://github.com/afanouerwin40-tech" target="_blank"
+                                    rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
+                                    <i class="fab fa-github" aria-hidden="true"></i>
+                                </a>
+
+                                <a href="https://www.linkedin.com/in/erwin-afanou-264404426/" target="_blank"
+                                    rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
+                                    <i class="fab fa-linkedin" aria-hidden="true"></i>
+                                </a>
+
+                                <a href="https://x.com/EAfanou60001" target="_blank" rel="noopener noreferrer"
+                                    class="social-icon" aria-label="X">
+                                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                                </a>
+
+                                <a href="https://wa.me/22896173953?text=Bonjour%20Erwin%2C%20je%20souhaite%20discuter%20d%27un%20projet."
                                     target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="WhatsApp">
-                                    <i class="fab fa-whatsapp"></i>
+                                    <i class="fab fa-whatsapp" aria-hidden="true"></i>
                                 </a>
                             </div>
                         </div>
@@ -791,7 +802,8 @@
 
     <!-- WhatsApp flottant -->
     <a href="https://wa.me/22896173953?text=Bonjour%20Erwin,%20je%20souhaite%20discuter%20d'un%20projet."
-        target="_blank" rel="noopener noreferrer" data-track="whatsapp" class="whatsapp-float" aria-label="Discuter sur WhatsApp">
+        target="_blank" rel="noopener noreferrer" data-track="whatsapp" class="whatsapp-float"
+        aria-label="Discuter sur WhatsApp">
         <i class="fab fa-whatsapp"></i>
         <span class="whatsapp-tooltip">Discutons sur WhatsApp</span>
     </a>
