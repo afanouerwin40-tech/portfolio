@@ -17,6 +17,37 @@
     emailjs.init("NPTTZpxvjTvMm7h_5");
   }
 
+  /* ---------- Thème clair/sombre ----------
+     Le thème initial est déjà appliqué avant même que ce script ne
+     s'exécute (voir le petit <script> anti-flash dans le <head> de
+     index.html) — ici on ne fait que brancher le bouton pour pouvoir
+     en changer, et mémoriser le choix. ---------- */
+  var CLE_THEME = "erwin-dev-theme";
+  var boutonTheme = document.getElementById("themeToggle");
+  var iconeTheme = document.getElementById("themeIcon");
+
+  function mettreAJourIconeTheme() {
+    if (!iconeTheme) return;
+    var themeActuel =
+      document.documentElement.getAttribute("data-theme") || "dark";
+    iconeTheme.className = themeActuel === "light" ? "fas fa-sun" : "fas fa-moon";
+  }
+
+  function activerTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem(CLE_THEME, theme);
+    mettreAJourIconeTheme();
+  }
+
+  if (boutonTheme) {
+    boutonTheme.addEventListener("click", function () {
+      var themeActuel =
+        document.documentElement.getAttribute("data-theme") || "dark";
+      activerTheme(themeActuel === "dark" ? "light" : "dark");
+    });
+  }
+  mettreAJourIconeTheme();
+
   /* ==============================================================
        ÉTAPE 1 — ÉCRAN DE CHARGEMENT (PRELOADER)
        ============================================================== */
@@ -113,6 +144,34 @@
   var nodeMarkers = document.querySelectorAll(".node-marker");
   var nodeLabels = document.querySelectorAll(".node-label");
 
+  // Les points/étiquettes ne sont plus placés à des pourcentages fixes
+  // dans le HTML : leur position verticale est calculée à partir de la
+  // vraie position de chaque section (section.offsetTop), en proportion
+  // de la hauteur réellement défilable de la page. Comme ça, le point
+  // "actif" correspond TOUJOURS exactement à l'endroit où la barre de
+  // progression arrive au même instant — même si le contenu d'une
+  // section change de hauteur (ex : Projets, vide pour l'instant, ou
+  // rempli plus tard depuis le dashboard admin).
+  function positionnerNodes() {
+    var doc = document.documentElement;
+    var hauteurScrollable = doc.scrollHeight - doc.clientHeight;
+    if (hauteurScrollable <= 0) return;
+
+    sections.forEach(function (section) {
+      var pourcentage = (section.offsetTop / hauteurScrollable) * 100;
+      pourcentage = Math.max(0, Math.min(100, pourcentage));
+
+      var marqueur = document.querySelector(
+        '.node-marker[data-node="' + section.id + '"]',
+      );
+      var etiquette = document.querySelector(
+        '.node-label[data-node="' + section.id + '"]',
+      );
+      if (marqueur) marqueur.style.top = pourcentage + "%";
+      if (etiquette) etiquette.style.top = pourcentage + "%";
+    });
+  }
+
   function mettreAJourBackbone() {
     var doc = document.documentElement;
     var positionScroll = window.scrollY;
@@ -146,8 +205,31 @@
     });
   }
   window.addEventListener("scroll", mettreAJourBackbone, { passive: true });
-  window.addEventListener("resize", mettreAJourBackbone);
+  window.addEventListener("resize", function () {
+    positionnerNodes();
+    mettreAJourBackbone();
+  });
+
+  positionnerNodes();
   mettreAJourBackbone();
+
+  // Les polices web (JetBrains Mono) changent parfois légèrement la
+  // hauteur du texte une fois chargées, ce qui décale les sections.
+  // On repositionne une fois qu'elles sont prêtes.
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () {
+      positionnerNodes();
+      mettreAJourBackbone();
+    });
+  }
+
+  // Filet de sécurité : si des images (photo de profil, captures de
+  // projets ajoutées plus tard) se chargent après coup et modifient
+  // la hauteur des sections, on recalcule une dernière fois.
+  window.addEventListener("load", function () {
+    positionnerNodes();
+    mettreAJourBackbone();
+  });
 
   /* ==============================================================
        ÉTAPE 5 — ANIMATIONS D'APPARITION (data-reveal)
@@ -351,6 +433,20 @@
             boutonEnvoyer.disabled = false;
             boutonEnvoyer.innerHTML = contenuOriginalBouton;
           });
+
+        // En parallèle : on enregistre aussi le message côté API pour
+        // qu'il apparaisse dans le dashboard admin. Ça n'a aucune
+        // incidence sur le message de succès affiché au visiteur
+        // (qui dépend uniquement d'EmailJS ci-dessus) : si l'API est
+        // indisponible, l'email part quand même, seule la copie dans
+        // le dashboard sera manquante.
+        fetch(PORTFOLIO_API_URL + "/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(donnees),
+        }).catch(function (erreur) {
+          console.error("Erreur enregistrement API contact :", erreur);
+        });
       } else {
         afficherToast(
           "Le service d'envoi n'est pas disponible pour le moment.",
@@ -428,6 +524,35 @@
             `;
 
       tag.appendChild(tooltipBox);
+
+      // Clic = ouvre le tooltip et le garde affiché plus longtemps
+      // (utile sur mobile, où il n'y a pas de survol à la souris).
+      // Se ferme tout seul après 6s, ou immédiatement si on clique
+      // ailleurs, ou si on ouvre un autre tooltip.
+      var minuteurFermeture;
+
+      tag.addEventListener("click", function (evenement) {
+        evenement.stopPropagation();
+
+        var etaitOuvert = tag.classList.contains("is-open");
+        skillTags.forEach(function (autre) {
+          autre.classList.remove("is-open");
+        });
+        clearTimeout(minuteurFermeture);
+
+        if (!etaitOuvert) {
+          tag.classList.add("is-open");
+          minuteurFermeture = setTimeout(function () {
+            tag.classList.remove("is-open");
+          }, 6000);
+        }
+      });
+    });
+
+    document.addEventListener("click", function () {
+      skillTags.forEach(function (tag) {
+        tag.classList.remove("is-open");
+      });
     });
   })();
 })();

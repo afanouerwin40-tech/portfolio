@@ -1,32 +1,24 @@
 /* ================================================================
-   beacon.js — À AJOUTER SUR LE SITE (erwin-dev.dev) UNE FOIS
-   L'API DÉPLOYÉE.
+   beacon.js — tracking des visiteurs (pages vues + clics importants)
    ----------------------------------------------------------------
-   Ce fichier n'est PAS encore branché dans index.html : il ne sert
-   à rien tant que l'API (dossier backend/) n'est pas hébergée
-   quelque part avec une vraie URL publique.
+   Branché dans index.html, juste avant app.js. Utilise l'URL
+   définie dans config.js (PORTFOLIO_API_URL) — modifie-la là-bas,
+   pas ici, une fois l'API déployée en ligne.
 
-   Une fois l'API en ligne :
-     1. Remplace API_URL ci-dessous par ton URL réelle
-        (ex : "https://api.erwin.dev")
-     2. Ajoute <script src="beacon.js"></script> juste avant
-        </body> dans index.html
-     3. Ajoute data-track="whatsapp" / "github" / "linkedin" /
-        "email" / "cv_download" sur les liens correspondants dans
-        le HTML (voir plus bas comment ce script les détecte).
+   data-track="cv_download" / "email" / "whatsapp" sont déjà posés
+   sur les liens concernés dans index.html. Ajoute "github" /
+   "linkedin" sur les icônes réseaux sociaux une fois leurs vraies
+   URLs renseignées (elles pointent encore vers "#").
    ================================================================ */
 
 (function () {
   "use strict";
 
-  // ⚠️ À remplacer par l'URL réelle de ton API une fois déployée
-  var API_URL = "https://api.erwin.dev";
-
   // On envoie les requêtes en arrière-plan, sans jamais bloquer la
   // navigation ni faire planter le site si l'API est indisponible
   // (d'où le "catch" qui ne fait rien de spécial en cas d'échec).
   function envoyer(chemin, donnees) {
-    fetch(API_URL + chemin, {
+    fetch(PORTFOLIO_API_URL + chemin, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(donnees || {}),

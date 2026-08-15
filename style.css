@@ -1,38 +1,92 @@
 /* ============================================================
    ERWIN.DEV — PORTFOLIO
-   Design system: "Backbone" — the page as a network trunk line,
-   each section a node.
+   Design system: "Terminal" — the page as a running system,
+   status lines, prompts, and a single phosphor accent.
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
 
 /* ---------- Tokens ---------- */
 :root {
-    --ink-950: #0A0D12;
-    --ink-900: #12161D;
-    --ink-850: #161B24;
-    --ink-800: #1B212B;
-    --ink-700: #262E3A;
-    --line: #232B36;
-    --signal: #4FA8FF;
-    --signal-dim: #2E6FB0;
-    --signal-soft: rgba(79, 168, 255, 0.12);
-    --amber: #FFB454;
-    --amber-soft: rgba(255, 180, 84, 0.14);
+    --ink-950: #0C0C0A;
+    --ink-950-rgb: 12, 12, 10;
+    --ink-900: #121210;
+    --ink-850: #17160F;
+    --ink-800: #1D1B12;
+    --ink-700: #2A2718;
+    --line: #2E2B1E;
+    --signal: #FFB000;
+    --signal-dim: #B37D00;
+    --signal-rgb: 255, 176, 0;
+    --signal-soft: rgba(var(--signal-rgb), 0.12);
+    --amber: #E8792B;
+    --amber-soft: rgba(232, 121, 43, 0.16);
     --green: #4ADE9C;
-    --paper: #E7ECF2;
-    --paper-dim: #C4CCD6;
-    --muted: #7C8797;
-    --muted-2: #5A6472;
-    --font-display: 'Space Grotesk', 'IBM Plex Sans', sans-serif;
-    --font-body: 'IBM Plex Sans', -apple-system, sans-serif;
-    --font-mono: 'IBM Plex Mono', 'SFMono-Regular', monospace;
+    --paper: #E8E6DF;
+    --paper-dim: #B8B6A9;
+    --muted: #8A887E;
+    --muted-2: #5A5850;
+    --font-display: 'JetBrains Mono', 'IBM Plex Mono', 'SFMono-Regular', monospace;
+    --font-body: 'JetBrains Mono', 'IBM Plex Mono', 'SFMono-Regular', monospace;
+    --font-mono: 'JetBrains Mono', 'IBM Plex Mono', 'SFMono-Regular', monospace;
     --container: 1180px;
     --gutter: clamp(20px, 5vw, 64px);
     --section-pad: clamp(72px, 10vw, 128px);
-    --radius: 10px;
-    --radius-sm: 6px;
+    --radius: 4px;
+    --radius-sm: 3px;
     --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- Thème clair ----------
+   Pas un simple inversé : fond gris-vert neutre (pas de beige chaud)
+   et ambre plus foncé/doré pour rester lisible sur fond clair, en
+   gardant l'esprit "terminal" plutôt qu'un thème pastel générique.
+   Basculé en changeant l'attribut data-theme sur <html> (voir
+   basculerTheme() dans app.js). ---------- */
+/* ---------- Thème clair — "Schéma réseau" ----------
+   Palette reprise de la maquette 2 (papier bleu technique, encre
+   bleu profond, annotations orange) : rupture volontaire avec le
+   thème sombre "terminal ambré", pas un simple négatif de couleurs.
+   Contrastes vérifiés WCAG AA (4.5:1 minimum). ---------- */
+[data-theme="light"] {
+    --ink-950: #EEF2F6;
+    --ink-950-rgb: 238, 242, 246;
+    --ink-900: #FFFFFF;
+    --ink-850: #F5F8FA;
+    --ink-800: #E5EBF0;
+    --ink-700: #CFD9E2;
+    --line: #C7D2DC;
+    --signal: #1B4E7A;
+    --signal-dim: #123A5C;
+    --signal-rgb: 27, 78, 122;
+    --signal-soft: rgba(var(--signal-rgb), 0.10);
+    --amber: #A2541E;
+    --amber-soft: rgba(162, 84, 30, 0.14);
+    --green: #1C9563;
+    --paper: #14283B;
+    --paper-dim: #3D5468;
+    --muted: #454E56;
+    --muted-2: #5D6973;
+}
+
+/* ---------- Texture scanlines (subtile, statique) ----------
+   Signature visuelle du thème "terminal" : de très fines lignes
+   horizontales, quasi invisibles, qui évoquent un vieil écran CRT
+   sans gêner la lecture. Statique (pas d'animation), donc aucun
+   souci avec prefers-reduced-motion. ---------- */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(var(--signal-rgb), 0.025) 0px,
+        rgba(var(--signal-rgb), 0.025) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    pointer-events: none;
+    z-index: 999;
 }
 
 /* ---------- Reset ---------- */
@@ -44,6 +98,13 @@
 
 html {
     scroll-behavior: smooth;
+}
+
+/* La nav est en position: fixed (~72px de haut) : sans ça, cliquer
+   sur un point du fil (ou tout lien #ancre) fait atterrir le haut de
+   la section juste sous la barre, titre caché. */
+section[id] {
+    scroll-margin-top: 88px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -137,7 +198,7 @@ body::before {
     width: 100%;
     height: 0%;
     background: linear-gradient(180deg, var(--signal), var(--signal-dim));
-    box-shadow: 0 0 8px rgba(79, 168, 255, 0.6);
+    box-shadow: 0 0 8px rgba(var(--signal-rgb), 0.6);
     transition: height 0.1s linear;
 }
 
@@ -185,6 +246,11 @@ body::before {
     .node-label {
         display: block;
     }
+    /* Le fil (28px) et ses étiquettes (44px + texte) ont besoin d'air
+       avant le contenu de la page — sans ça, ça se touche presque. */
+    .container {
+        padding-left: calc(var(--gutter) + 56px);
+    }
 }
 
 /* ============================================================
@@ -197,7 +263,7 @@ body::before {
     right: 0;
     z-index: 100;
     padding: 18px 0;
-    background: rgba(10, 13, 18, 0.7);
+    background: rgba(var(--ink-950-rgb), 0.7);
     backdrop-filter: blur(14px) saturate(140%);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
     border-bottom: 1px solid transparent;
@@ -258,6 +324,30 @@ body::before {
 .nav-link.active {
     color: var(--signal);
     background: var(--signal-soft);
+}
+
+.navbar-end {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--muted);
+    background: transparent;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.theme-toggle:hover {
+    color: var(--signal);
+    border-color: var(--signal);
 }
 
 .menu-toggle {
@@ -444,11 +534,11 @@ section {
 .btn-primary {
     background: var(--signal);
     color: var(--ink-950);
-    box-shadow: 0 0 0 0 rgba(79, 168, 255, 0);
+    box-shadow: 0 0 0 0 rgba(var(--signal-rgb), 0);
 }
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px -8px rgba(79, 168, 255, 0.55);
+    box-shadow: 0 10px 30px -8px rgba(var(--signal-rgb), 0.55);
 }
 
 .btn-secondary {
@@ -587,7 +677,7 @@ section {
     inset: -30% -30% auto auto;
     width: 60%;
     height: 60%;
-    background: radial-gradient(circle, rgba(79, 168, 255, 0.35), transparent 70%);
+    background: radial-gradient(circle, rgba(var(--signal-rgb), 0.35), transparent 70%);
     filter: blur(30px);
     pointer-events: none;
 }
@@ -660,7 +750,7 @@ section {
 .profil-image-glow {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 60%, rgba(10, 13, 18, 0.85));
+    background: linear-gradient(180deg, transparent 60%, rgba(12, 12, 10, 0.85));
     pointer-events: none;
 }
 
@@ -668,7 +758,7 @@ section {
     position: absolute;
     right: 16px;
     bottom: 16px;
-    background: rgba(10, 13, 18, 0.85);
+    background: rgba(12, 12, 10, 0.85);
     backdrop-filter: blur(6px);
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
@@ -816,6 +906,27 @@ section {
     border-color: var(--signal);
 }
 
+.projets-vide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 64px 20px;
+    text-align: center;
+    border: 1px dashed var(--line);
+    border-radius: var(--radius);
+}
+.projets-vide i {
+    font-size: 28px;
+    color: var(--muted-2);
+}
+.projets-vide p {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--muted);
+}
+
 .projets-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -861,7 +972,7 @@ section {
 .projet-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(10, 13, 18, 0.1), rgba(10, 13, 18, 0.92));
+    background: linear-gradient(180deg, rgba(12, 12, 10, 0.1), rgba(12, 12, 10, 0.92));
     display: flex;
     align-items: flex-end;
     gap: 10px;
@@ -1089,9 +1200,9 @@ section {
     bottom: calc(100% + 10px);
     left: 50%;
     transform: translateX(-50%) translateY(6px);
-    min-width: 240px;
-    max-width: 300px;
-    padding: 12px 14px;
+    min-width: 280px;
+    max-width: 340px;
+    padding: 16px 18px;
     background: var(--ink-850);
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
@@ -1102,14 +1213,16 @@ section {
     z-index: 100;
     text-align: left;
     font-family: var(--font-body);
-    font-size: 0.75rem;
-    line-height: 1.5;
+    font-size: 0.9rem;
+    line-height: 1.6;
     color: var(--paper);
 }
 
-.skill-tag:hover .tooltip-box {
+.skill-tag:hover .tooltip-box,
+.skill-tag.is-open .tooltip-box {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
 }
 
 .skill-tag .tooltip-box::after {
@@ -1124,20 +1237,20 @@ section {
 
 .skill-tag .tooltip-box .tt-title {
     font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 0.9rem;
+    font-weight: 700;
+    font-size: 1.1rem;
     color: var(--paper);
-    margin-bottom: 2px;
+    margin-bottom: 4px;
 }
 
 .skill-tag .tooltip-box .tt-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px 10px;
+    gap: 5px 14px;
     font-family: var(--font-mono);
-    font-size: 0.6rem;
+    font-size: 0.78rem;
     color: var(--muted-2);
-    margin-bottom: 6px;
+    margin-bottom: 9px;
 }
 
 .skill-tag .tooltip-box .tt-meta span {
@@ -1152,23 +1265,23 @@ section {
 
 .skill-tag .tooltip-box .tt-desc {
     color: var(--muted);
-    font-size: 0.72rem;
-    line-height: 1.4;
-    margin-bottom: 6px;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    margin-bottom: 9px;
 }
 
 .skill-tag .tooltip-box .tt-footer {
     display: flex;
-    gap: 6px;
+    gap: 8px;
     flex-wrap: wrap;
 }
 
 .skill-tag .tooltip-box .tt-type {
     display: inline-block;
-    padding: 1px 8px;
+    padding: 3px 10px;
     border-radius: 10px;
     font-family: var(--font-mono);
-    font-size: 0.55rem;
+    font-size: 0.7rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     background: var(--signal-soft);
@@ -1177,10 +1290,10 @@ section {
 
 .skill-tag .tooltip-box .tt-level {
     display: inline-block;
-    padding: 1px 8px;
+    padding: 3px 10px;
     border-radius: 10px;
     font-family: var(--font-mono);
-    font-size: 0.55rem;
+    font-size: 0.7rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     background: var(--signal-soft);
@@ -1368,9 +1481,14 @@ section {
     font-size: 1.1rem;
     margin-bottom: 14px;
 }
-.footer-logo .dot {
+.footer-logo .code-symbol {
     color: var(--signal);
     font-family: var(--font-mono);
+    font-weight: 500;
+}
+.footer-logo .dev {
+    color: var(--muted);
+    font-weight: 500;
 }
 .footer-tagline {
     color: var(--muted);
@@ -1481,7 +1599,7 @@ section {
     align-items: center;
     justify-content: center;
     background: #25D366;
-    color: #0A0D12;
+    color: #0C0C0A;
     border-radius: 50%;
     font-size: 1.4rem;
     box-shadow: 0 12px 30px -10px rgba(37, 211, 102, 0.6);
@@ -1516,6 +1634,7 @@ section {
     transform: translateY(-50%) translateX(6px);
     background: var(--ink-900);
     border: 1px solid var(--line);
+    color: var(--paper);
     padding: 7px 12px;
     border-radius: 6px;
     font-family: var(--font-mono);
@@ -1593,7 +1712,13 @@ section {
     letter-spacing: -0.01em;
     color: var(--paper);
 }
-.preloader-logo span {
+.preloader-logo .name {
+    color: var(--paper);
+}
+.preloader-logo .dev {
+    color: var(--muted);
+}
+.preloader-logo .code-symbol {
     color: var(--signal);
     font-family: var(--font-mono);
 }
@@ -1609,7 +1734,7 @@ section {
     height: 100%;
     width: 0%;
     background: linear-gradient(90deg, var(--signal), var(--green));
-    box-shadow: 0 0 8px rgba(79, 168, 255, 0.6);
+    box-shadow: 0 0 8px rgba(var(--signal-rgb), 0.6);
     transition: width 0.25s ease-out;
 }
 
@@ -1640,12 +1765,13 @@ section {
    ============================================================ */
 @media (max-width: 640px) {
     .skill-tag .tooltip-box {
-        min-width: 180px;
-        max-width: 220px;
+        min-width: 240px;
+        max-width: 280px;
         left: 0;
         transform: translateX(0) translateY(6px);
     }
-    .skill-tag:hover .tooltip-box {
+    .skill-tag:hover .tooltip-box,
+    .skill-tag.is-open .tooltip-box {
         transform: translateX(0) translateY(0);
     }
     .skill-tag .tooltip-box::after {
@@ -1757,7 +1883,7 @@ section {
     inset: -30% -30% auto auto;
     width: 60%;
     height: 60%;
-    background: radial-gradient(circle, rgba(79, 168, 255, 0.35), transparent 70%);
+    background: radial-gradient(circle, rgba(var(--signal-rgb), 0.35), transparent 70%);
     filter: blur(30px);
     pointer-events: none;
     border-radius: 50%;

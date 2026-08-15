@@ -8,6 +8,20 @@
     <meta name="description"
         content="Erwin Afanou, développeur full-stack et étudiant en infrastructure réseau à Lomé, Togo. Applications web, bases de données, VLAN, routage OSPF et sécurité réseau." />
 
+    <!-- ANTI-FLASH : applique le thème (clair/sombre) AVANT que le
+         reste de la page ne s'affiche, pour éviter de voir apparaître
+         brièvement la mauvaise couleur au chargement. Volontairement
+         minuscule et sans dépendance : doit s'exécuter immédiatement. -->
+    <script>
+      (function () {
+        var theme = localStorage.getItem("erwin-dev-theme");
+        if (theme !== "dark" && theme !== "light") {
+          theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        }
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+
     <!-- Open Graph -->
     <meta property="og:title" content="Erwin Afanou — Développeur Full-Stack & Réseaux" />
     <meta property="og:description" content="Une idée. Une architecture. Une mise en production." />
@@ -34,25 +48,25 @@
                 extend: {
                     colors: {
                         ink: {
-                            950: "#0A0D12",
-                            900: "#12161D",
-                            850: "#161B24",
-                            800: "#1B212B",
-                            700: "#262E3A",
+                            950: "var(--ink-950)",
+                            900: "var(--ink-900)",
+                            850: "var(--ink-850)",
+                            800: "var(--ink-800)",
+                            700: "var(--ink-700)",
                         },
-                        line: "#232B36",
+                        line: "var(--line)",
                         signal: {
-                            DEFAULT: "#4FA8FF",
-                            dim: "#2E6FB0",
-                            soft: "rgba(79,168,255,0.12)",
+                            DEFAULT: "var(--signal)",
+                            dim: "var(--signal-dim)",
+                            soft: "var(--signal-soft)",
                         },
-                        amber: "#FFB454",
-                        paper: { DEFAULT: "#E7ECF2", dim: "#C4CCD6" },
-                        muted: { DEFAULT: "#7C8797", 2: "#5A6472" },
+                        amber: "var(--amber)",
+                        paper: { DEFAULT: "var(--paper)", dim: "var(--paper-dim)" },
+                        muted: { DEFAULT: "var(--muted)", 2: "var(--muted-2)" },
                     },
                     fontFamily: {
-                        display: ["Space Grotesk", "sans-serif"],
-                        mono: ["IBM Plex Mono", "monospace"],
+                        display: ["JetBrains Mono", "monospace"],
+                        mono: ["JetBrains Mono", "monospace"],
                     },
                 },
             },
@@ -78,7 +92,7 @@
 <body>
     <!-- ===== PRELOADER ===== -->
     <div class="preloader" id="preloader" aria-hidden="true">
-        <div class="preloader-logo"><span>&lt;/&gt;</span> Erwin.dev</div>
+        <div class="preloader-logo"><span class="code-symbol">&lt;/&gt;</span> <span class="name">Erwin</span><span class="dev">.dev</span></div>
         <div class="preloader-bar">
             <div class="preloader-bar-fill" id="preloaderBarFill"></div>
         </div>
@@ -108,18 +122,23 @@
                 <span class="name">Erwin</span>
                 <span class="dev">.dev</span>
             </div>
-            <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">
-                <span class="hamburger"></span>
-            </button>
-            <nav class="main-nav" id="mainNav">
-                <ul class="nav-links">
-                    <li><a href="#accueil" class="nav-link active">Accueil</a></li>
-                    <li><a href="#profil" class="nav-link">Profil</a></li>
-                    <li><a href="#projets" class="nav-link">Projets</a></li>
-                    <li><a href="#competences" class="nav-link">Stack</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
-                </ul>
-            </nav>
+            <div class="navbar-end">
+                <button class="theme-toggle" id="themeToggle" aria-label="Changer de thème">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">
+                    <span class="hamburger"></span>
+                </button>
+                <nav class="main-nav" id="mainNav">
+                    <ul class="nav-links">
+                        <li><a href="#accueil" class="nav-link active">Accueil</a></li>
+                        <li><a href="#profil" class="nav-link">Profil</a></li>
+                        <li><a href="#projets" class="nav-link">Projets</a></li>
+                        <li><a href="#competences" class="nav-link">Stack</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </header>
 
@@ -254,7 +273,7 @@
                             </li>
                         </ul>
                         <div class="profil-actions">
-                            <a href="cv.pdf" download class="btn btn-primary">
+                            <a href="cv.pdf" download data-track="cv_download" class="btn btn-primary">
                                 <i class="fas fa-download"></i> Télécharger mon CV
                             </a>
                             <a href="#contact" class="btn btn-secondary">
@@ -281,169 +300,14 @@
                     <button class="filter-btn" data-filter="mobile">Mobile</button>
                     <button class="filter-btn" data-filter="reseau">Réseau</button>
                 </div>
-                <div class="projets-grid">
-                    <!-- Projet 1 -->
-                    <div class="projet-card" data-category="web" data-reveal>
-                        <div class="projet-image">
-                            <img src="projet1.png" alt="Capture d'écran du projet BiblioExcellence" loading="lazy" />
-                            <div class="projet-overlay">
-                                <a href="https://github.com/erwin/biblioexcellence" target="_blank"
-                                    rel="noopener noreferrer" class="projet-overlay-btn">
-                                    <i class="fab fa-github"></i> Code source
-                                </a>
-                                <a href="https://biblioexcellence.vercel.app" target="_blank" rel="noopener noreferrer"
-                                    class="projet-overlay-btn projet-overlay-btn--primary">
-                                    <i class="fas fa-external-link-alt"></i> Voir en ligne
-                                </a>
-                            </div>
-                        </div>
-                        <div class="projet-body">
-                            <span class="projet-category-badge">Application Web</span>
-                            <h3 class="projet-name">BiblioExcellence</h3>
-                            <p class="projet-description">Système de gestion de bibliothèque universitaire permettant la
-                                gestion des emprunts, retours, et du catalogue d'ouvrages.</p>
-                            <div class="projet-techs">
-                                <span class="tech-tag"><i class="devicon-html5-plain colored"></i> HTML</span>
-                                <span class="tech-tag"><i class="devicon-css3-plain colored"></i> CSS</span>
-                                <span class="tech-tag"><i class="devicon-javascript-plain colored"></i>
-                                    JavaScript</span>
-                                <span class="tech-tag"><i class="devicon-php-plain colored"></i> PHP</span>
-                                <span class="tech-tag"><i class="devicon-mysql-plain colored"></i> MySQL</span>
-                            </div>
-                            <div class="projet-divider"></div>
-                            <div class="projet-actions">
-                                <a href="https://github.com/erwin/biblioexcellence" target="_blank"
-                                    rel="noopener noreferrer" class="projet-btn projet-btn--github">
-                                    <i class="fab fa-github"></i><span>GitHub</span>
-                                </a>
-                                <a href="https://biblioexcellence.vercel.app" target="_blank" rel="noopener noreferrer"
-                                    class="projet-btn projet-btn--live">
-                                    <i class="fas fa-rocket"></i><span>Voir en ligne</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Projet 2 -->
-                    <div class="projet-card" data-category="web" data-reveal data-reveal-delay="1">
-                        <div class="projet-image">
-                            <img src="projet2.png" alt="Capture du projet Cotisation App" loading="lazy" />
-                            <div class="projet-overlay">
-                                <a href="https://github.com/erwin/cotisation-app" target="_blank"
-                                    rel="noopener noreferrer" class="projet-overlay-btn">
-                                    <i class="fab fa-github"></i> Code source
-                                </a>
-                                <a href="https://cotisation.vercel.app" target="_blank" rel="noopener noreferrer"
-                                    class="projet-overlay-btn projet-overlay-btn--primary">
-                                    <i class="fas fa-external-link-alt"></i> Voir en ligne
-                                </a>
-                            </div>
-                        </div>
-                        <div class="projet-body">
-                            <span class="projet-category-badge">Application Web</span>
-                            <h3 class="projet-name">Cotisation Manager</h3>
-                            <p class="projet-description">Application de gestion des cotisations de groupe avec logique
-                                d'exemption intelligente basée sur les anniversaires.</p>
-                            <div class="projet-techs">
-                                <span class="tech-tag"><i class="devicon-php-plain colored"></i> PHP</span>
-                                <span class="tech-tag"><i class="devicon-javascript-plain colored"></i>
-                                    JavaScript</span>
-                                <span class="tech-tag"><i class="devicon-html5-plain colored"></i> HTML</span>
-                                <span class="tech-tag"><i class="devicon-css3-plain colored"></i> CSS</span>
-                                <span class="tech-tag"><i class="devicon-mysql-plain colored"></i> MySQL</span>
-                            </div>
-                            <div class="projet-divider"></div>
-                            <div class="projet-actions">
-                                <a href="https://github.com/erwin/cotisation-app" target="_blank"
-                                    rel="noopener noreferrer" class="projet-btn projet-btn--github">
-                                    <i class="fab fa-github"></i><span>GitHub</span>
-                                </a>
-                                <a href="https://cotisation.vercel.app" target="_blank" rel="noopener noreferrer"
-                                    class="projet-btn projet-btn--live">
-                                    <i class="fas fa-rocket"></i><span>Voir en ligne</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Projet 3 -->
-                    <div class="projet-card" data-category="web" data-reveal data-reveal-delay="2">
-                        <div class="projet-image">
-                            <img src="projet3.png" alt="Capture du portfolio Erwin.dev" loading="lazy" />
-                            <div class="projet-overlay">
-                                <a href="https://github.com/erwin/portfolio" target="_blank" rel="noopener noreferrer"
-                                    class="projet-overlay-btn">
-                                    <i class="fab fa-github"></i> Code source
-                                </a>
-                                <a href="https://erwin.dev" target="_blank" rel="noopener noreferrer"
-                                    class="projet-overlay-btn projet-overlay-btn--primary">
-                                    <i class="fas fa-external-link-alt"></i> Voir en ligne
-                                </a>
-                            </div>
-                        </div>
-                        <div class="projet-body">
-                            <span class="projet-category-badge">Portfolio</span>
-                            <h3 class="projet-name">Erwin.dev — Portfolio</h3>
-                            <p class="projet-description">Portfolio personnel avec identité "backbone réseau",
-                                animations pilotées par le scroll et formulaire de contact EmailJS.</p>
-                            <div class="projet-techs">
-                                <span class="tech-tag"><i class="devicon-html5-plain colored"></i> HTML</span>
-                                <span class="tech-tag"><i class="devicon-css3-plain colored"></i> CSS</span>
-                                <span class="tech-tag"><i class="devicon-javascript-plain colored"></i>
-                                    JavaScript</span>
-                                <span class="tech-tag"><i class="fas fa-envelope-open-text"></i> EmailJS</span>
-                            </div>
-                            <div class="projet-divider"></div>
-                            <div class="projet-actions">
-                                <a href="https://github.com/erwin/portfolio" target="_blank" rel="noopener noreferrer"
-                                    class="projet-btn projet-btn--github">
-                                    <i class="fab fa-github"></i><span>GitHub</span>
-                                </a>
-                                <a href="https://erwin.dev" target="_blank" rel="noopener noreferrer"
-                                    class="projet-btn projet-btn--live">
-                                    <i class="fas fa-rocket"></i><span>Voir en ligne</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Projet 4 -->
-                    <div class="projet-card" data-category="reseau" data-reveal data-reveal-delay="3">
-                        <div class="projet-image">
-                            <img src="projet4.png" alt="Infrastructure réseau simulée" loading="lazy" />
-                            <div class="projet-overlay">
-                                <a href="https://github.com/erwin/network-infra" target="_blank"
-                                    rel="noopener noreferrer" class="projet-overlay-btn">
-                                    <i class="fab fa-github"></i> Code source
-                                </a>
-                                <a href="#" class="projet-overlay-btn projet-overlay-btn--primary">
-                                    <i class="fas fa-file-pdf"></i> Rapport PDF
-                                </a>
-                            </div>
-                        </div>
-                        <div class="projet-body">
-                            <span class="projet-category-badge">Réseau & Infra</span>
-                            <h3 class="projet-name">Infrastructure Réseau LAN</h3>
-                            <p class="projet-description">Conception et simulation d'une infrastructure réseau LAN
-                                d'entreprise avec VLAN, routage OSPF, configuration de pare-feu.</p>
-                            <div class="projet-techs">
-                                <span class="tech-tag"><i class="fas fa-network-wired"></i> Cisco IOS</span>
-                                <span class="tech-tag"><i class="fas fa-project-diagram"></i> Packet Tracer</span>
-                                <span class="tech-tag"><i class="fas fa-shield-alt"></i> Firewall</span>
-                                <span class="tech-tag"><i class="fas fa-server"></i> VLAN</span>
-                            </div>
-                            <div class="projet-divider"></div>
-                            <div class="projet-actions">
-                                <a href="https://github.com/erwin/network-infra" target="_blank"
-                                    rel="noopener noreferrer" class="projet-btn projet-btn--github">
-                                    <i class="fab fa-github"></i><span>GitHub</span>
-                                </a>
-                                <a href="#" class="projet-btn projet-btn--live">
-                                    <i class="fas fa-file-pdf"></i><span>Rapport</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="projets-grid" id="projetsGrid">
+                    <!-- Les projets seront ajoutés ici depuis le dashboard admin
+                         (voir V1.1 de la feuille de route). Pour l'instant, aucun
+                         contenu codé en dur : la section attend son premier projet. -->
+                </div>
+                <div class="projets-vide" data-reveal>
+                    <i class="fas fa-folder-open"></i>
+                    <p>Aucun projet publié pour l'instant.<br />Les premiers arrivent bientôt.</p>
                 </div>
             </div>
         </section>
@@ -813,7 +677,7 @@
                                 <div class="method-icon"><i class="fas fa-envelope"></i></div>
                                 <div class="method-details">
                                     <h4>Email</h4>
-                                    <a href="mailto:afanouerwin40@gmail.com">afanouerwin40@gmail.com</a>
+                                    <a href="mailto:afanouerwin40@gmail.com" data-track="email">afanouerwin40@gmail.com</a>
                                 </div>
                             </div>
                             <div class="contact-method">
@@ -887,8 +751,8 @@
             <div class="footer-content">
                 <div class="footer-brand">
                     <h3 class="footer-logo">
-                        <span class="dot">&lt;</span>/<span class="dot">&gt;</span>
-                        Erwin<span class="dot">.dev</span>
+                        <span class="code-symbol">&lt;</span>/<span class="code-symbol">&gt;</span>
+                        <span class="name">Erwin</span><span class="dev">.dev</span>
                     </h3>
                     <p class="footer-tagline">J'imagine et développe des solutions digitales innovantes pour répondre
                         aux besoins d'aujourd'hui et de demain.</p>
@@ -927,7 +791,7 @@
 
     <!-- WhatsApp flottant -->
     <a href="https://wa.me/22896173953?text=Bonjour%20Erwin,%20je%20souhaite%20discuter%20d'un%20projet."
-        target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Discuter sur WhatsApp">
+        target="_blank" rel="noopener noreferrer" data-track="whatsapp" class="whatsapp-float" aria-label="Discuter sur WhatsApp">
         <i class="fab fa-whatsapp"></i>
         <span class="whatsapp-tooltip">Discutons sur WhatsApp</span>
     </a>
@@ -936,6 +800,8 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="config.js"></script>
+    <script src="beacon.js"></script>
     <script src="app.js"></script>
 </body>
 
