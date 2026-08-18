@@ -11,4 +11,4 @@
      (ex : "https://portfolio-api.onrender.com") puis redéploie ce site.
    ================================================================ */
 
-var PORTFOLIO_API_URL = "http://localhost:4000";
+var PORTFOLIO_API_URL = "https://erwin-dev-api.onrender.com";
