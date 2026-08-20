@@ -491,6 +491,88 @@
   if (elementAnnee) elementAnnee.textContent = new Date().getFullYear();
 
   /* ==============================================================
+       ÉTAPE 14 — PROJETS (chargés depuis l'API, gérés depuis l'admin)
+       ============================================================== */
+  function echapperHtmlProjet(texte) {
+    var div = document.createElement("div");
+    div.textContent = texte == null ? "" : String(texte);
+    return div.innerHTML;
+  }
+
+  function creerCarteProjet(p) {
+    var boutonsOverlay = "";
+    var boutonsActions = "";
+
+    if (p.github_url) {
+      boutonsOverlay +=
+        '<a href="' + echapperHtmlProjet(p.github_url) + '" target="_blank" rel="noopener noreferrer" class="projet-overlay-btn"><i class="fab fa-github"></i> Code source</a>';
+      boutonsActions +=
+        '<a href="' + echapperHtmlProjet(p.github_url) + '" target="_blank" rel="noopener noreferrer" class="projet-btn projet-btn--github"><i class="fab fa-github"></i><span>GitHub</span></a>';
+    }
+    if (p.demo_url) {
+      boutonsOverlay +=
+        '<a href="' + echapperHtmlProjet(p.demo_url) + '" target="_blank" rel="noopener noreferrer" class="projet-overlay-btn projet-overlay-btn--primary"><i class="fas fa-external-link-alt"></i> Voir en ligne</a>';
+      boutonsActions +=
+        '<a href="' + echapperHtmlProjet(p.demo_url) + '" target="_blank" rel="noopener noreferrer" class="projet-btn projet-btn--live"><i class="fas fa-rocket"></i><span>Voir en ligne</span></a>';
+    }
+
+    var techs = (p.technologies || [])
+      .map(function (t) {
+        return '<span class="tech-tag">' + echapperHtmlProjet(t) + "</span>";
+      })
+      .join("");
+
+    var image = p.image
+      ? '<div class="projet-image"><img src="' + echapperHtmlProjet(p.image) + '" alt="Capture d\'écran du projet ' + echapperHtmlProjet(p.title) + '" loading="lazy" />' +
+        (boutonsOverlay ? '<div class="projet-overlay">' + boutonsOverlay + "</div>" : "") +
+        "</div>"
+      : "";
+
+    return (
+      '<div class="projet-card" data-category="' + echapperHtmlProjet(p.category) + '">' +
+      image +
+      '<div class="projet-body">' +
+      '<span class="projet-category-badge">' + echapperHtmlProjet(p.category) + "</span>" +
+      '<h3 class="projet-name">' + echapperHtmlProjet(p.title) + "</h3>" +
+      '<p class="projet-description">' + echapperHtmlProjet(p.description) + "</p>" +
+      '<div class="projet-techs">' + techs + "</div>" +
+      (boutonsActions ? '<div class="projet-divider"></div><div class="projet-actions">' + boutonsActions + "</div>" : "") +
+      "</div>" +
+      "</div>"
+    );
+  }
+
+  async function chargerProjetsPublics() {
+    var grille = document.getElementById("projetsGrid");
+    var vide = document.getElementById("projetsVide");
+    var filtres = document.querySelector(".projets-filters");
+    if (!grille) return;
+
+    try {
+      var reponse = await fetch(PORTFOLIO_API_URL + "/api/projects");
+      if (!reponse.ok) throw new Error("Réponse API invalide");
+      var donnees = await reponse.json();
+
+      if (!donnees.projects || donnees.projects.length === 0) {
+        vide.hidden = false;
+        if (filtres) filtres.hidden = true;
+        return;
+      }
+
+      vide.hidden = true;
+      grille.innerHTML = donnees.projects.map(creerCarteProjet).join("");
+    } catch (erreur) {
+      console.error("Erreur chargement projets :", erreur);
+      // On laisse l'état vide déjà présent dans le HTML (voir
+      // index.html) plutôt que d'ajouter un message d'erreur en plus
+      // — un visiteur n'a pas besoin de savoir que l'API est en cause.
+      vide.hidden = false;
+    }
+  }
+
+  chargerProjetsPublics();
+
+  /* ==============================================================
        ÉTAPE 13 — TOOLTIPS SUR LES COMPÉTENCES
        ============================================================== */
   (function initTooltips() {
