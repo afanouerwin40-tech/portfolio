@@ -106,12 +106,14 @@
         <span class="node-marker" style="top: 0%" data-node="accueil"></span>
         <span class="node-marker" style="top: 20%" data-node="profil"></span>
         <span class="node-marker" style="top: 45%" data-node="projets"></span>
+        <span class="node-marker" style="top: 58%" data-node="blog"></span>
         <span class="node-marker" style="top: 70%" data-node="competences"></span>
         <span class="node-marker" style="top: 92%" data-node="contact"></span>
     </div>
     <a href="#accueil"><span class="node-label" style="top: 0%" data-node="accueil">ACCUEIL</span></a>
     <a href="#profil"><span class="node-label" style="top: 20%" data-node="profil">PROFIL</span></a>
     <a href="#projets"><span class="node-label" style="top: 45%" data-node="projets">PROJETS</span></a>
+    <a href="#blog"><span class="node-label" style="top: 58%" data-node="blog">BLOG</span></a>
     <a href="#competences"><span class="node-label" style="top: 70%" data-node="competences">STACK</span></a>
     <a href="#contact"><span class="node-label" style="top: 92%" data-node="contact">CONTACT</span></a>
 
@@ -135,6 +137,7 @@
                         <li><a href="#accueil" class="nav-link active">Accueil</a></li>
                         <li><a href="#profil" class="nav-link">Profil</a></li>
                         <li><a href="#projets" class="nav-link">Projets</a></li>
+                        <li><a href="#blog" class="nav-link">Blog</a></li>
                         <li><a href="#competences" class="nav-link">Stack</a></li>
                         <li><a href="#contact" class="nav-link">Contact</a></li>
                     </ul>
@@ -220,7 +223,7 @@
                                 <span class="profil-stat-label">Projets</span>
                             </div>
                             <div class="profil-stat">
-                                <span class="profil-stat-number" data-count="10">0</span>
+                                <span class="profil-stat-number" data-count="3">0</span>
                                 <span class="profil-stat-label">Clients</span>
                             </div>
                             <div class="profil-stat">
@@ -309,6 +312,25 @@
                 <div class="projets-vide" id="projetsVide" data-reveal>
                     <i class="fas fa-folder-open"></i>
                     <p id="projetsVideTexte">Aucun projet publié pour l'instant.<br />Les premiers arrivent bientôt.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== BLOG ===== -->
+        <section id="blog" class="projets">
+            <div class="container">
+                <div class="section-header" data-reveal>
+                    <span class="section-eyebrow">NODE_03</span>
+                    <h2 class="section-title">Blog</h2>
+                    <p class="section-subtitle">Retours d'expérience, apprentissages, coulisses des projets.</p>
+                </div>
+
+                <div class="blog-liste" id="blogGrid">
+                    <!-- Générée dynamiquement par app.js -->
+                </div>
+                <div class="projets-vide" id="blogVide" data-reveal>
+                    <i class="fas fa-pen-nib"></i>
+                    <p>Aucun article publié pour l'instant.<br />Le premier arrive bientôt.</p>
                 </div>
             </div>
         </section>
@@ -774,6 +796,7 @@
                         <li><a href="#accueil">Accueil</a></li>
                         <li><a href="#profil">Profil</a></li>
                         <li><a href="#projets">Projets</a></li>
+                        <li><a href="#blog">Blog</a></li>
                         <li><a href="#competences">Stack</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>

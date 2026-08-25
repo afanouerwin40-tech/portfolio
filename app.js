@@ -270,7 +270,7 @@
       return;
     }
 
-    var dureeMs = 1200;
+    var dureeMs = 1500;
     var tempsDeDepart = null;
 
     function etapeAnimation(horodatage) {
@@ -463,10 +463,28 @@
        ============================================================== */
   var formulaireNewsletter = document.getElementById("newsletterForm");
   if (formulaireNewsletter) {
-    formulaireNewsletter.addEventListener("submit", function (evenement) {
+    formulaireNewsletter.addEventListener("submit", async function (evenement) {
       evenement.preventDefault();
-      afficherToast("Merci ! Vous êtes inscrit à la newsletter.");
-      formulaireNewsletter.reset();
+      var champEmail = formulaireNewsletter.querySelector('input[type="email"]');
+      var boutonEnvoyer = formulaireNewsletter.querySelector('button[type="submit"]');
+
+      if (boutonEnvoyer) boutonEnvoyer.disabled = true;
+      try {
+        var reponse = await fetch(PORTFOLIO_API_URL + "/api/newsletter", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: champEmail.value.trim() }),
+        });
+        if (!reponse.ok) throw new Error("Réponse API invalide");
+
+        afficherToast("Merci ! Vous êtes inscrit à la newsletter.");
+        formulaireNewsletter.reset();
+      } catch (erreur) {
+        console.error("Erreur inscription newsletter :", erreur);
+        afficherToast("Une erreur est survenue, réessayez plus tard.", true);
+      } finally {
+        if (boutonEnvoyer) boutonEnvoyer.disabled = false;
+      }
     });
   }
 
@@ -571,6 +589,54 @@
   }
 
   chargerProjetsPublics();
+
+  /* ==============================================================
+       ÉTAPE 15 — BLOG (chargé depuis l'API, géré depuis l'admin)
+       ============================================================== */
+  function creerCarteArticle(article) {
+    var image = article.cover_image
+      ? '<div class="blog-card-image"><img src="' + echapperHtmlProjet(article.cover_image) + '" alt="" loading="lazy" /></div>'
+      : "";
+    var date = article.published_at
+      ? new Date(article.published_at.replace(" ", "T") + "Z").toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" })
+      : "";
+
+    return (
+      '<article class="blog-card">' +
+      image +
+      '<div class="blog-card-body">' +
+      (date ? '<span class="blog-card-date">' + date + "</span>" : "") +
+      '<h3 class="blog-card-title">' + echapperHtmlProjet(article.title) + "</h3>" +
+      '<p class="blog-card-excerpt">' + echapperHtmlProjet(article.excerpt) + "</p>" +
+      "</div>" +
+      "</article>"
+    );
+  }
+
+  async function chargerArticlesPublics() {
+    var grille = document.getElementById("blogGrid");
+    var vide = document.getElementById("blogVide");
+    if (!grille) return;
+
+    try {
+      var reponse = await fetch(PORTFOLIO_API_URL + "/api/posts");
+      if (!reponse.ok) throw new Error("Réponse API invalide");
+      var donnees = await reponse.json();
+
+      if (!donnees.posts || donnees.posts.length === 0) {
+        vide.hidden = false;
+        return;
+      }
+
+      vide.hidden = true;
+      grille.innerHTML = donnees.posts.map(creerCarteArticle).join("");
+    } catch (erreur) {
+      console.error("Erreur chargement blog :", erreur);
+      vide.hidden = false;
+    }
+  }
+
+  chargerArticlesPublics();
 
   /* ==============================================================
        ÉTAPE 13 — TOOLTIPS SUR LES COMPÉTENCES
